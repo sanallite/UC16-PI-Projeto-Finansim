@@ -1,0 +1,23 @@
+---- Projeto Integrador Desenvolvedor Mobile – App Finansim ----
+     Autor: Márcio Teodoro
+
+-- Objetivo da aplicação --
+Facilitar o controle de gastos e resultados de uma empresa, que irá cadastrar seus setores, registrar seus números e ver relatórios sobre o estado financeiro atual da empresa.
+
+-- Título --
+Assistente de Finanças Simples
+
+-- Descrição --
+Melhore a administração financeira da sua empresa com a Finansim, que te trará relatórios de resultados e investimentos internos de todos os meses do ano, para lhe auxiliar com um panorama geral da tesouraria da sua empresa.
+
+-- Público Alvo --
+Empresas de pequeno e médio porte, que não necessitem de relatórios e dados complexos, com o aplicativo sendo uma boa opção para “startups”.
+
+-- Requisitos Funcionais Planejados --
+•	Permitir o cadastro e a remoção de setores da empresa através de uma lista preexistente.
+•	Permitir o cadastro, edição e remoção de dados do setor predefinidos, como número de vendas, colaboradores etc.
+•	Exibir relatórios, no formato de listas, dos dados dos setores, com os valores divididos por mês, e com as contagens finais também sendo exibidas.
+•	Divisão dos relatórios em três categorias principais, cada uma em sua tela: Vendas, Compras e Pagamentos.
+
+-- Precificação e Monetização --
+O aplicativo será completamente gratuito e sem anúncios no seu primeiro ano e após conseguir uma base de usuários, oferecerá uma assinatura mensal que dará acesso a mais recursos.
