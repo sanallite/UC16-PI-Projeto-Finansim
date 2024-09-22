@@ -4,8 +4,9 @@
 
 Facilitar o controle de gastos e resultados de uma empresa, que irá cadastrar seus setores, registrar seus números e ver relatórios sobre o estado financeiro atual da empresa, com o foco em três categorias: Vendas, Compras e Pagamentos.
 
->[!NOTE]
-> O repositório contém três projetos, o principal é finansim. O segundo, sanallite-finansim é a versão anterior, sem conexão com o banco de dados; e o terceiro, sanallite-fisico é um projeto para testes usando o firebase.
+>[!IMPORTANT]
+> Consulte o arquivo ```requirements.txt``` para saber as bibliotecas e dependencias usadas.
+> Não é possível rodar o app pela web, pois ele usa a persistência de dados do React Native na inicialização do autenticador do Firebase e o componente Alert do React Native.
 
 ## Estado atual:
 
@@ -28,9 +29,6 @@ Tela de criação dos setores da empresa, através de uma seleção de opções,
 Tela de edição dos dados das tabelas,
 
 Estilização e conteúdos do segundo projeto no principal.
-
->[!IMPORTANT]
-> Consulte o arquivo ``requirements.txt`` para saber as bibliotecas e dependencias usadas.
 
 ## Protótipo no Figma
 [Figma](https://www.figma.com/design/s2pnA0seBIVWfZWlOaJChV/App-de-Finan%C3%A7as?node-id=0-1&t=19tIYorPdagTO9BV-1)
