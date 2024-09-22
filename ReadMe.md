@@ -1,34 +1,42 @@
 # Projeto Integrador Desenvolvimento Mobile - Finansim
 
+## Descrição
+Projeto Integrador final do meu curso técnico no Senac, referente ao módulo de desenvolvimento mobile.
+
 ## Objetivo da aplicação:
 
 Facilitar o controle de gastos e resultados de uma empresa, que irá cadastrar seus setores, registrar seus números e ver relatórios sobre o estado financeiro atual da empresa, com o foco em três categorias: Vendas, Compras e Pagamentos.
 
 >[!IMPORTANT]
 > Consulte o arquivo ```requirements.txt``` para saber as bibliotecas e dependencias usadas.
+>
 > Não é possível rodar o app pela web, pois ele usa a persistência de dados do React Native na inicialização do autenticador do Firebase e o componente Alert do React Native.
 
 ## Estado atual:
 
-O app tem navegação de telas por pilha e também por guias,
+Projeto recriado do zero, com integração ao Firebase e persistência de dados pelo ReactNativeAsyncStorage inicialmente implementados.
 
-Utiliza arrays como fonte de dados para as listas,
+Documentação e protótipo do Figma prontos, sendo apenas necessário atualizar a documentação para refletir o estado atual do app.
 
-Tem a estilização e estrutura dos itens nas telas bem definidas pelo protótipo no Figma
-
-A documentação está com todos os tópicos que serão mencionados, com as informações sendo atualizadas conforme o desenvolvimento,
+Última atualização da documentação: 22/09
 
 ## O que falta implementar:
 
-Conexão com um banco de dados para substituir os arrays,
+Telas de Boas Vindas, Cadastro, Entrada, Relatórios, Registro e atualização de dados, Perfil da empresa.
 
-Exibir os dados dividindo-os pelos meses do ano, assim adicionando mais detalhes aos relatórios,
+Navegação de telas por stack e tab navigation.
 
-Tela de criação dos setores da empresa, através de uma seleção de opções,
+Autenticação por email e senha
 
-Tela de edição dos dados das tabelas,
+Condicionar a exibição dos relatórios apenas para usuários autenticados
 
-Estilização e conteúdos do segundo projeto no principal.
+Criação, edição e exclusão de registros para os relatórios
+
+Exibição dos relatórios mensais com os registros armazenados no banco de dados
+
+Estilização das telas
+
+Publicação da versão de produção
 
 ## Protótipo no Figma
 [Figma](https://www.figma.com/design/s2pnA0seBIVWfZWlOaJChV/App-de-Finan%C3%A7as?node-id=0-1&t=19tIYorPdagTO9BV-1)
