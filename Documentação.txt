@@ -37,6 +37,9 @@ Será editado conforme a implementação
 Será editado conforme o desenvolvimento
 
 -- Descrição dos arquivos --
+    • Documentação.odt: Documentação em formato OpenOffice com imagens.
+    • Documentação.txt (esse arquivo): Documentação no formato txt.
+    • requirements.txt: Arquivo que contém as bibliotecas, ferramentas e dependências utilizadas na aplicação.
 Será editado conforme o desenvolvimento
 
 -- Ambiente de Desenvolvimento --

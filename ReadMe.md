@@ -1,7 +1,4 @@
-# Projeto Integrador Desenvolvimento Mobile - Finansim
-
-## Descrição
-Projeto Integrador final do meu curso técnico no Senac, referente ao módulo de desenvolvimento mobile.
+# Projeto Integrador Desenvolvimento Móvel - Finansim
 
 ## Objetivo da aplicação:
 
