@@ -32,7 +32,7 @@ export default function Cadastro() {
 
                     await AsyncStorage.setItem('usuario', JSON.stringify(dadosUsuario));
 
-                    console.log('Usuário cadastrado, Firebase: '+usuario+'Armazenamento assíncrono: '+dadosUsuario);
+                    console.log( 'Usuário cadastrado, Firebase: '+JSON.stringify(usuario)+'Armazenamento assíncrono: '+JSON.stringify(dadosUsuario) );
 
                     Alert.alert(
                         'Cadastro',
@@ -55,9 +55,8 @@ export default function Cadastro() {
         else {
             Alert.alert('Erro', 'Preencha todos os campos e tente novamente.');
         }
-
-        
     }
+
     return (
         <View>
             <View>

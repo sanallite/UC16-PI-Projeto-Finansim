@@ -11,7 +11,7 @@ Facilitar o controle de gastos e resultados de uma empresa, que irá cadastrar s
 
 ## Estado atual:
 
-Resumo: Cadastro de usuários pronto, algumas rotas e telas iniciadas, já com navegação.
+Resumo: Cadastro e entrada de usuários pronto, algumas rotas e telas iniciadas, já com navegação.
 
 Documentação e protótipo do Figma prontos, sendo apenas necessário atualizar a documentação para refletir o estado atual do app
 
@@ -24,8 +24,6 @@ Condicionar a exibição dos relatórios apenas para usuários autenticados
 Última atualização da documentação: 22/09
 
 ## O que falta implementar:
-
-Terminar o login
 
 Telas de Relatórios, Registro e atualização de dados, Perfil da empresa
 
