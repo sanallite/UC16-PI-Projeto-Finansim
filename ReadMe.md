@@ -11,21 +11,23 @@ Facilitar o controle de gastos e resultados de uma empresa, que irá cadastrar s
 
 ## Estado atual:
 
-Projeto recriado do zero, com integração ao Firebase e persistência de dados pelo ReactNativeAsyncStorage inicialmente implementados.
+Resumo: Cadastro de usuários pronto, algumas rotas e telas iniciadas, já com navegação.
 
-Documentação e protótipo do Figma prontos, sendo apenas necessário atualizar a documentação para refletir o estado atual do app.
+Documentação e protótipo do Figma prontos, sendo apenas necessário atualizar a documentação para refletir o estado atual do app
+
+Navegação de telas por stack e tab navigation
+
+Autenticação por email e senha
+
+Condicionar a exibição dos relatórios apenas para usuários autenticados
 
 Última atualização da documentação: 22/09
 
 ## O que falta implementar:
 
-Telas de Boas Vindas, Cadastro, Entrada, Relatórios, Registro e atualização de dados, Perfil da empresa.
+Terminar o login
 
-Navegação de telas por stack e tab navigation.
-
-Autenticação por email e senha
-
-Condicionar a exibição dos relatórios apenas para usuários autenticados
+Telas de Relatórios, Registro e atualização de dados, Perfil da empresa
 
 Criação, edição e exclusão de registros para os relatórios
 
