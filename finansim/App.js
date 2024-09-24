@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import './initializeFirebase';
+import { getAuth } from 'firebase/auth';
 
 import RotaEntrada from './src/routes/RotaEntrada';
 import RotaPrincipal from './src/routes/RotaPrincipal';
@@ -19,9 +20,12 @@ function App() {
   const verificarUsuario = async () => {
     try {
       const usuario = await AsyncStorage.getItem('usuario');
+      const authFirebase = getAuth();
+      console.log('Autenticação Firebase: ',authFirebase);
 
-      if ( usuario ) {
+      if ( usuario && authFirebase ) {
         setRotaInicial('Rota Principal');
+        
         console.log('Usuário autenticado: ', usuario )
       }
 
