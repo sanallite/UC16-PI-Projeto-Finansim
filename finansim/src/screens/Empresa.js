@@ -39,7 +39,7 @@ export default function Empresa() {
         try {
             await AsyncStorage.removeItem('usuario');
             console.log('Usuário saiu da sessão.');
-            Alert.alert('Sair', 'Usuário saiu da sessão.', [ { text: 'Voltar para o início', onPress: () => nav.navigate('Boas Vindas') } ]);
+            Alert.alert('Sair', 'Usuário saiu da sessão.', [ { text: 'Voltar para o início', onPress: () => nav.navigate('Rota Entrada') } ]);
 
             try {
                 await signOut(auth);
