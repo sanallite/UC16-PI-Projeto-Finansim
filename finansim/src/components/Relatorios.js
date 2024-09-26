@@ -13,6 +13,26 @@ export default function Relatorios(props) {
     const [ dadosConsulta, setDados ] = useState([]);
     const [ carregando, setLoading ] = useState(true);
 
+    let textoDestaque, textoValor, textoNumero;
+
+    if ( props.categoria === 'vendas' ) {
+        textoDestaque = 'Maior rendimento:';
+        textoValor = 'Resultados:';
+        textoNumero = 'Número de vendas:';
+    }
+
+    else if ( props.categoria === 'compras' ) {
+        textoDestaque = 'Maior gasto:';
+        textoValor = 'Valores investidos:';
+        textoNumero = 'Número de compras:';
+    }
+
+    else if ( props.categoria === 'pagamentos' ) {
+        textoDestaque = 'Maior nº de colaboradores:';
+        textoValor = 'Valor pago em salários:';
+        textoNumero = 'Número de colaboradores:'
+    }
+
     const nav = useNavigation();
     
     const pegarUsuario = async () => {
@@ -35,23 +55,9 @@ export default function Relatorios(props) {
     }, [] );
 
     useEffect( () => {
+        const refCategoria = collection(db, props.categoria);
+
         if ( usuario && props.categoria !== 'pagamentos' ) {
-            let textoDestaque, textoValor, textoNumero;
-
-            if ( props.categoria === 'vendas' ) {
-                textoDestaque = 'Maior rendimento:';
-                textoValor = 'Resultados:';
-                textoNumero = 'Número de vendas';
-            }
-
-            else if ( props.categoria === 'compras' ) {
-                textoDestaque = 'Maior gasto:';
-                textoValor = 'Valores investidos:';
-                textoNumero = 'Número de compras';
-            }
-
-            const refCategoria = collection(db, props.categoria);
-
             const consulta_vendas_compras = query( 
                 refCategoria, 
                 where('mes', '==', props.mes), 
@@ -67,9 +73,34 @@ export default function Relatorios(props) {
                 })
 
                 setDados(resultado);
-                console.log(dadosConsulta);
-                console.log(usuario.nomeEmpresa)
-                /* setLoading(false); */
+                
+                setLoading(false);
+
+                console.log(dadosConsulta)
+            })
+
+            return () => unsubscribe();
+        }
+
+        else if ( usuario && props.categoria === 'pagamentos' ) {
+            const consulta_pagamentos = query( 
+                refCategoria, 
+                where('usuario', '==', usuario.uid), 
+                where('empresa', '==', usuario.nomeEmpresa) 
+            );
+
+            const unsubscribe = onSnapshot( consulta_pagamentos, (querySnapshot) => {
+                const resultado = [];
+
+                querySnapshot.forEach( (doc) => {
+                    resultado.push( { id: doc.id, ...doc.data() } )
+                })
+
+                setDados(resultado);
+                
+                setLoading(false);
+
+                console.log(dadosConsulta)
             })
 
             return () => unsubscribe();
@@ -78,42 +109,56 @@ export default function Relatorios(props) {
 
     if ( carregando ) {
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Text>Carregando...</Text>
             </View>
         )
     }
 
-    return (
+    const renderizarLista = ({item}) => (
         <View>
-            <View>{ props.mes }</View>
-
             <View>
-                {/* <Text>{ textoDestaque }</Text> */}
-                <Text>A</Text>
+                <Text>{ item.setor }</Text>
             </View>
 
             <View>
-                <FlatList 
+                <Text>{ textoValor }</Text>
+                <Text>{ item.valor }</Text>
+            </View>
+
+            <View>
+                <Text>{ textoNumero }</Text>
+                <Text>{ item.numero }</Text>
+            </View>
+        </View>
+    )
+
+    return (
+        <View>
+            <View>
+                { props.categoria !== 'pagamentos' && (
+                    <View>
+                        <Text>{ props.mes }</Text>
+                    </View>  
+                )}
+
+                <View>
+                    { dadosConsulta.length > 0 ? (
+                        <View>
+                            <Text>{ textoDestaque }</Text>
+                            <Text></Text>
+                        </View>
+                    ) : (
+                        <Text>Nenhum registro encontrado. Adicione registros para vê-los aqui.</Text>
+                    ) }
+
+                    
+                </View>
+
+                <FlatList
                     data={ dadosConsulta }
                     keyExtractor={ (item) => item.id }
-                    renderItem={ ({item}) => (
-                        <View>
-                            <View>
-                                <Text>Setor</Text>
-                            </View>
-
-                            <View>
-                                
-                                <Text>{ item.valor }</Text>
-                            </View>
-
-                            <View>
-                                
-                                <Text>{ item.numero }</Text>
-                            </View>
-                        </View>
-                    ) }
+                    renderItem={ renderizarLista }
                 />
             </View>
         </View>

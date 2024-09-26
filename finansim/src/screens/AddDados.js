@@ -57,7 +57,8 @@ export default function AddDados() {
                         mes: mes,
                         valor: parseFloat(valor),
                         numero: parseInt(numero),
-                        usuario: usuario.uid
+                        usuario: usuario.uid,
+                        empresa: usuario.nomeEmpresa
                     } );
 
                     Alert.alert('Registro', 'Registro adicionado com sucesso!');
@@ -76,7 +77,8 @@ export default function AddDados() {
                         setor: setor,
                         valor: parseFloat(valor),
                         numero: parseInt(numero),
-                        usuario: usuario.uid
+                        usuario: usuario.uid,
+                        empresa: usuario.nomeEmpresa
                     } );
 
                     Alert.alert('Registro', 'Registro adicionado com sucesso!');
