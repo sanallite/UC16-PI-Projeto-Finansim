@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Pressable, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { useNavigation } from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -15,6 +16,8 @@ export default function AddDados() {
     const [ setor, setSetor ] = useState('');
     const [ valor, setValor ] = useState('');
     const [ numero, setNumero ] = useState('');
+
+    const nav = useNavigation();
 
     let pickerMes;
     if ( categoriaSelec === 'vendas' || categoriaSelec === 'compras' ) {
@@ -61,8 +64,10 @@ export default function AddDados() {
                         empresa: usuario.nomeEmpresa
                     } );
 
-                    Alert.alert('Registro', 'Registro adicionado com sucesso!');
+                    Alert.alert('Registro', 'Registro adicionado com sucesso!', [{ text: 'Continuar', onPress: () => nav.goBack() }]);
                     console.log('Documento adicionado com o id:', docRef.id);
+
+                    limparCampos();
                 }
 
                 catch (erro) {

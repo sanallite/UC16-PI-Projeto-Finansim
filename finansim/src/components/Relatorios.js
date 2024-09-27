@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-import { View, Text, FlatList, Alert } from 'react-native';
+import { View, Text, FlatList, Alert, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import Icon from 'react-native-vector-icons/FontAwesome6';
 
 export default function Relatorios(props) {
     const [ usuario, setUsuario ] = useState(null);
@@ -119,6 +121,10 @@ export default function Relatorios(props) {
         <View>
             <View>
                 <Text>{ item.setor }</Text>
+
+                <Pressable onPress={ () => nav.navigate('Atualizar Dados', { id: item.id, categoria: props.categoria }) }>
+                    <Icon name='pencil' size={ 15 }></Icon>
+                </Pressable>
             </View>
 
             <View>

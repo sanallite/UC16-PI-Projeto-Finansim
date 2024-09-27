@@ -11,7 +11,7 @@ Facilitar o controle de gastos e resultados de uma empresa, que irá cadastrar s
 
 ## Estado atual:
 
-Resumo: Autenticação pronta, rotas implementadas, quase todas as telas prontas, registro e exibição de documentos no Firebase pronto.
+Resumo: Autenticação pronta, rotas implementadas, todas as telas criadas, registro, exibição, edição e exclusão de documentos no Firebase pronto.
 
 Documentação e protótipo do Figma inicialmente prontos, sendo necessário atualizar a documentação para refletir o estado atual do app e colocá-la em linguagem técnica.
 
@@ -23,15 +23,15 @@ Cadastro dos registros financeiros no banco de dados
 
 Condicionar a exibição dos relatórios apenas para usuários autenticados
 
+Tela de atualização de dados
+
 Exibição dos relatórios mensais com os registros armazenados no banco de dados
+
+Edição e exclusão de registros para os relatórios
 
 Última atualização da documentação: 22/09
 
 ## O que falta implementar:
-
-Tela de atualização de dados
-
-Edição e exclusão de registros para os relatórios
 
 Estilização das telas
 
