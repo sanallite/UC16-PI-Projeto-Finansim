@@ -78,6 +78,25 @@ export default function Empresa() {
             </View>
 
             <View>
+                <Text>Endereço</Text>
+
+                <View>
+                    <Text>{ usuario.rua }</Text>
+                    <Text>{ usuario.numeroEst }</Text>
+                </View>
+
+                <View>
+                    <Text>{ usuario.cep }</Text>
+                    <Text>{ usuario.bairro }</Text>
+                </View>
+
+                <View>
+                    <Text>{ usuario.cidade }</Text>
+                    <Text>{ usuario.estado }</Text>
+                </View>
+            </View>
+
+            <View>
                 <Pressable onPress={ () => nav.navigate('Adicionar Dados') }>
                     <Text>Adicionar registro de dados</Text>
                 </Pressable>

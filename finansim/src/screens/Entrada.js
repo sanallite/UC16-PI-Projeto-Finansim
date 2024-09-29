@@ -6,28 +6,44 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../initializeFirebase';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../../initializeFirebase';
 
 export default function Entrada() {
     const nav = useNavigation();
 
-    const [ nome_empresa, setEmpresa ] = useState('');
-    const [ nome_usuario, setNome ] = useState('');
     const [ email_digitado, setEmail ] = useState('');
     const [ senha_digitada, setSenha ] = useState('');
 
-    const entrada = async (empresa, nome, email, senha) => {
-        if ( empresa.trim() && nome.trim() ) {
+    const entrada = async (email, senha) => {
+        if ( email.trim() && senha.trim() ) {
             try {
                 const SignIn = await signInWithEmailAndPassword(auth, email, senha);
                 const usuario = SignIn.user;
+
+                const docRef = collection(db, 'empresas');
+                const consultaUsuario = query(docRef, where('idUsuario', '==', usuario.uid));
+                const querySnapshot = await getDocs(consultaUsuario);
+
+                const resultado = [];
+
+                querySnapshot.forEach( (doc) => {
+                    resultado.push({ id: doc.id, ...doc.data() });
+                })
         
                 const dadosUsuario = {
                     uid: usuario.uid,
                     email: usuario.email,
-                    nomeEmpresa: empresa,
-                    nomeUsuario: nome
+                    nomeEmpresa: resultado[0].nomeEmpresa,
+                    nomeUsuario: resultado[0].nomeUsuario,
+                    cep: resultado[0].cep,
+                    rua: resultado[0].rua,
+                    bairro: resultado[0].bairro,
+                    cidade: resultado[0].cidade,
+                    estado: resultado[0].estado,
+                    numeroEst: resultado[0].numeroEst
                 }
-        
+
                 await AsyncStorage.setItem( 'usuario', JSON.stringify(dadosUsuario) );
 
                 console.log('Usuário entrou: '+JSON.stringify(dadosUsuario) );
@@ -50,12 +66,6 @@ export default function Entrada() {
     return (
         <View>
             <View>
-                <Text>Nome da Empresa</Text>
-                <TextInput value={ nome_empresa } onChangeText={ (novo_valor) => setEmpresa(novo_valor) } />
-
-                <Text>Nome de Usuário</Text>
-                <TextInput value={ nome_usuario } onChangeText={ (novo_valor) => setNome(novo_valor) } />
-
                 <Text>Email</Text>
                 <TextInput keyboardType='email-address' value={ email_digitado } onChangeText={ (novo_valor) => setEmail(novo_valor) } />
 
@@ -64,7 +74,7 @@ export default function Entrada() {
             </View>
 
             <View>
-                <Pressable onPress={ () => entrada(nome_empresa, nome_usuario, email_digitado, senha_digitada) }>
+                <Pressable onPress={ () => entrada(email_digitado, senha_digitada) }>
                     <Text>Entrar</Text>
                 </Pressable>
 

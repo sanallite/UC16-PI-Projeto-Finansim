@@ -29,7 +29,6 @@ export default function AddDados() {
             const usuarioArmazenado = await AsyncStorage.getItem('usuario');
             const usuarioObjeto = JSON.parse(usuarioArmazenado);
 
-            console.log(usuarioObjeto);
             setUsuario(usuarioObjeto);
         }
 

@@ -42,7 +42,6 @@ export default function Relatorios(props) {
             const usuarioArmazenado = await AsyncStorage.getItem('usuario');
             const usuarioObjeto = JSON.parse(usuarioArmazenado);
 
-            console.log(usuarioObjeto);
             setUsuario(usuarioObjeto);
         }
 
@@ -77,8 +76,6 @@ export default function Relatorios(props) {
                 setDados(resultado);
                 
                 setLoading(false);
-
-                console.log(dadosConsulta)
             })
 
             return () => unsubscribe();
@@ -101,8 +98,6 @@ export default function Relatorios(props) {
                 setDados(resultado);
                 
                 setLoading(false);
-
-                console.log(dadosConsulta)
             })
 
             return () => unsubscribe();
