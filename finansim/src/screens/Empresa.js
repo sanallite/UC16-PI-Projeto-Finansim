@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAuth, signOut } from 'firebase/auth';
 
 import { useNavigation } from '@react-navigation/native';
+import { estiloPrincipal } from '../styles/principal';
 
 export default function Empresa() {
     const [ usuario, setUsuario ] = useState(null);
@@ -67,7 +68,7 @@ export default function Empresa() {
     }
 
     return (
-        <View>
+        <View style={ estiloPrincipal.fundo }>
             <View>
                 <Text>{ usuario.nomeEmpresa }</Text>
             </View>

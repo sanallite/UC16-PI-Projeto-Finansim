@@ -7,6 +7,7 @@ import { collection, query, where, orderBy, limit, onSnapshot, getAggregateFromS
 import { db } from '../../initializeFirebase';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { estiloPrincipal } from '../styles/principal';
 
 export default function Pagamentos() {
     const [ usuario, setUsuario ] = useState(null);
@@ -112,7 +113,7 @@ export default function Pagamentos() {
     }
 
     return (
-        <View>
+        <View style={ estiloPrincipal.fundoRelatorios }>
             <View>
                 <Text>Número total de colaboradores:</Text>
                 { somaNumero && ( <Text>{ somaNumero }</Text> ) }
