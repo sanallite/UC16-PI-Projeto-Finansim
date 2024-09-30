@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Alert, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, orderBy, limit, getDocs } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,6 +14,7 @@ export default function Relatorios(props) {
     const [ usuario, setUsuario ] = useState(null);
     const [ dadosConsulta, setDados ] = useState([]);
     const [ carregando, setLoading ] = useState(true);
+    const [ maiorValor, setMaiorValor ] = useState(null);
 
     let textoDestaque, textoValor, textoNumero;
 
@@ -66,7 +67,16 @@ export default function Relatorios(props) {
                 where('empresa', '==', usuario.nomeEmpresa) 
             );
 
-            const unsubscribe = onSnapshot( consulta_vendas_compras, (querySnapshot) => {
+            const consulta_maior_valor_mensal = query(
+                refCategoria,
+                where('mes', '==', props.mes),
+                where('usuario', '==', usuario.uid), 
+                where('empresa', '==', usuario.nomeEmpresa),
+                orderBy('valor', 'desc'),
+                limit(1)
+            );
+
+            const unsubscribeVendasCompras = onSnapshot( consulta_vendas_compras, (querySnapshot) => {
                 const resultado = [];
 
                 querySnapshot.forEach( (doc) => {
@@ -76,9 +86,24 @@ export default function Relatorios(props) {
                 setDados(resultado);
                 
                 setLoading(false);
+            });
+
+            const unsubscribeMaiorValor = onSnapshot( consulta_maior_valor_mensal, (querySnapshot) => {
+                if ( !querySnapshot.empty ) {
+                    const docComMaiorValor = querySnapshot.docs[0];
+
+                    setMaiorValor({ id: docComMaiorValor.id, ...docComMaiorValor.data() });
+                }
+
+                else {
+                    console.log('Nada encontrado na consulta');
+                }
             })
 
-            return () => unsubscribe();
+            return () => { 
+                unsubscribeVendasCompras(); 
+                unsubscribeMaiorValor();
+            }
         }
 
         else if ( usuario && props.categoria === 'pagamentos' ) {
@@ -147,7 +172,7 @@ export default function Relatorios(props) {
                     { dadosConsulta.length > 0 ? (
                         <View>
                             <Text>{ textoDestaque }</Text>
-                            <Text></Text>
+                            <Text>{ maiorValor.setor }</Text>
                         </View>
                     ) : (
                         <Text>Nenhum registro encontrado. Adicione registros para vê-los aqui.</Text>
