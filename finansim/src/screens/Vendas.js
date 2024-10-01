@@ -8,6 +8,7 @@ import { db } from '../../initializeFirebase';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { estiloPrincipal } from '../styles/principal';
+import { estiloBoasVindas } from '../styles/boasvindas';
 
 export default function Vendas() {
     const [ usuario, setUsuario ] = useState(null);
@@ -92,8 +93,8 @@ export default function Vendas() {
 
     if ( carregando ) {
         return (
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text>Carregando...</Text>
+            <View style={[ estiloPrincipal.fundoRelatorios,  ]}>
+                <Text style={ estiloPrincipal.textoCarregamento }>Carregando...</Text>
             </View>
         )
     }

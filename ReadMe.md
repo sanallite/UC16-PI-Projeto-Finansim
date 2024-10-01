@@ -11,7 +11,7 @@ Facilitar o controle de gastos e resultados de uma empresa, que irá cadastrar s
 
 ## Estado atual:
 
-Resumo: Autenticação pronta, rotas implementadas, todas as telas criadas, registro, exibição, edição e exclusão de documentos no Firebase pronto.
+Resumo: Autenticação pronta, rotas implementadas, todas as telas criadas, registro, exibição, edição e exclusão de documentos no Firebase pronto, integração com API feita, estilização em andamento.
 
 Documentação e protótipo do Figma inicialmente prontos, sendo necessário atualizar a documentação para refletir o estado atual do app e colocá-la em linguagem técnica.
 
@@ -29,13 +29,13 @@ Exibição dos relatórios mensais com os registros armazenados no banco de dado
 
 Edição e exclusão de registros para os relatórios
 
+Conexão com a API Via CEP para complementar o cadastro
+
 Última atualização da documentação: 22/09
 
 ## O que falta implementar:
 
 Estilização das telas
-
-Conexão com uma API
 
 Construir uma versão de produção
 

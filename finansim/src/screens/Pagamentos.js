@@ -106,8 +106,8 @@ export default function Pagamentos() {
 
     if ( carregando ) {
         return (
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text>Carregando...</Text>
+            <View style={[ estiloPrincipal.fundoRelatorios ]}>
+                <Text style={ estiloPrincipal.textoCarregamento }>Carregando...</Text>
             </View>
         )
     }

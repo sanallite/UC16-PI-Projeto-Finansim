@@ -6,7 +6,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAuth, signOut } from 'firebase/auth';
 
 import { useNavigation } from '@react-navigation/native';
-import { estiloPrincipal } from '../styles/principal';
+import { corDestaqueSecundaria, estiloPrincipal } from '../styles/principal';
+import { estiloBoasVindas } from '../styles/boasvindas';
+import { estiloForms } from '../styles/formularios';
+import { estiloEmpresa } from '../styles/empresa';
 
 export default function Empresa() {
     const [ usuario, setUsuario ] = useState(null);
@@ -61,49 +64,55 @@ export default function Empresa() {
     
     if ( !usuario ) {
         return (
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <ActivityIndicator size="large" color="#0000ff" />
+          <View style={[ estiloPrincipal.fundo, estiloBoasVindas.alinhamentoCentral ]}>
+            <ActivityIndicator size="large" color={ corDestaqueSecundaria } />
           </View>
         )
     }
 
     return (
-        <View style={ estiloPrincipal.fundo }>
-            <View>
-                <Text>{ usuario.nomeEmpresa }</Text>
-            </View>
+        <View style={[ estiloPrincipal.fundo, estiloPrincipal.espacamentoHorizontal, estiloPrincipal.alinhamentoLinhaCentralizada ]}>
+            <View style={ estiloForms.fundo }>
+                <View style={ estiloPrincipal.alinhamentoLinhaCentralizada }>
+                    <Text style={ estiloEmpresa.nomeEmpresa }>{ usuario.nomeEmpresa }</Text>
+                </View>
 
-            <View>
-                <Text>Responsável:</Text>
-                <Text>{ usuario.nomeUsuario }</Text>
-            </View>
+                <View style={[ estiloPrincipal.linhaDoisItens, estiloEmpresa.espacoEntreLinhas ]}>
+                    <Text style={ estiloEmpresa.textos }>Responsável:</Text>
 
-            <View>
-                <Text>Endereço</Text>
-
-                <View>
-                    <Text>{ usuario.rua }</Text>
-                    <Text>{ usuario.numeroEst }</Text>
+                    <Text style={ estiloEmpresa.nomeUsuario }>{ usuario.nomeUsuario }</Text>
                 </View>
 
                 <View>
-                    <Text>{ usuario.cep }</Text>
-                    <Text>{ usuario.bairro }</Text>
-                </View>
+                    <Text style={[ estiloEmpresa.espacoEntreLinhas, estiloEmpresa.textos ]}>Endereço:</Text>
 
-                <View>
-                    <Text>{ usuario.cidade }</Text>
-                    <Text>{ usuario.estado }</Text>
+                    <View style={ estiloPrincipal.linhaDoisItens }>
+                        <Text style={ estiloEmpresa.textos }>{ usuario.rua }</Text>
+
+                        <Text style={ estiloEmpresa.textos }>{ usuario.numeroEst }</Text>
+                    </View>
+
+                    <View style={ estiloPrincipal.linhaDoisItens }>
+                        <Text style={ estiloEmpresa.textos }>{ usuario.cep }</Text>
+
+                        <Text style={ estiloEmpresa.textos }>{ usuario.bairro }</Text>
+                    </View>
+
+                    <View style={ estiloPrincipal.linhaDoisItens }>
+                        <Text style={ estiloEmpresa.textos }>{ usuario.cidade }</Text>
+
+                        <Text style={ estiloEmpresa.textos }>{ usuario.estado }</Text>
+                    </View>
                 </View>
             </View>
 
-            <View>
-                <Pressable onPress={ () => nav.navigate('Adicionar Dados') }>
-                    <Text>Adicionar registro de dados</Text>
+            <View style={ estiloForms.viewPressionaveis }>
+                <Pressable onPress={ () => nav.navigate('Adicionar Dados') } style={[ estiloPrincipal.margemVertical, estiloPrincipal.pressionaveisLaranjas ]} >
+                    <Text style={ estiloPrincipal.textoPressionaveis }>Adicionar registro de dados</Text>
                 </Pressable>
 
-                <Pressable onPress={ sair }>
-                    <Text>Encerrar Sessão</Text>
+                <Pressable onPress={ sair } style={[ estiloPrincipal.margemVertical, estiloPrincipal.pressionaveisVerdes ]}>
+                    <Text style={ estiloPrincipal.textoPressionaveis }>Encerrar Sessão</Text>
                 </Pressable>
             </View>
         </View>

@@ -3,6 +3,8 @@ import { View, Text, ScrollView, Alert } from 'react-native';
 
 import Relatorios from '../components/Relatorios';
 
+import { estiloBoasVindas } from '../styles/boasvindas';
+
 import { collection, query, where, orderBy, limit, onSnapshot, getAggregateFromServer, sum } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
 
@@ -92,8 +94,8 @@ export default function Compras() {
 
     if ( carregando ) {
         return (
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text>Carregando...</Text>
+            <View style={[ estiloPrincipal.fundoRelatorios ]}>
+                <Text style={ estiloPrincipal.textoCarregamento }>Carregando...</Text>
             </View>
         )
     }

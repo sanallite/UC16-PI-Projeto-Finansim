@@ -12,6 +12,8 @@ import { getAuth } from 'firebase/auth';
 
 import RotaEntrada from './src/routes/RotaEntrada';
 import RotaPrincipal from './src/routes/RotaPrincipal';
+import { corDestaqueSecundaria, estiloPrincipal } from './src/styles/principal';
+import { estiloBoasVindas } from './src/styles/boasvindas';
 
 function App() {
   const [ rotaInicial, setRotaInicial ] = useState(null);
@@ -46,8 +48,8 @@ function App() {
 
   if ( !rotaInicial ) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#0000ff" />
+      <View style={[ estiloPrincipal.fundo, estiloBoasVindas.alinhamentoCentral ]}>
+        <ActivityIndicator size="large" color={ corDestaqueSecundaria } />
       </View>
     )
   }

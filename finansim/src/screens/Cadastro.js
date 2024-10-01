@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Pressable, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, Pressable, Alert, ActivityIndicator, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,6 +8,11 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../initializeFirebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
+
+import { estiloForms } from '../styles/formularios';
+import { corCinzaClaro, estiloPrincipal } from '../styles/principal';
+import { estiloBoasVindas } from '../styles/boasvindas';
+import { corFundoTercearia } from '../styles/principal';
 
 export default function Cadastro() {
     const nav = useNavigation();
@@ -144,50 +149,50 @@ export default function Cadastro() {
     }
 
     return (
-        <View>
-            <View>
-                <Text>Nome da Empresa</Text>
-                <TextInput value={ nome_empresa } onChangeText={ (novo_valor) => setEmpresa(novo_valor) } />
+        <ScrollView style={ estiloPrincipal.fundo } contentContainerStyle={[ estiloBoasVindas.alinhamentoCentral ]}>
+            <View style={ estiloForms.fundo }>
+                <Text style={ estiloForms.rotuloCaixasTexto }>Nome da Empresa</Text>
+                <TextInput value={ nome_empresa } onChangeText={ (novo_valor) => setEmpresa(novo_valor) } style={[ estiloForms.caixasTexto ]} />
 
-                <Text>Nome do Usuário</Text>
-                <TextInput value={ nome_usuario } onChangeText={ (novo_valor) => setNome(novo_valor) } />
+                <Text style={ estiloForms.rotuloCaixasTexto }>Nome do Usuário</Text>
+                <TextInput value={ nome_usuario } onChangeText={ (novo_valor) => setNome(novo_valor) } style={[ estiloForms.caixasTexto ]} />
 
-                <Text>Endereço da Empresa</Text>
-                <TextInput placeholder='CEP' keyboardType='numeric' onChangeText={ (novo_valor) => setCEP(novo_valor) } />
+                <Text style={ estiloForms.rotuloCaixasTexto }>Endereço da Empresa</Text>
+                <TextInput placeholder='CEP' keyboardType='numeric' onChangeText={ (novo_valor) => setCEP(novo_valor) } style={[ estiloForms.caixasTexto ]} />
 
-                { carregando && <ActivityIndicator /> }
+                { carregando && <ActivityIndicator color= { corFundoTercearia } /> }
 
-                { erros && <Text>{erros}</Text> }
+                { erros && <Text style={{ color: corCinzaClaro }}>{erros}</Text> }
 
-                <TextInput placeholder='Rua' editable={ false } value={ dados_api.rua } />
+                <TextInput placeholder='Rua' editable={ false } value={ dados_api.rua } style={[ estiloForms.caixasTexto ]} />
 
-                <TextInput placeholder='Número' keyboardType='numeric' value={ numero_estabelecimento } onChangeText={ (novo_valor) => setNumeroEst(novo_valor) } />
+                <TextInput placeholder='Número' keyboardType='numeric' value={ numero_estabelecimento } onChangeText={ (novo_valor) => setNumeroEst(novo_valor) } style={[ estiloForms.caixasTexto ]} />
 
-                <TextInput placeholder='Bairro' editable={ false } value={ dados_api.bairro }/>
+                <TextInput placeholder='Bairro' editable={ false } value={ dados_api.bairro } style={[ estiloForms.caixasTexto ]}/>
 
-                <TextInput placeholder='Cidade' editable={ false } value={ dados_api.cidade } />
+                <TextInput placeholder='Cidade' editable={ false } value={ dados_api.cidade } style={[ estiloForms.caixasTexto ]} />
 
-                <TextInput placeholder='Estado' editable={ false } value={ dados_api.estado } />
+                <TextInput placeholder='Estado' editable={ false } value={ dados_api.estado } style={[ estiloForms.caixasTexto ]} />
 
-                <Text>E-mail</Text>
-                <TextInput keyboardType='email-address' value={ email_digitado } onChangeText={ (novo_valor) => setEmail(novo_valor) } />
+                <Text style={ estiloForms.rotuloCaixasTexto }>E-mail</Text>
+                <TextInput keyboardType='email-address' value={ email_digitado } onChangeText={ (novo_valor) => setEmail(novo_valor) } style={[ estiloForms.caixasTexto ]} />
 
-                <Text>Senha</Text>
-                <TextInput secureTextEntry value={ senha_digitada } onChangeText={ (novo_valor) => setSenha(novo_valor) } />
+                <Text style={ estiloForms.rotuloCaixasTexto }>Senha</Text>
+                <TextInput secureTextEntry value={ senha_digitada } onChangeText={ (novo_valor) => setSenha(novo_valor) } style={[ estiloForms.caixasTexto ]} />
 
-                <Text>Confirme a Senha</Text>
-                <TextInput secureTextEntry value={ senha_confirmada } onChangeText={ (novo_valor) => setSenhaConf(novo_valor) } />
+                <Text style={ estiloForms.rotuloCaixasTexto }>Confirme a Senha</Text>
+                <TextInput secureTextEntry value={ senha_confirmada } onChangeText={ (novo_valor) => setSenhaConf(novo_valor) } style={[ estiloForms.caixasTexto ]} />
             </View>
 
-            <View>
-                <Pressable onPress={ () => cadastro(nome_empresa, nome_usuario, email_digitado, senha_digitada, senha_confirmada) }>
-                    <Text>Cadastrar</Text>
+            <View style={[ estiloForms.viewPressionaveis ]}>
+                <Pressable onPress={ () => cadastro(nome_empresa, nome_usuario, email_digitado, senha_digitada, senha_confirmada) } style={[ estiloPrincipal.margemVertical, estiloPrincipal.pressionaveisLaranjas ]}>
+                    <Text style={ estiloPrincipal.textoPressionaveis }>Cadastrar</Text>
                 </Pressable>
 
-                <Pressable onPress={ () => nav.navigate('Entrada') } >
-                    <Text>Já é cadastrado? Entre</Text>
+                <Pressable onPress={ () => nav.navigate('Entrada') } style={[ estiloPrincipal.pressionaveisVerdes, estiloPrincipal.margemVertical ]} >
+                    <Text style={ estiloPrincipal.textoPressionaveis }>Já é cadastrado? Entre</Text>
                 </Pressable>
             </View>
-        </View>
+        </ScrollView>
     )
 }
