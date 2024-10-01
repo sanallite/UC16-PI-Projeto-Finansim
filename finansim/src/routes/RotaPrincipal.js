@@ -14,7 +14,7 @@ export default function RotaPrincipal() {
 
     return (
         <Pilha.Navigator>
-            <Pilha.Screen name='Rota Relatórios' component={ RotaRelatorios } />
+            <Pilha.Screen name='Rota Relatórios' component={ RotaRelatorios } options={{ headerShown: false }} />
             <Pilha.Screen name='Adicionar Dados' component={ AddDados } />
             <Pilha.Screen name='Atualizar Dados' component={ EditarDados } />
         </Pilha.Navigator>

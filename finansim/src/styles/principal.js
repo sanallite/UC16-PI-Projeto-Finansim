@@ -19,6 +19,6 @@ export const estiloPrincipal = StyleSheet.create({
     },
 
     stackHeaderRelatorios: {
-        backgroundColor: corFundoSecundaria
+        backgroundColor: corFundoSecundaria,
     }
 })

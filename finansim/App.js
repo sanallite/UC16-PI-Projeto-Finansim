@@ -57,8 +57,8 @@ function App() {
       <StatusBar />
 
       <Pilha.Navigator initialRouteName={ rotaInicial }>
-          <Pilha.Screen name='Rota Entrada' component={ RotaEntrada } />
-          <Pilha.Screen name='Rota Principal' component={ RotaPrincipal }/>
+          <Pilha.Screen name='Rota Entrada' component={ RotaEntrada } options={{ headerShown: false }} />
+          <Pilha.Screen name='Rota Principal' component={ RotaPrincipal } options={{ headerShown: false }} />
       </Pilha.Navigator>
     </NavigationContainer>
   )
