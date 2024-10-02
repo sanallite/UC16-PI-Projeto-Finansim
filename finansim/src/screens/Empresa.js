@@ -78,30 +78,30 @@ export default function Empresa() {
                 </View>
 
                 <View style={[ estiloPrincipal.linhaDoisItens, estiloEmpresa.espacoEntreLinhas ]}>
-                    <Text style={ estiloEmpresa.textos }>Responsável:</Text>
+                    <Text style={ estiloPrincipal.textos }>Responsável:</Text>
 
                     <Text style={ estiloEmpresa.nomeUsuario }>{ usuario.nomeUsuario }</Text>
                 </View>
 
                 <View>
-                    <Text style={[ estiloEmpresa.espacoEntreLinhas, estiloEmpresa.textos ]}>Endereço:</Text>
+                    <Text style={[ estiloEmpresa.espacoEntreLinhas, estiloPrincipal.textos ]}>Endereço:</Text>
 
                     <View style={ estiloPrincipal.linhaDoisItens }>
-                        <Text style={ estiloEmpresa.textos }>{ usuario.rua }</Text>
+                        <Text style={ estiloPrincipal.textos }>{ usuario.rua }</Text>
 
-                        <Text style={ estiloEmpresa.textos }>{ usuario.numeroEst }</Text>
+                        <Text style={ estiloPrincipal.textos }>{ usuario.numeroEst }</Text>
                     </View>
 
                     <View style={ estiloPrincipal.linhaDoisItens }>
-                        <Text style={ estiloEmpresa.textos }>{ usuario.cep }</Text>
+                        <Text style={ estiloPrincipal.textos }>{ usuario.cep }</Text>
 
-                        <Text style={ estiloEmpresa.textos }>{ usuario.bairro }</Text>
+                        <Text style={ estiloPrincipal.textos }>{ usuario.bairro }</Text>
                     </View>
 
                     <View style={ estiloPrincipal.linhaDoisItens }>
-                        <Text style={ estiloEmpresa.textos }>{ usuario.cidade }</Text>
+                        <Text style={ estiloPrincipal.textos }>{ usuario.cidade }</Text>
 
-                        <Text style={ estiloEmpresa.textos }>{ usuario.estado }</Text>
+                        <Text style={ estiloPrincipal.textos }>{ usuario.estado }</Text>
                     </View>
                 </View>
             </View>

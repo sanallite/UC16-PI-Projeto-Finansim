@@ -9,6 +9,7 @@ import { db } from '../../initializeFirebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { estiloPrincipal } from '../styles/principal';
 import { estiloBoasVindas } from '../styles/boasvindas';
+import { estiloRelatorios } from '../styles/relatorios';
 
 export default function Vendas() {
     const [ usuario, setUsuario ] = useState(null);
@@ -100,18 +101,20 @@ export default function Vendas() {
     }
     
     return (
-        <View style={ estiloPrincipal.fundoRelatorios }>
-            <View>
-                <Text>Resultado total do ano:</Text>
-                { soma && <Text>{ soma }</Text> }
+        <View style={[ estiloPrincipal.fundoRelatorios, estiloPrincipal.espacamentoHorizontal ]}>
+            <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
+                <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Resultado total do ano:</Text>
+
+                { soma && <Text style={ estiloRelatorios.textoDestaque }>{ soma }</Text> }
             </View>
 
-            <View>
-                <Text>Setor com melhores resultados:</Text>
-                <Text>{ maiorValor[0].setor }</Text>
+            <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
+                <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Setor com melhores resultados:</Text>
+
+                <Text style={[ estiloRelatorios.setorDestaque, estiloPrincipal.textoPressionaveis ]}>{ maiorValor[0].setor }</Text>
             </View>
 
-            <ScrollView horizontal={ true }>
+            <ScrollView horizontal={ true } style={ estiloRelatorios.scrollViewRelatorios }>
                 <Relatorios categoria='vendas' mes='Janeiro' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
                 <Relatorios categoria='vendas' mes='Fevereiro' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
                 <Relatorios categoria='vendas' mes='Março' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />

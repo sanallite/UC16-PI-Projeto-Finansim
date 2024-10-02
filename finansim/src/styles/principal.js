@@ -5,7 +5,8 @@ export const corFundoSecundaria = 'rgb(254, 152, 1)';
 export const corFundoTercearia = 'rgb(204, 218, 70)';
 export const corDestaqueSecundaria = 'rgb(105, 124, 55)';
 export const corBranca = 'white';
-export const corCinzaClaro = '#656565';
+export const corCinzaClaro = 'rgb(101, 101, 101)';
+export const corCinzaMaisClaro = 'rgb(230, 230, 230)';
 
 export const estiloPrincipal = StyleSheet.create({
     fundo: {
@@ -68,5 +69,17 @@ export const estiloPrincipal = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
+    },
+
+    textos: {
+        color: corCinzaClaro
+    },
+
+    alinhamentoTextoCentro: {
+        textAlign: 'center'
+    },
+
+    flexibilidade: {
+        flex: 1
     }
 })

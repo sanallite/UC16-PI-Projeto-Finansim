@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { corCinzaClaro, corDestaqueSecundaria, corFundoSecundaria } from "./principal";
+import { corCinzaClaro, corDestaqueSecundaria } from "./principal";
 
 export const estiloEmpresa = StyleSheet.create({
     nomeEmpresa: {
@@ -17,8 +17,4 @@ export const estiloEmpresa = StyleSheet.create({
     espacoEntreLinhas: {
         marginBottom: 10
     },
-
-    textos: {
-        color: corCinzaClaro
-    }
 })

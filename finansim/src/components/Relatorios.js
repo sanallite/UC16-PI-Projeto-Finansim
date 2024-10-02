@@ -6,6 +6,8 @@ import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
 
 import Icon from 'react-native-vector-icons/FontAwesome6';
+import { corDestaqueSecundaria, estiloPrincipal } from '../styles/principal';
+import { estiloRelatorios } from '../styles/relatorios';
 
 export default function Relatorios(props) {
     const [ dadosConsulta, setDados ] = useState([]);
@@ -82,47 +84,47 @@ export default function Relatorios(props) {
     }, [props.uid, props.nomeEmpresa, props.categoria, props.mes] );
 
     const renderizarLista = ({item}) => (
-        <View>
-            <View>
-                <Text>{ item.setor }</Text>
+        <View style={[ estiloPrincipal.margemVertical, estiloRelatorios.bordaItens ]}>
+            <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
+                <Text style={ estiloRelatorios.setor }>{ item.setor }</Text>
 
                 <Pressable onPress={ () => nav.navigate('Atualizar Dados', { id: item.id, categoria: props.categoria }) }>
-                    <Icon name='pencil' size={ 15 }></Icon>
+                    <Icon name='pencil' size={ 15 } color={ corDestaqueSecundaria }></Icon>
                 </Pressable>
             </View>
 
-            <View>
-                <Text>{ textoValor }</Text>
-                <Text>{ item.valor }</Text>
+            <View style={[ estiloPrincipal.linhaDoisItens ]}>
+                <Text style={ estiloPrincipal.textos }>{ textoValor }</Text>
+                <Text style={ estiloPrincipal.textos }>{ item.valor }</Text>
             </View>
 
-            <View>
-                <Text>{ textoNumero }</Text>
-                <Text>{ item.numero }</Text>
+            <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
+                <Text style={ estiloPrincipal.textos }>{ textoNumero }</Text>
+                <Text style={ estiloPrincipal.textos }>{ item.numero }</Text>
             </View>
         </View>
     )
 
     if ( carregando ) {
         return (
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text>Carregando...</Text>
+            <View style={ estiloPrincipal.alinhamentoLinhaCentralizada }>
+                <Text style={ estiloPrincipal.textoCarregamento }>Carregando...</Text>
             </View>
         )
     }
 
     return (
-        <View>
+        <View style={ estiloRelatorios.relatorios }>
             <View>
                 { props.categoria !== 'pagamentos' && (
-                    <View>
-                        <Text>{ props.mes }</Text>
+                    <View style={ estiloPrincipal.alinhamentoLinhaCentralizada }>
+                        <Text style={ estiloRelatorios.mes }>{ props.mes }</Text>
                     </View>  
                 )}
 
-                <View>
+                <View style={ estiloPrincipal.alinhamentoLinhaCentralizada }>
                     { dadosConsulta.length === 0 && (
-                        <Text>Nenhum registro encontrado. Adicione registros para vê-los aqui.</Text>
+                        <Text style={[ estiloPrincipal.textos, estiloPrincipal.margemVertical, estiloPrincipal.alinhamentoTextoCentro ]}>Nenhum registro encontrado. Adicione registros para vê-los aqui.</Text>
                     ) }
                 </View>
 
