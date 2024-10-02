@@ -129,7 +129,7 @@ export default function Relatorios(props) {
                     </View>  
                 ) : (
                     <View style={ estiloPrincipal.alinhamentoLinhaCentralizada } >
-                        <Text style={ estiloRelatorios.mes }>Relatório Anual</Text>
+                        <Text style={ estiloRelatorios.mes }>Relatório</Text>
                     </View>
                 )}
 

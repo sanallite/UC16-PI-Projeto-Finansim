@@ -22,6 +22,28 @@ Empresas de pequeno e médio porte, que não necessitem de relatórios e dados c
 -- Requisitos Funcionais Implementados --
 Será editado conforme a implementação
 
+-- Descrição das funcionalidades --
+A principal funcionalidade do app é fazer e manipular registros de dois tipos de números financeiros em três categorias, todos os registros contendo um setor, que é de onde esses números vem. O primeiro tipo representa um valor monetário e o segundo uma quantidade. As categorias são Vendas, Compras e Pagamentos.
+
+Para as categorias Vendas e Compras são exibidos relatórios referentes a cada mês do ano, com esses relatórios sendo a exibição de todos os registros atrelados a aquele mês.
+
+Os números de vendas são: Resultados e número de vendas, de Compras: Valores investidos e número de compras, e de Pagamentos: Valor pago em salários e número de colaboradores.
+
+Para a categoria de Pagamentos é exibido apenas um relatório geral daqueles números registrados.
+
+É permitada apenas a edição do mês e dos números registrados, com o setor não podendo ser alterado.
+
+É permitida a exclusão desses registros.
+
+Os registros são armazenados no Firebase Firestore. A exibição dos relatórios é feita em tempo real pela função onSnapshot do Firestore.
+
+O app utiliza o serviço de autenticação por email e senha do Firebase, para cadastro, entrada e saída dos usuários.
+
+Os dados do usuário, (uid, nome da empresa e nome de usuário) são armazenados na memória do app pela biblioteca React Native Async Storage, com o Firebase Auth utilizando o Async Storage para persitência da autenticação. É feita a leitura desses dados para salvar os registros no banco de dados, com eles fazendo referência ao usuário. E encerrar a sessão remove o item armazenado assíncronamente.
+
+É utilizada a API ViaCEP no cadastro de usuários para completar o endereço do usuário conforme o CEP digitado, mas pode-se fazer o cadastro sem colocar um endereço.
+
+
 -- Precificação e Monetização --
 O aplicativo será completamente gratuito e sem anúncios no seu primeiro ano e após conseguir uma base de usuários, oferecerá uma assinatura mensal que dará acesso a mais recursos.
 
@@ -44,10 +66,16 @@ Será editado conforme o desenvolvimento
 
 -- Ambiente de Desenvolvimento --
 Esse é um aplicativo Expo, que é um aplicativo React Native que usa as ferramentas do Expo.
+
 A linguagem principal usada é Javascript, utilizando os componentes do React Native com marcação JSX.
+
 Banco de dados e autenticação são feitos por integração com o Firebase.
+
 Para criação e hospedagem das builds de desenvolvimento e produção é utilizado o Expo Application Services (EAS).
+
 Os testes do app são feitos em um Samsung Galaxy A55 e no emulador de dispositivo do Android Studio, utilizando uma build de desenvolvimento compilada pelo EAS.
+
+Nenhum padrão arquitetural foi utilizado plenamente.
 
 -- Ferramentas Usadas e Dependências --
 Consulte o arquivo "requirements.txt" na pasta raiz desse repositório.
