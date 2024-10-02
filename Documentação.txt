@@ -43,6 +43,9 @@ Os dados do usuário, (uid, nome da empresa e nome de usuário) são armazenados
 
 É utilizada a API ViaCEP no cadastro de usuários para completar o endereço do usuário conforme o CEP digitado, mas pode-se fazer o cadastro sem colocar um endereço.
 
+O app utiliza navegação aninhada de telas atráves das bibliotecas do React Navigation, a Stack Navigator e a Bottom Tabs Navigator.
+
+São utilizados os hooks useState e useEffect do React, para salvar dados em tempo real e executar funções conforme o aplicativo roda.
 
 -- Precificação e Monetização --
 O aplicativo será completamente gratuito e sem anúncios no seu primeiro ano e após conseguir uma base de usuários, oferecerá uma assinatura mensal que dará acesso a mais recursos.
@@ -56,13 +59,51 @@ O aplicativo será completamente gratuito e sem anúncios no seu primeiro ano e 
 Será editado conforme a implementação
 
 -- Estrutura de Pastas --
-Será editado conforme o desenvolvimento
+"src/" Pasta que contém a maior parte dos arquivos criados por mim para desenvolver o app.
+
+"src/assets/" Contém a logo do app, que é usada como ícone.
+
+"src/components/" Contém o componente de relatórios, que é o responsável pela consulta e exibição dos registros no banco de dados, de acordo com a Categoria que chamou esse componente e com os dados do usuário autenticado.
+
+"src/routes/" Os componentes que definem as rotas de navegação, com os navigators e suas screens.
+
+"src/screens/" Os componentes que são as telas renderizadas pelo aplicativo, conforme seu chamamento nas rotas de navegação.
+
+"src/styles/" Onde ficam os arquivos que contém as folhas de estilos criadas.
 
 -- Descrição dos arquivos --
-    • Documentação.odt: Documentação em formato OpenOffice com imagens.
-    • Documentação.txt (esse arquivo): Documentação no formato txt.
-    • requirements.txt: Arquivo que contém as bibliotecas, ferramentas e dependências utilizadas na aplicação.
-Será editado conforme o desenvolvimento
+Pasta da Unidade Currícular:
+    "Documentação.odt:" Documentação em formato OpenOffice com imagens.
+
+    "Documentação.txt" (esse arquivo): Documentação no formato txt.
+
+    "requirements.txt" Arquivo que contém as bibliotecas, ferramentas e dependências utilizadas na aplicação.
+
+    "Fluxograma de navegação.png" Fluxograma da navegação das telas.
+
+    "logo.png" Logo e ícone do aplicativo.
+
+    "padrao_cores_usadas.jpg" O padrão de cores usado na estilização do app.
+
+    "ReadMe.md" Arquivo leia-me, com uma explicação mais breve do aplicativo e contendo as instruções para execução do mesmo.
+
+Pasta do projeto:
+    "initializeFirebase.js" Arquivo para inicialização de uso das bibliotecas do Firebase.
+
+    "App.js" Componente principal do app, com a primeira rota de navegação e a verificação da autenticação e do armazenamento assíncrono.
+
+    "src/routes/RotaEntrada.js" Rota com as telas de boas vindas, cadastro e entrada.
+
+    "src/routes/RotaPrincipal.js" Rota com a rota dos relatórios e as telas de adicionar e editar dados.
+
+    "src/routes/RotaRelatorios.js" Rota com as telas das categorias e a tela da empresa.
+
+Pasta src/screens/:
+    "AddDados.js" Tela para criar os registros financeiros e armazena-los no banco de dados.
+
+    "BoasVindas.js" Tela inicial para usuários não autenticados.
+
+    "Cadastro.js" Tela para cadastrar o usuário na autenticação e os dados da empresa.
 
 -- Ambiente de Desenvolvimento --
 Esse é um aplicativo Expo, que é um aplicativo React Native que usa as ferramentas do Expo.
