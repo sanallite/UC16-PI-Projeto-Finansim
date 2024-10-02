@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Text, Alert, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Relatorios from '../components/Relatorios';
 
@@ -8,6 +9,9 @@ import { db } from '../../initializeFirebase';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { estiloPrincipal } from '../styles/principal';
+import { estiloRelatorios } from '../styles/relatorios';
+
+import { valorReais } from '../numberFormat';
 
 export default function Pagamentos() {
     const [ usuario, setUsuario ] = useState(null);
@@ -15,6 +19,8 @@ export default function Pagamentos() {
     const [ maiorValor, setMaiorValor ] = useState(null);
     const [ somaValor, setSomaValor ] = useState(null);
     const [ somaNumero, setSomaNumero ] = useState(null);
+
+    const nav = useNavigation();
 
     const pegarUsuario = async () => {
         try {
@@ -44,8 +50,6 @@ export default function Pagamentos() {
                     valorTotal: sum('valor')
                 } );
 
-                console.log('Resultado da soma:', snapshot.data().valorTotal);
-
                 setSomaValor(snapshot.data().valorTotal);
 
                 const consultaSomaNumero = query( refCategoria,
@@ -56,8 +60,6 @@ export default function Pagamentos() {
                 const snapshotNumero = await getAggregateFromServer( consultaSomaNumero, {
                     valorTotal: sum('numero')
                 } );
-
-                console.log('Resultado da soma do número:', snapshotNumero.data().valorTotal);
 
                 setSomaNumero(snapshotNumero.data().valorTotal);
             }
@@ -87,17 +89,23 @@ export default function Pagamentos() {
             const unsubscribeMaiorValor = onSnapshot( consultaMaiorValor, (querySnapshot) => {
                 const resultado = [];
 
-                querySnapshot.forEach( (doc) => {
-                    resultado.push( { id: doc.id, ...doc.data() } )
-                } );
+                if ( !querySnapshot.empty ) {
+                    querySnapshot.forEach( (doc) => {
+                        resultado.push( { id: doc.id, ...doc.data() } )
+                    } );
 
-                console.log('Doc com maior valor:', resultado);
+                    console.log('Doc com maior valor:', resultado);
 
-                setMaiorValor(resultado);
+                    setMaiorValor(resultado);
 
-                pegarSoma();
+                    pegarSoma();
 
-                setCarregando(false);
+                    setCarregando(false);
+                }
+
+                else {
+                    Alert.alert('Relatórios', 'Nenhum registro foi adicionado ainda, adicione um na tela da Empresa', [{ text: 'Voltar', onPress: () => nav.navigate('Empresa') }])
+                }
             });
 
             return () => unsubscribeMaiorValor(); 
@@ -113,23 +121,28 @@ export default function Pagamentos() {
     }
 
     return (
-        <View style={ estiloPrincipal.fundoRelatorios }>
-            <View>
-                <Text>Número total de colaboradores:</Text>
-                { somaNumero && ( <Text>{ somaNumero }</Text> ) }
+        <View style={[ estiloPrincipal.fundoRelatorios, estiloPrincipal.espacamentoHorizontal ]}>
+            <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
+                <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Número total de colaboradores:</Text>
+
+                { somaNumero && ( <Text style={ estiloRelatorios.textoDestaque }>{ somaNumero }</Text> ) }
             </View>
 
-            <View>
-                <Text>Valor total pago em salários:</Text>
-                { somaValor && ( <Text>{ somaValor }</Text> ) }
+            <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
+                <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Valor total pago em salários:</Text>
+
+                { somaValor && ( <Text style={[ estiloRelatorios.textoDestaque ]}>{ valorReais.format(somaValor) }</Text> ) }
             </View>
 
-            <View>
-                <Text>Setor com mais colaboradores:</Text>
-                <Text>{ maiorValor[0].setor }</Text>
+            <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
+                <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Setor com mais colaboradores:</Text>
+
+                <Text style={[ estiloRelatorios.setorDestaque ]}>{ maiorValor[0].setor }</Text>
             </View>
 
-            <Relatorios categoria='pagamentos' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
+            <View style={[ estiloPrincipal.alinhamentoLinhaCentralizada, estiloPrincipal.flexibilidade ]}>
+                <Relatorios categoria='pagamentos' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
+            </View>
         </View>
     )
 }

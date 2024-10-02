@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Relatorios from '../components/Relatorios';
 
@@ -8,14 +9,17 @@ import { db } from '../../initializeFirebase';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { estiloPrincipal } from '../styles/principal';
-import { estiloBoasVindas } from '../styles/boasvindas';
 import { estiloRelatorios } from '../styles/relatorios';
+
+import { valorReais } from '../numberFormat';
 
 export default function Vendas() {
     const [ usuario, setUsuario ] = useState(null);
     const [ carregando, setCarregando ] = useState(true);
     const [ maiorValor, setMaiorValor ] = useState(null);
     const [ soma, setSoma ] = useState(null);
+
+    const nav = useNavigation();
 
     const pegarUsuario = async () => {
         try {
@@ -45,9 +49,7 @@ export default function Vendas() {
                     valorTotal: sum('valor')
                 } );
 
-                console.log('Resultado da soma:', snapshot.data().valorTotal);
-
-                setSoma(snapshot.data().valorTotal);
+                setSoma(snapshot.data().valorTotal); 
             }
 
             catch (erro) {
@@ -75,17 +77,23 @@ export default function Vendas() {
             const unsubscribeMaiorValor = onSnapshot( consultaMaiorValor, (querySnapshot) => {
                 const resultado = [];
 
-                querySnapshot.forEach( (doc) => {
-                    resultado.push( { id: doc.id, ...doc.data() } )
-                } );
+                if ( !querySnapshot.empty ) {
+                    querySnapshot.forEach( (doc) => {
+                        resultado.push( { id: doc.id, ...doc.data() } )
+                    } );
 
-                console.log('Doc com maior valor:', resultado);
+                    console.log('Doc com maior valor:', resultado);
 
-                setMaiorValor(resultado);
+                    setMaiorValor(resultado);
 
-                pegarSoma();
+                    pegarSoma();
 
-                setCarregando(false);
+                    setCarregando(false);
+                }
+
+                else {
+                    Alert.alert('Relatórios', 'Nenhum registro foi adicionado ainda, adicione um na tela da Empresa', [{ text: 'Voltar', onPress: () => nav.navigate('Empresa') }])
+                }
             });
 
             return () => unsubscribeMaiorValor(); 
@@ -105,13 +113,15 @@ export default function Vendas() {
             <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
                 <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Resultado total do ano:</Text>
 
-                { soma && <Text style={ estiloRelatorios.textoDestaque }>{ soma }</Text> }
+                { soma && <Text style={ estiloRelatorios.textoDestaque }>{ valorReais.format(soma) }</Text> }
             </View>
 
             <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
                 <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Setor com melhores resultados:</Text>
 
-                <Text style={[ estiloRelatorios.setorDestaque, estiloPrincipal.textoPressionaveis ]}>{ maiorValor[0].setor }</Text>
+                { maiorValor && 
+                    <Text style={[ estiloRelatorios.setorDestaque ]}>{ maiorValor[0].setor }</Text> 
+                }
             </View>
 
             <ScrollView horizontal={ true } style={ estiloRelatorios.scrollViewRelatorios }>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Alert, Pressable } from 'react-native';
+import { View, Text, FlatList, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
@@ -9,9 +9,12 @@ import Icon from 'react-native-vector-icons/FontAwesome6';
 import { corDestaqueSecundaria, estiloPrincipal } from '../styles/principal';
 import { estiloRelatorios } from '../styles/relatorios';
 
+import { valorReais } from '../numberFormat';
+
 export default function Relatorios(props) {
     const [ dadosConsulta, setDados ] = useState([]);
     const [ carregando, setLoading ] = useState(true);
+    const [ estiloAtual, setEstilo ] = useState(null);
 
     let textoValor, textoNumero;
 
@@ -36,6 +39,8 @@ export default function Relatorios(props) {
         const refCategoria = collection(db, props.categoria);
 
         if ( props.uid && props.categoria !== 'pagamentos' ) {
+            setEstilo(estiloRelatorios.relatoriosVendasCompras);
+
             const consulta_vendas_compras = query( 
                 refCategoria, 
                 where('mes', '==', props.mes), 
@@ -61,6 +66,8 @@ export default function Relatorios(props) {
         }
 
         else if ( props.uid && props.categoria === 'pagamentos' ) {
+            setEstilo( estiloRelatorios.relatorioPagamentos );
+            
             const consulta_pagamentos = query( 
                 refCategoria, 
                 where('usuario', '==', props.uid), 
@@ -95,7 +102,7 @@ export default function Relatorios(props) {
 
             <View style={[ estiloPrincipal.linhaDoisItens ]}>
                 <Text style={ estiloPrincipal.textos }>{ textoValor }</Text>
-                <Text style={ estiloPrincipal.textos }>{ item.valor }</Text>
+                <Text style={ estiloPrincipal.textos }>{ valorReais.format(item.valor) }</Text>
             </View>
 
             <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
@@ -114,12 +121,16 @@ export default function Relatorios(props) {
     }
 
     return (
-        <View style={ estiloRelatorios.relatorios }>
+        <View style={ estiloAtual }>
             <View>
-                { props.categoria !== 'pagamentos' && (
+                { props.categoria !== 'pagamentos' ? (
                     <View style={ estiloPrincipal.alinhamentoLinhaCentralizada }>
                         <Text style={ estiloRelatorios.mes }>{ props.mes }</Text>
                     </View>  
+                ) : (
+                    <View style={ estiloPrincipal.alinhamentoLinhaCentralizada } >
+                        <Text style={ estiloRelatorios.mes }>Relatório Anual</Text>
+                    </View>
                 )}
 
                 <View style={ estiloPrincipal.alinhamentoLinhaCentralizada }>

@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Relatorios from '../components/Relatorios';
-
-import { estiloBoasVindas } from '../styles/boasvindas';
 
 import { collection, query, where, orderBy, limit, onSnapshot, getAggregateFromServer, sum } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { estiloPrincipal } from '../styles/principal';
+import { estiloRelatorios } from '../styles/relatorios';
+
+import { valorReais } from '../numberFormat';
 
 export default function Compras() {
     const [ usuario, setUsuario ] = useState(null);
     const [ carregando, setCarregando ] = useState(true);
     const [ maiorValor, setMaiorValor ] = useState(null);
     const [ soma, setSoma ] = useState(null);
+
+    const nav = useNavigation();
 
     const pegarUsuario = async () => {
         try {
@@ -45,8 +50,6 @@ export default function Compras() {
                     valorTotal: sum('valor')
                 } );
 
-                console.log('Resultado da soma:', snapshot.data().valorTotal);
-
                 setSoma(snapshot.data().valorTotal);
             }
 
@@ -75,17 +78,23 @@ export default function Compras() {
             const unsubscribeMaiorValor = onSnapshot( consultaMaiorValor, (querySnapshot) => {
                 const resultado = [];
 
-                querySnapshot.forEach( (doc) => {
-                    resultado.push( { id: doc.id, ...doc.data() } )
-                } );
+                if ( !querySnapshot.empty ) {
+                    querySnapshot.forEach( (doc) => {
+                        resultado.push( { id: doc.id, ...doc.data() } )
+                    } );
 
-                console.log('Doc com maior valor:', resultado);
+                    console.log('Doc com maior valor:', resultado);
 
-                setMaiorValor(resultado);
+                    setMaiorValor(resultado);
 
-                pegarSoma();
+                    pegarSoma();
 
-                setCarregando(false);
+                    setCarregando(false);
+                }
+
+                else {
+                    Alert.alert('Relatórios', 'Nenhum registro foi adicionado ainda, adicione um na tela da Empresa', [{ text: 'Voltar', onPress: () => nav.navigate('Empresa') }])
+                }
             });
 
             return () => unsubscribeMaiorValor(); 
@@ -101,18 +110,21 @@ export default function Compras() {
     }
     
     return (
-        <View style={ estiloPrincipal.fundoRelatorios }>
-            <View>
-                <Text>Valor total investido:</Text>
-                { soma && ( <Text>{ soma }</Text> ) }
+        <View style={[ estiloPrincipal.fundoRelatorios, estiloPrincipal.espacamentoHorizontal ]}>
+            <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
+                <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Valor total investido:</Text>
+
+                { soma && ( <Text style={[ estiloRelatorios.textoDestaque ]}>{ valorReais.format(soma) }</Text> ) }
             </View>
 
-            <View>
-                <Text>Setor com maior investimento:</Text>
-                <Text>{ maiorValor[0].setor }</Text>
+            <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
+
+                <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Setor com maior investimento:</Text>
+
+                { maiorValor && <Text style={[ estiloRelatorios.setorDestaque ]}>{ maiorValor[0].setor }</Text> }
             </View>
 
-            <ScrollView horizontal={ true }>
+            <ScrollView horizontal={ true } style={ estiloRelatorios.scrollViewRelatorios }>
                 <Relatorios categoria='compras' mes='Janeiro' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
                 <Relatorios categoria='compras' mes='Fevereiro' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
                 <Relatorios categoria='compras' mes='Março' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />

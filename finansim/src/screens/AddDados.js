@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Pressable, Alert } from 'react-native';
+import { View, Text, TextInput, Pressable, Alert, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 
@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { db } from '../../initializeFirebase';
 import { collection, addDoc } from 'firebase/firestore';
+import { estiloPrincipal } from '../styles/principal';
+import { estiloForms } from '../styles/formularios';
 
 export default function AddDados() {
     const [ usuario, setUsuario ] = useState(null);
@@ -85,7 +87,7 @@ export default function AddDados() {
                         empresa: usuario.nomeEmpresa
                     } );
 
-                    Alert.alert('Registro', 'Registro adicionado com sucesso!');
+                    Alert.alert('Registro', 'Registro adicionado com sucesso!', [{ text: 'Continuar', onPress: () => nav.goBack() }]);
                     console.log('Documento adicionado com o id:', docRef.id);
                 }
 
@@ -106,9 +108,9 @@ export default function AddDados() {
     }
 
     return (
-        <View>
-            <View>
-                <Picker mode='dropdown' selectedValue={ categoriaSelec } onValueChange={ (nova) => setCategoria(nova) } >
+        <ScrollView style={[ estiloPrincipal.espacamentoHorizontal, estiloPrincipal.fundo, estiloPrincipal.flexibilidade ]}>
+            <View style={[ estiloForms.fundo, { width: '100%' } ]}>
+                <Picker mode='dropdown' selectedValue={ categoriaSelec } onValueChange={ (nova) => setCategoria(nova) }>
                     <Picker.Item label='Selecione uma categoria' value='' />
                     <Picker.Item label='Vendas' value='vendas' />
                     <Picker.Item label='Compras' value='compras' />
@@ -116,7 +118,7 @@ export default function AddDados() {
                 </Picker>
 
                 { pickerMes && (
-                    <Picker selectedValue={ mesSelecionado } onValueChange={ (novo) => setMes(novo) } >
+                    <Picker mode='dropdown' selectedValue={ mesSelecionado } onValueChange={ (novo) => setMes(novo) }>
                         <Picker.Item label='Selecione um mês' value='' />
                         <Picker.Item label='Janeiro' value='Janeiro' />
                         <Picker.Item label='Fevereiro' value='Fevereiro' />
@@ -135,53 +137,62 @@ export default function AddDados() {
                 
                 { categoriaSelec === 'vendas' && (
                     <View>
-                        <Text>Setor</Text>
-                        <TextInput placeholder='Exemplo: Doces' value={ setor } onChangeText={ (novo) => setSetor(novo) } />
+                        <Text style={[ estiloForms.rotuloCaixasTexto ]}>Setor</Text>
+
+                        <TextInput placeholder='Exemplo: Doces' value={ setor } onChangeText={ (novo) => setSetor(novo) } style={ estiloForms.caixasTexto } />
         
-                        <Text>Resultados</Text>
-                        <TextInput placeholder='Exemplo: 124000.99' value={ valor } onChangeText={ (novo) => setValor(novo) } keyboardType='numeric' />
+                        <Text style={[ estiloForms.rotuloCaixasTexto ]}>Resultados</Text>
+
+                        <TextInput placeholder='Exemplo: 124000.99' value={ valor } onChangeText={ (novo) => setValor(novo) } keyboardType='numeric' style={ estiloForms.caixasTexto } />
         
-                        <Text>Número de vendas</Text>
-                        <TextInput placeholder='Exemplo: 300' value={ numero } onChangeText={ (novo) => setNumero(novo) } keyboardType='numeric' />
+                        <Text style={[ estiloForms.rotuloCaixasTexto ]}>Número de vendas</Text>
+
+                        <TextInput placeholder='Exemplo: 300' value={ numero } onChangeText={ (novo) => setNumero(novo) } keyboardType='numeric' style={ estiloForms.caixasTexto } />
                     </View>
                 ) }
                 
                 { categoriaSelec === 'compras' && (
                     <View>
-                        <Text>Setor</Text>
-                        <TextInput placeholder='Exemplo: Equipamentos' value={ setor } onChangeText={ (novo) => setSetor(novo) } />
+                        <Text style={[ estiloForms.rotuloCaixasTexto ]}>Setor</Text>
+
+                        <TextInput placeholder='Exemplo: Equipamentos' value={ setor } onChangeText={ (novo) => setSetor(novo) } style={ estiloForms.caixasTexto }/>
         
-                        <Text>Valores Investidos</Text>
-                        <TextInput placeholder='Exemplo: 125000.99' value={ valor } onChangeText={ (novo) => setValor(novo) } keyboardType='numeric' />
+                        <Text style={[ estiloForms.rotuloCaixasTexto ]}>Valores Investidos</Text>
+
+                        <TextInput placeholder='Exemplo: 125000.99' value={ valor } onChangeText={ (novo) => setValor(novo) } keyboardType='numeric' style={ estiloForms.caixasTexto }/>
         
-                        <Text>Número de compras</Text>
-                        <TextInput placeholder='Exemplo: 400' value={ numero } onChangeText={ (novo) => setNumero(novo) } keyboardType='numeric' />
+                        <Text style={[ estiloForms.rotuloCaixasTexto ]}>Número de compras</Text>
+
+                        <TextInput placeholder='Exemplo: 400' value={ numero } onChangeText={ (novo) => setNumero(novo) } keyboardType='numeric' style={ estiloForms.caixasTexto }/>
                     </View>
                 ) }
 
                 { categoriaSelec === 'pagamentos' && (
                     <View>
-                        <Text>Setor</Text>
-                        <TextInput placeholder='Exemplo: Recursos Humanos' value={ setor } onChangeText={ (novo) => setSetor(novo) } />
+                        <Text style={[ estiloForms.rotuloCaixasTexto ]}>Setor</Text>
 
-                        <Text>Valor pago em salários</Text>
-                        <TextInput placeholder='Exemplo: 126000.99' value={ valor } onChangeText={ (novo) => setValor(novo) } keyboardType='numeric' />
+                        <TextInput placeholder='Exemplo: Recursos Humanos' value={ setor } onChangeText={ (novo) => setSetor(novo) } style={ estiloForms.caixasTexto }/>
 
-                        <Text>Número de colaboradores</Text>
-                        <TextInput placeholder='Exemplo: 500' value={ numero } onChangeText={ (novo) => setNumero(novo) } keyboardType='numeric' />
+                        <Text style={[ estiloForms.rotuloCaixasTexto ]}>Valor pago em salários</Text>
+
+                        <TextInput placeholder='Exemplo: 126000.99' value={ valor } onChangeText={ (novo) => setValor(novo) } keyboardType='numeric' style={ estiloForms.caixasTexto }/>
+
+                        <Text style={[ estiloForms.rotuloCaixasTexto ]}>Número de colaboradores</Text>
+
+                        <TextInput placeholder='Exemplo: 500' value={ numero } onChangeText={ (novo) => setNumero(novo) } keyboardType='numeric' style={ estiloForms.caixasTexto }/>
                     </View>
                 ) }
             </View>
 
-            <View>
-                <Pressable onPress={ () => adicionarDoc(categoriaSelec, mesSelecionado, setor, valor, numero) }>
-                    <Text>Adicionar registro</Text>
+            <View style={ estiloForms.viewPressionaveis }>
+                <Pressable onPress={ () => adicionarDoc(categoriaSelec, mesSelecionado, setor, valor, numero) } style={[ estiloPrincipal.pressionaveisLaranjas, estiloPrincipal.margemVertical ]} >
+                    <Text style={ estiloPrincipal.textoPressionaveis }>Adicionar registro</Text>
                 </Pressable>
 
-                <Pressable onPress={ limparCampos }>
-                    <Text>Limpar dados</Text>
+                <Pressable onPress={ limparCampos } style={[ estiloPrincipal.pressionaveisVerdes, estiloPrincipal.margemVertical ]} >
+                    <Text style={ estiloPrincipal.textoPressionaveis }>Limpar dados</Text>
                 </Pressable>
             </View>
-        </View>
+        </ScrollView>
     )
 }

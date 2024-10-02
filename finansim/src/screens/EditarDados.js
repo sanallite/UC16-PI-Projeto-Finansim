@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
-import { View, Text, TextInput, Pressable, Alert } from 'react-native';
+import { View, Text, TextInput, Pressable, Alert, ScrollView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 
 import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
+
+import { estiloPrincipal } from '../styles/principal';
+import { estiloForms } from '../styles/formularios';
+import { estiloRelatorios } from '../styles/relatorios';
+
+import { valorReais } from '../numberFormat';
 
 export default function EditarDados() {
     const nav = useNavigation();
@@ -143,22 +149,23 @@ export default function EditarDados() {
 
     if ( iniciando ) {
         return (
-            <View style={{ alignItems: 'center' }}>
+            <View style={[ estiloPrincipal.fundo, estiloPrincipal.espacamentoHorizontal ]}>
                 <Text>Carregando...</Text>
             </View>
         )
     }
 
     return (
-        <View>
-            <View>
-                <Text>{ titulo }</Text>
+        <ScrollView style={[ estiloPrincipal.espacamentoHorizontal, estiloPrincipal.fundo ]} contentContainerStyle={ estiloPrincipal.alinhamentoLinhaCentralizada } >
+            <View style={[ estiloPrincipal.margemVertical ]}>
+                <Text style={ estiloRelatorios.mes } >{ titulo }</Text>
             </View>
 
-            <View>
-                <View>
-                    <Text>{ documento.setor }</Text>
-                    { pickerAtivo && ( <Text>{ documento.mes }</Text> )}
+            <View style={[ estiloForms.fundo, { width: '100%' } ]}>
+                <View style={[ estiloPrincipal.linhaDoisItens ]}>
+                    <Text style={ estiloForms.rotuloCaixasTexto } >{ documento.setor }</Text>
+
+                    { pickerAtivo && ( <Text style={ estiloForms.rotuloCaixasTexto } >{ documento.mes }</Text> )}
                 </View>
 
                 <View>
@@ -180,26 +187,36 @@ export default function EditarDados() {
                         </Picker>
                     ) }
 
-                    <Text>{ textoValor }</Text>
+                    <View style={ estiloPrincipal.linhaDoisItens }>
+                        <Text style={ estiloForms.rotuloCaixasTexto }>{ textoValor }</Text>
+                        <Text style={ estiloPrincipal.textos }>{ valorReais.format(documento.valor) }</Text>
+                    </View>
 
-                    <Text>{ documento.valor }</Text>
-                    <TextInput value={ valorDigitado } onChangeText={ (novo) => setValor(novo) } placeholder='Deixe em branco para não alterar' />
+                    <TextInput value={ valorDigitado } onChangeText={ (novo) => setValor(novo) } placeholder='Deixe em branco para não alterar' style={ estiloForms.caixasTexto } />
                     
-                    <Text>{ textoNumero }</Text>
-                    <Text>{ documento.numero } </Text>
-                    <TextInput value={ numeroDigitado } onChangeText={ (novo) => setNumero(novo) } placeholder='Deixe em branco para não alterar' />
-                </View>
+                    <View style={ estiloPrincipal.linhaDoisItens }>
+                        <Text style={ estiloForms.rotuloCaixasTexto }>{ textoNumero }</Text>
+                        <Text style={ estiloPrincipal.textos }>{ documento.numero } </Text>
+                    </View>
 
-                <View>
-                    <Pressable onPress={ () => atualizarDocumento(mesSelecionado, valorDigitado, numeroDigitado) } >
-                        <Text>Atualizar Registro</Text>
-                    </Pressable>
-
-                    <Pressable onPress={ removerDocumento } >
-                        <Text>Remover Registro</Text>
-                    </Pressable>
+                    <TextInput value={ numeroDigitado } onChangeText={ (novo) => setNumero(novo) } placeholder='Deixe em branco para não alterar' style={ estiloForms.caixasTexto } />
                 </View>
             </View>
-        </View>
+
+            <View style={ estiloForms.viewPressionaveis }>
+                <Pressable onPress={ () => atualizarDocumento(mesSelecionado, valorDigitado, numeroDigitado) } style={[ estiloPrincipal.pressionaveisLaranjas, estiloPrincipal.margemVertical ]} >
+                    
+                    <Text style={ estiloPrincipal.textoPressionaveis }>Atualizar Registro</Text>
+                </Pressable>
+
+                <Pressable 
+                    onPress={ () => ( Alert.alert('Remover Registro', 'Tem certeza que deseja removê-lo?', [{ onPress: removerDocumento, text: 'Sim' }, { text: 'Não' }]) ) } 
+
+                    style={[ estiloPrincipal.pressionaveisVerdes, estiloPrincipal.margemVertical ]}>
+
+                    <Text style={ estiloPrincipal.textoPressionaveis }>Remover Registro</Text>
+                </Pressable>
+            </View>
+        </ScrollView>
     )
 }

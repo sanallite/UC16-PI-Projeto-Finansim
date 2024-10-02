@@ -111,7 +111,10 @@ export default function Empresa() {
                     <Text style={ estiloPrincipal.textoPressionaveis }>Adicionar registro de dados</Text>
                 </Pressable>
 
-                <Pressable onPress={ sair } style={[ estiloPrincipal.margemVertical, estiloPrincipal.pressionaveisVerdes ]}>
+                <Pressable 
+                    onPress={ () => ( Alert.alert('Encerrar Sessão', 'Tem certeza que deseja sair?', [ { text: 'Sim', onPress: sair }, { text: 'Não' } ]) ) } 
+                    style={[ estiloPrincipal.margemVertical, estiloPrincipal.pressionaveisVerdes ]}>
+
                     <Text style={ estiloPrincipal.textoPressionaveis }>Encerrar Sessão</Text>
                 </Pressable>
             </View>

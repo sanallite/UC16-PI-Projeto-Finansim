@@ -12,7 +12,7 @@ export const estiloRelatorios = StyleSheet.create({
         flex: 1
     },
 
-    relatorios: {
+    relatoriosVendasCompras: {
         marginVertical: 20,
         marginRight: 20,
         padding: 15,
@@ -21,6 +21,16 @@ export const estiloRelatorios = StyleSheet.create({
         borderColor: corFundoTercearia,
         borderWidth: 1,
         borderRadius: 10
+    },
+
+    relatorioPagamentos: {
+        width: 300,
+        padding: 15,
+        backgroundColor: corBranca,
+        borderColor: corFundoTercearia,
+        borderWidth: 1,
+        borderRadius: 10,
+        marginVertical: 20
     },
 
     mes: {
@@ -45,6 +55,7 @@ export const estiloRelatorios = StyleSheet.create({
         borderRadius: 6,
         backgroundColor: corDestaqueSecundaria,
         paddingVertical: 10,
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        color: corBranca
     }
 })
