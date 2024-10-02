@@ -105,6 +105,18 @@ Pasta src/screens/:
 
     "Cadastro.js" Tela para cadastrar o usuário na autenticação e os dados da empresa.
 
+    "Compras.js" Tela que exibe os relatórios de compras.
+
+   "EditarDados.js" Tela para atualizar o registro selecionado no relatório.
+
+   "Empresa.js" Exibe as informações da empresa cadastrada e tem botões para adicionar um registro e encerrar a sessão do usuário.
+
+   "Entrada os" Tela para o usuário fazer autenticação depois de já ter se cadastrado.
+
+   "Pagamentos.js" Tela que exibe os relatórios de pagamentos.
+
+   "Vendas.js" Tela que exibe os relatórios de vendas.
+
 -- Ambiente de Desenvolvimento --
 Esse é um aplicativo Expo, que é um aplicativo React Native que usa as ferramentas do Expo.
 
