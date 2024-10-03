@@ -80,10 +80,10 @@ export default function AddDados() {
                         empresa: usuario.nomeEmpresa
                     } );
 
+                    limparCampos();
+
                     Alert.alert('Registro', 'Registro adicionado com sucesso!', [{ text: 'Continuar', onPress: () => nav.goBack() }]);
                     console.log('Documento adicionado com o id:', docRef.id);
-
-                    limparCampos();
                 }
 
                 catch (erro) {
@@ -91,6 +91,7 @@ export default function AddDados() {
                     console.error('Erro ao adicionar documento:', erro)
                 }
             }
+            /* Se a categoria não for "pagamentos", no caso se for "vendas" ou "compras" será feita a tentativa de adicionar o registro no Firestore, com os valores dos campos sendo pego dos parâmetros e dos dados do usuário autenticado. Se for adicionado com sucesso, será chamada a função para limpar os campos e um alerta que fará a navegação para a tela anterior. */
 
             else if ( categoria === 'pagamentos' ) {
                 try {
@@ -102,6 +103,8 @@ export default function AddDados() {
                         empresa: usuario.nomeEmpresa
                     } );
 
+                    limparCampos();
+
                     Alert.alert('Registro', 'Registro adicionado com sucesso!', [{ text: 'Continuar', onPress: () => nav.goBack() }]);
                     console.log('Documento adicionado com o id:', docRef.id);
                 }
@@ -111,6 +114,7 @@ export default function AddDados() {
                     console.error('Erro ao adicionar documento:', erro)
                 }
             }
+            /* Se a categoria for "pagamentos" será feita a mesma tentativa de adcionar o registro no Firestore, com a maior diferença sendo a ausência do campo "mes" */
 
             else if ( mes === '' ) {
                 Alert.alert('Erro', 'Selecione um mês e tente novamente.')
