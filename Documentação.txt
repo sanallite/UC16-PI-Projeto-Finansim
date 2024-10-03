@@ -117,6 +117,42 @@ Pasta src/screens/:
 
    "Vendas.js" Tela que exibe os relatórios de vendas.
 
+-- Banco de Dados --
+O banco de dados utilizado é o Firebase Firestore, com formato não relacional.
+
+- São usadas quatro coleções:
+
+    "compras" Contém os documentos com os registros financeiros da categoria Compras.
+
+    "vendas" Contém os documentos com os registros financeiros da categoria Vendas.
+
+    "pagamentos" Contém os documentos com os registros financeiros da categoria Pagamentos.
+
+    "empresas" Contém os documentos com os dados das empresas cadastradas.
+
+- Os documentos das coleções de compras, vendas e pagamentos contém os seguintes campos:
+
+   "setor" O nome de um setor, área ou categoria daquele registro.
+
+   "mes" Não presente na coleção de pagamentos, armazena o mês que aquele registro pertence.
+
+   "usuario" Contém o uid do usuário autenticado que criou o registro.
+
+   "empresa" Contém o nome da empresa cadastrada pelo usuário autenticado que criou o registro.
+
+   "numero" Número que representa uma quantidade associada a aquele registro.
+
+   "valor" Número que representa um valor monetário associado a aquele registro.
+
+- Os documentos da coleção empresa contém os seguintes campos:
+   "bairro","cep","cidade","estado","rua","numeroEst" Dados do endereço da empresa.
+
+   "idUsuario" uid do usuário autenticado que cadastrou a empresa.
+
+   "nomeEmpresa" Nome da empresa cadastrada.
+
+   "nomeUsuario" Nome cadastrado do usuário autenticado.
+
 -- Ambiente de Desenvolvimento --
 Esse é um aplicativo Expo, que é um aplicativo React Native que usa as ferramentas do Expo.
 
