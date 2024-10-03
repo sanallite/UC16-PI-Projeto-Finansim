@@ -1,6 +1,9 @@
+/* Folha de estilos focada na tela Boas Vindas */
+
 import { StyleSheet } from "react-native";
 
 import { corFundoTercearia } from "./principal";
+/* Importando as cores definidas na folha de estilos principal */
 
 export const estiloBoasVindas = StyleSheet.create({
     viewTitulo: {

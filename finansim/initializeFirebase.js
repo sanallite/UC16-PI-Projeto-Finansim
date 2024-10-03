@@ -18,15 +18,15 @@ const firebaseConfig = {
   appId: "1:477598190655:android:a31b98f2888917752bbc8a"
 };
 
-// Initialize Firebase
+// Iniciando o Firebase com a configuração acima.
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Authentication
+// Iniciando o Firebase Authentication, utilizando a pesistência de dados pelo Async Storage.
 export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 });
 
-// Initialize Firebase Analytics
+// Iniciando o Firebase Analytics apenas se o ambiente tiver suporte.
 isSupported().then( ( temSuporte ) => {
     if ( temSuporte ) {
       const analytics = getAnalytics(app);

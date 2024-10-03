@@ -1,11 +1,14 @@
+/* Folha de estilos focada na tela Empresa */
+
 import { StyleSheet } from "react-native";
-import { corCinzaClaro, corDestaqueSecundaria } from "./principal";
+
+import { corDestaqueSecundaria } from "./principal";
+/* Importando as cores definidas na folha de estilo principal */
 
 export const estiloEmpresa = StyleSheet.create({
     nomeEmpresa: {
         fontSize: 20,
         fontWeight: 'bold',
-        /* color: corFundoSecundaria, */
         marginBottom: 10
     },
 

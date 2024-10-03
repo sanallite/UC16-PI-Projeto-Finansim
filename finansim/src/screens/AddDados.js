@@ -1,14 +1,23 @@
+/* Tela para adicionar documentos no banco de dados */
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Pressable, Alert, ScrollView } from 'react-native';
+/* Bibliotecas e componentes do React */
+
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
+/* Componente externo de lista selecionável e biblioteca de navegação */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+/* Biblioteca de armazenamento assíncrono */
 
 import { db } from '../../initializeFirebase';
 import { collection, addDoc } from 'firebase/firestore';
+/* Pegando o banco de dados definido na configuração do Firebase e as funções usadas para adicionar um documento no Firestore */
+
 import { estiloPrincipal } from '../styles/principal';
 import { estiloForms } from '../styles/formularios';
+/* Folhas de estilo utilizadas */
 
 export default function AddDados() {
     const [ usuario, setUsuario ] = useState(null);
@@ -18,13 +27,16 @@ export default function AddDados() {
     const [ setor, setSetor ] = useState('');
     const [ valor, setValor ] = useState('');
     const [ numero, setNumero ] = useState('');
+    /* Varíaveis de estado para armazenar o usuário autenticado e os dados preenchidos no formulário */
 
     const nav = useNavigation();
+    /* Instânciando a função de uso da navegação entre telas */
 
     let pickerMes;
     if ( categoriaSelec === 'vendas' || categoriaSelec === 'compras' ) {
         pickerMes = true;
     }
+    /* Variável que define ser o Picker referente aos meses do ano será exibido conforme a categoria selecionada no outro Picker */
 
     const pegarUsuario = async () => {
         try {
@@ -39,10 +51,12 @@ export default function AddDados() {
             Alert.alert('Erro', 'Erro ao encontrar usuário, tente novamente', [ { text: 'Voltar', onPress: () => nav.navigate('Rota Relatórios') } ])
         }
     }
+    /* Buscando no armazenamento assíncrono o usuário autenticado, e o armazenando ma variável de estado "usuario" */
 
     useEffect( () => {
         pegarUsuario();
     }, [] );
+    /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar a função que pega o usuário armazenado enquanto o app roda. */
 
     const limparCampos = () => {
         setCategoria('');
@@ -51,6 +65,7 @@ export default function AddDados() {
         setValor('');
         setNumero('');
     }
+    /* Função para limpar os dados digitados nos campos de texto e restaurar os valores dos Pickers */
 
     const adicionarDoc = async (categoria, mes, setor, valor, numero) => {
         if ( categoria.trim() && setor.trim() && valor.trim() && numero.trim() ) {
@@ -100,7 +115,9 @@ export default function AddDados() {
             else if ( mes === '' ) {
                 Alert.alert('Erro', 'Selecione um mês e tente novamente.')
             }
+            /* Segundo verificando se a categoria selecionada no Picker não foi "pagamentos" e se um mês foi selecionado. Se a categoria não for pagamentos mas o valor do mẽs estiver vazio, será exibido um alerta. */
         }
+        /* Primeiro verificando se os campos necessários não estão vazios, utilizando a função trim */
 
         else {
             Alert.alert('Erro', 'Preencha todos os campos e tente novamente')

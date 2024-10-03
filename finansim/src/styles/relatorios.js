@@ -1,5 +1,9 @@
+/* Folha de estilos focada nos componentes de relatórios / exibição dos dados salvos no BD */
+
 import { StyleSheet } from "react-native";
+
 import { corBranca, corCinzaClaro, corCinzaMaisClaro, corDestaqueSecundaria, corFundoTercearia } from "./principal";
+/* Importando as principais cores do app definidas na folha de estilo principal. */
 
 export const estiloRelatorios = StyleSheet.create({
     textoDestaque: {

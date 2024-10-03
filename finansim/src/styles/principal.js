@@ -1,3 +1,5 @@
+/* Folha de estilos principal do aplicativo, que são usados em todas as telas. */
+
 import { StyleSheet } from "react-native";
 
 export const corFundoPrimaria = 'rgb(244, 238, 199)';
@@ -7,6 +9,7 @@ export const corDestaqueSecundaria = 'rgb(105, 124, 55)';
 export const corBranca = 'white';
 export const corCinzaClaro = 'rgb(101, 101, 101)';
 export const corCinzaMaisClaro = 'rgb(230, 230, 230)';
+/* Definindo as cores principais do app, com a cor de fundo secundária também podendo ser considerada a cor de destaque primária. */
 
 export const estiloPrincipal = StyleSheet.create({
     fundo: {
