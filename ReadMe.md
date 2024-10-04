@@ -33,11 +33,11 @@ Conexão com a API Via CEP para complementar o cadastro
 
 Estilização total das telas
 
-Última atualização da documentação: 22/09
+Última atualização da documentação: 03/10
 
 ## O que falta implementar:
 
-Construir uma versão de produção
+Corrigir os bugs
 
 >[!WARNING]
 > Dois bugs foram identicados atualmente:
@@ -48,3 +48,25 @@ Construir uma versão de produção
 
 ## Protótipo no Figma
 [Figma](https://www.figma.com/design/s2pnA0seBIVWfZWlOaJChV/App-de-Finan%C3%A7as?node-id=0-1&t=19tIYorPdagTO9BV-1)
+
+## Instalação
+
+Para clonar o repositório clique no botão ```fork``` ou ```code``` e siga as instruções na tela.
+
+Instale se necessário o [Node.js] (https://nodejs.org/pt) que também inclue o npm.
+
+Apague o arquivo ```eas.json``` e o objeto ```"eas"``` dentro do objeto ```"extra"``` no arquivo ```app.json```. Eles fazem referência ao projeto na minha conta.
+
+Instale globalmente o [eas-cli] (https://docs.expo.dev/get-started/set-up-your-environment/?platform=android&device=physical&mode=development-build) seguindo as instruções para fazer login ou criar uma conta no Expo Application Services, apenas configurando um projeto seu sem fazer uma build de Desenvolvimento ainda.
+
+Instale as dependencias necessárias, seguindo as versões no arquivo ```requirements.txt``` de preferência utilizando ```npx expo install nome-do-pacote@numero_da_versao```
+
+Com tudo instalado faça uma build de desenvolvimento para a plataforma Android, também seguindo a documentação do [Expo] (https://docs.expo.dev/get-started/set-up-your-environment/?platform=android&device=physical&mode=development-build).
+
+Você pode instalar a build em um dispositivo físico ou no emulador de dispositivo do Android Studio.
+
+Inicie um servidor de desenvolvimento para começar a rodar o projeto com ```npx expo start```
+
+>[!WARNING]
+>
+> Ainda não testei esse processo de instalação...

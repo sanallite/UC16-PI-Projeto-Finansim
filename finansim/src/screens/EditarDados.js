@@ -114,6 +114,7 @@ export default function EditarDados() {
         else {
             atualizacao.numero = documento.numero;
         }
+        /* Pegando os valores recebidos por parâmetros e verificando se os campos estão vazios, se estiverem o valor dos atributos será o valor do documento pego, ou seja o valor no banco de dados não será alterado. */
 
         if ( parametros.categoria === 'vendas' || parametros.categoria === 'compras' ) {
             try {
@@ -131,6 +132,7 @@ export default function EditarDados() {
                 console.error('Erro ao atualizar dados:', erro)
             }
         }
+        /* Atualizando os documentos com o campo mês */
 
         else if ( parametros.categoria === 'pagamentos' ) {
             try {
@@ -147,6 +149,7 @@ export default function EditarDados() {
                 console.error('Erro ao atualizar dados:', erro)
             }
         }
+        /* Atualizando os documentos em campo mês */
     }
 
     const removerDocumento = async () => {
@@ -162,6 +165,7 @@ export default function EditarDados() {
             console.error('Erro ao remover documento:', erro);
         }
     }
+    /* Função assíncrona para remover o documento escolhido, com um alerta com confirmação */
 
     if ( iniciando ) {
         return (
@@ -170,6 +174,7 @@ export default function EditarDados() {
             </View>
         )
     }
+    /* Estado de carregamento da tela, se for "true" será renderizado esse componente. */
 
     return (
         <ScrollView style={[ estiloPrincipal.espacamentoHorizontal, estiloPrincipal.fundo ]} contentContainerStyle={ estiloPrincipal.alinhamentoLinhaCentralizada } >
@@ -202,6 +207,7 @@ export default function EditarDados() {
                             <Picker.Item label='Dezembro' value='Dezembro' />
                         </Picker>
                     ) }
+                    {/* Renderização condicional que depende da categoria do documento */}
 
                     <View style={ estiloPrincipal.linhaDoisItens }>
                         <Text style={ estiloForms.rotuloCaixasTexto }>{ textoValor }</Text>
@@ -221,17 +227,19 @@ export default function EditarDados() {
 
             <View style={ estiloForms.viewPressionaveis }>
                 <Pressable onPress={ () => atualizarDocumento(mesSelecionado, valorDigitado, numeroDigitado) } style={[ estiloPrincipal.pressionaveisLaranjas, estiloPrincipal.margemVertical ]} >
+                {/* Quando for pressionado o documento será atualizado */}
                     
                     <Text style={ estiloPrincipal.textoPressionaveis }>Atualizar Registro</Text>
                 </Pressable>
 
                 <Pressable 
-                    onPress={ () => ( Alert.alert('Remover Registro', 'Tem certeza que deseja removê-lo?', [{ onPress: removerDocumento, text: 'Sim' }, { text: 'Não' }]) ) } 
+                    onPress={ () => ( Alert.alert('Remover Registro', 'Tem certeza que deseja removê-lo?', [{ onPress: removerDocumento, text: 'Sim' }, { text: 'Não' }]) ) }
 
                     style={[ estiloPrincipal.pressionaveisVerdes, estiloPrincipal.margemVertical ]}>
 
                     <Text style={ estiloPrincipal.textoPressionaveis }>Remover Registro</Text>
                 </Pressable>
+                {/* Quando for pressionado um alerta pedirá por confirmação do usuário e se ele apertar em "Sim" o documento será excluido do banco de dados */}
             </View>
         </ScrollView>
     )

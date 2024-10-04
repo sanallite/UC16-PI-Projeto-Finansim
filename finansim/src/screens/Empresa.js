@@ -1,22 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Pressable, Alert, ActivityIndicator } from 'react-native';
+/* Componentes e hooks do React */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+/* Biblioteca de armazenamento assíncrono */
 
 import { getAuth, signOut } from 'firebase/auth';
+/* Funções do Firebase Auth */
 
 import { useNavigation } from '@react-navigation/native';
+/* Função de uso da navegação de telas */
+
 import { corDestaqueSecundaria, estiloPrincipal } from '../styles/principal';
 import { estiloBoasVindas } from '../styles/boasvindas';
 import { estiloForms } from '../styles/formularios';
 import { estiloEmpresa } from '../styles/empresa';
+/* Folhas de estilo */
 
 export default function Empresa() {
     const [ usuario, setUsuario ] = useState(null);
+    /* Variável de estado para armazenar os dados do usuário pego */
 
     const nav = useNavigation();
+    /* Instânciando a função de uso da navegação de telas */
 
     const auth = getAuth();
+    /* Pegando a autenticação salva no Firebase Auth */
 
     console.log(auth)
 
@@ -34,10 +43,12 @@ export default function Empresa() {
             Alert.alert('Erro', 'Erro ao encontrar usuário, tente novamente', [ { text: 'Voltar', onPress: () => nav.navigate('Rota Relatórios') } ])
         }
     }
+    /* Função assíncrona para pegar os dados do usuário no armazenamento assíncrono */
 
     useEffect( () => {
         pegarUsuario();
     }, [] );
+    /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar a função que pega os dados do usuários enquanto o app roda. */
 
     const sair = async () => {
         try {
@@ -61,6 +72,7 @@ export default function Empresa() {
             Alert.alert('Erro', 'Erro ao sair da sessão, tente novamente');
         }
     }
+    /* Função assíncrona para remover a autenticação e os dados do usuário no armazenamento assíncrono. */
     
     if ( !usuario ) {
         return (
@@ -69,6 +81,7 @@ export default function Empresa() {
           </View>
         )
     }
+    /* Se não tiver nenhum usuário salvo na variável de estado será renderizado o indicador de atividade */
 
     return (
         <View style={[ estiloPrincipal.fundo, estiloPrincipal.espacamentoHorizontal, estiloPrincipal.alinhamentoLinhaCentralizada ]}>
@@ -110,6 +123,7 @@ export default function Empresa() {
                 <Pressable onPress={ () => nav.navigate('Adicionar Dados') } style={[ estiloPrincipal.margemVertical, estiloPrincipal.pressionaveisLaranjas ]} >
                     <Text style={ estiloPrincipal.textoPressionaveis }>Adicionar registro de dados</Text>
                 </Pressable>
+                {/* Quando for pressionado será feita a navegação para a tela de adicionar o registro */}
 
                 <Pressable 
                     onPress={ () => ( Alert.alert('Encerrar Sessão', 'Tem certeza que deseja sair?', [ { text: 'Sim', onPress: sair }, { text: 'Não' } ]) ) } 
@@ -117,6 +131,7 @@ export default function Empresa() {
 
                     <Text style={ estiloPrincipal.textoPressionaveis }>Encerrar Sessão</Text>
                 </Pressable>
+                {/* Quando for pressionado um alerta pedirá por confirmação do usuário e se ele apertar em "Sim" a autenticação será removida do Firebase Auth e do armazenamento assíncrono. */}
             </View>
         </View>
     )
