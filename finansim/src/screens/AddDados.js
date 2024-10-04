@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Pressable, Alert, ScrollView } from 'react-native';
-/* Bibliotecas e componentes do React */
+/* Hooks e componentes do React */
 
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
@@ -114,7 +114,7 @@ export default function AddDados() {
                     console.error('Erro ao adicionar documento:', erro)
                 }
             }
-            /* Se a categoria for "pagamentos" será feita a mesma tentativa de adcionar o registro no Firestore, com a maior diferença sendo a ausência do campo "mes" */
+            /* Se a categoria for "pagamentos" será feita a mesma tentativa de adicionar o registro no Firestore, com a maior diferença sendo a ausência do campo "mes" */
 
             else if ( mes === '' ) {
                 Alert.alert('Erro', 'Selecione um mês e tente novamente.')
@@ -137,6 +137,7 @@ export default function AddDados() {
                     <Picker.Item label='Compras' value='compras' />
                     <Picker.Item label= 'Pagamentos' value='pagamentos' />
                 </Picker>
+                {/* A cada mudança de valor do Picker será chamada uma função arrow que envia o novo valor e o armazena na variável de estado. */}
 
                 { pickerMes && (
                     <Picker mode='dropdown' selectedValue={ mesSelecionado } onValueChange={ (novo) => setMes(novo) }>
@@ -171,6 +172,7 @@ export default function AddDados() {
                         <TextInput placeholder='Exemplo: 300' value={ numero } onChangeText={ (novo) => setNumero(novo) } keyboardType='numeric' style={ estiloForms.caixasTexto } />
                     </View>
                 ) }
+                {/* Renderização condicional do formulário conforme a categoria selecionada */}
                 
                 { categoriaSelec === 'compras' && (
                     <View>
@@ -209,6 +211,7 @@ export default function AddDados() {
                 <Pressable onPress={ () => adicionarDoc(categoriaSelec, mesSelecionado, setor, valor, numero) } style={[ estiloPrincipal.pressionaveisLaranjas, estiloPrincipal.margemVertical ]} >
                     <Text style={ estiloPrincipal.textoPressionaveis }>Adicionar registro</Text>
                 </Pressable>
+                {/* Quando for pressionado será chamado a função que adiciona o documento no banco, enviando por parâmetro os valores das variáveis de estado. */}
 
                 <Pressable onPress={ limparCampos } style={[ estiloPrincipal.pressionaveisVerdes, estiloPrincipal.margemVertical ]} >
                     <Text style={ estiloPrincipal.textoPressionaveis }>Limpar dados</Text>

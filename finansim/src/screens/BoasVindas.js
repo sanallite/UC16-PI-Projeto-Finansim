@@ -1,14 +1,21 @@
+/* Tela de boas vindas, a primeira tela exibida para um usuário novo */
+
 import React from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
+/* Componentes e hooks do React */
+
 import { useNavigation } from '@react-navigation/native';
+/* Função para usar os comandos de navegação de tela */
 
 import { estiloPrincipal } from '../styles/principal';
 import { estiloBoasVindas } from '../styles/boasvindas';
+/* Folhas de estilo */
 
 export default function BoasVindas() {
     let logo = require('../assets/logo.png');
 
     const nav = useNavigation();
+    /* Instânciando a função de uso da navegação de telas */
 
     return (
         <View style={[ estiloPrincipal.fundo, estiloBoasVindas.alinhamentoCentral ]}>
@@ -32,6 +39,7 @@ export default function BoasVindas() {
                 <Pressable onPress={ () => nav.navigate('Entrada') } style={[ estiloPrincipal.pressionaveisVerdes, estiloBoasVindas.pressionaveis ]}>
                     <Text style={[ estiloPrincipal.textoPressionaveis ]}>Entrar</Text>
                 </Pressable>
+                {/* Quando esses componentes forem pressionados, será feita a navegação para a tela escolhida */}
             </View>
         </View>
     )

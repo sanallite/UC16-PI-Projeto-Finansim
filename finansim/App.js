@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { StatusBar, ActivityIndicator, View } from 'react-native';
-/* Componentes e bibliotecas do React */
+/* Componentes e hooks do React */
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

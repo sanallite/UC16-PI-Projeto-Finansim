@@ -1,26 +1,38 @@
+/* Tela da categoria Compras */
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, Alert } from 'react-native';
+/* Componentes e Hooks do React */
+
 import { useNavigation } from '@react-navigation/native';
+/* Função para usar os comandos de navegação de tela */
 
 import Relatorios from '../components/Relatorios';
+/* Componente que exibe os registros encontrados no banco de dados. */
 
 import { collection, query, where, orderBy, limit, onSnapshot, getAggregateFromServer, sum } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
+/* Banco de dados configurado e funções do Firestore para consultas */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+/* Biblioteca de armazenamento assíncrono */
 
 import { estiloPrincipal } from '../styles/principal';
 import { estiloRelatorios } from '../styles/relatorios';
+/* Folhas de estilo */
 
 import { valorReais } from '../numberFormat';
+/* Função que formata número para valores monetários brasileiros */
 
 export default function Compras() {
     const [ usuario, setUsuario ] = useState(null);
     const [ carregando, setCarregando ] = useState(true);
     const [ maiorValor, setMaiorValor ] = useState(null);
     const [ soma, setSoma ] = useState(null);
+    /* Variáveis de estado para o usuário pego do armazenamento assíncrono, estado de carregamento, e armazenar o resultado das consultas no banco de dados. */
 
     const nav = useNavigation();
+    /* Instânciando a função de uso da navegação de telas */
 
     const pegarUsuario = async () => {
         try {
@@ -35,6 +47,7 @@ export default function Compras() {
             Alert.alert('Erro', 'Erro ao encontrar usuário, tente novamente', [ { text: 'Voltar', onPress: () => nav.navigate('Rota Relatórios') } ])
         }
     }
+    /* Função assíncrona para pegar os dados do usuário do armazenamento assíncrono */
 
     const pegarSoma = async () => {
         if ( usuario ) {
@@ -58,10 +71,12 @@ export default function Compras() {
             }
         }
     }
+    /* Função assíncrona para fazer uma consulta no Firestore para fazer a soma dos valores do campo "valor" nos documentos da coleção "compras" em o usuário e a empresa sejam os mesmos que estão armazenados no aplicativo. */
 
     useEffect( () => {
         pegarUsuario();
     }, [] );
+    /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar a função que pega os dados do usuário enquanto o app roda. */
 
     useEffect( () => {
         if ( usuario ) {
@@ -100,6 +115,7 @@ export default function Compras() {
             return () => unsubscribeMaiorValor(); 
         }
     }, [usuario] );
+    /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar uma função que encontra o documento com o maior número no campo "valor", caso nenhum registro seja encontrado será exibido um alerta que ao ser confirmado faz a navegação para a tela "Empresa" */
 
     if ( carregando ) {
         return (
@@ -108,6 +124,7 @@ export default function Compras() {
             </View>
         )
     }
+    /* Se o valor da variável de estado for "true" esse será o componente renderizado. */
     
     return (
         <View style={[ estiloPrincipal.fundoRelatorios, estiloPrincipal.espacamentoHorizontal ]}>
@@ -115,6 +132,7 @@ export default function Compras() {
                 <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Valor total investido:</Text>
 
                 { soma && ( <Text style={[ estiloRelatorios.textoDestaque ]}>{ valorReais.format(soma) }</Text> ) }
+                {/* Renderização condicional da soma de valores dos documentos encontrados na consulta, os formatando para serem exibidos como um valor monetário. */}
             </View>
 
             <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
@@ -137,6 +155,7 @@ export default function Compras() {
                 <Relatorios categoria='compras' mes='Outubro' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
                 <Relatorios categoria='compras' mes='Novembro' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
                 <Relatorios categoria='compras' mes='Dezembro' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
+                {/* Chamando o componente de relatórios doze vezes, e enviando por props os dados relevantes para a exibição deles. */}
             </ScrollView>
         </View>
     )
