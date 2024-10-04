@@ -14,13 +14,13 @@ Melhore a administração financeira da sua empresa com a Finansim, que te trar�
 Empresas de pequeno e médio porte, que não necessitem de relatórios e dados complexos, com o aplicativo sendo uma boa opção para “startups”.
 
 -- Requisitos Funcionais Planejados --
-•	Permitir o cadastro e a remoção de setores da empresa através de uma lista preexistente.
-•	Permitir o cadastro, edição e remoção de dados do setor predefinidos, como número de vendas, colaboradores etc.
-•	Exibir relatórios, no formato de listas, dos dados dos setores, com os valores divididos por mês, e com as contagens finais também sendo exibidas.
-•	Divisão dos relatórios em três categorias principais, cada uma em sua tela: Vendas, Compras e Pagamentos.
+    Permitir o cadastro e a remoção de setores da empresa através de uma lista preexistente. (Não implementado)
 
--- Requisitos Funcionais Implementados --
-Será editado conforme a implementação
+    Permitir o cadastro, edição e remoção de dados do setor predefinidos, como número de vendas, colaboradores etc. (Implementado mas com setores criados pelo usuário)
+
+    Exibir relatórios, no formato de listas, dos dados dos setores, com os valores divididos por mês, e com as contagens finais também sendo exibidas. (Implementado)
+
+    Divisão dos relatórios em três categorias principais, cada uma em sua tela: Vendas, Compras e Pagamentos. (Implementado)
 
 -- Descrição das funcionalidades --
 A principal funcionalidade do app é fazer e manipular registros de dois tipos de números financeiros em três categorias, todos os registros contendo um setor, que é de onde esses números vem. O primeiro tipo representa um valor monetário e o segundo uma quantidade. As categorias são Vendas, Compras e Pagamentos.
@@ -51,30 +51,27 @@ São utilizados os hooks useState e useEffect do React, para salvar dados em tem
 O aplicativo será completamente gratuito e sem anúncios no seu primeiro ano e após conseguir uma base de usuários, oferecerá uma assinatura mensal que dará acesso a mais recursos.
 
 -- Requisitos de Usuário Planejados --
-•    As empresas que desejam utilizar o aplicativo terão que realizar um cadastro no banco de dados do app, através de uma tela especifica para isso, para então ter acesso as                funcionalidades do app.
-•    As empresas precisarão adicionar manualmente seus setores e os dados monetários de cada mês para exibição nos relatórios, através de uma tela especifica para isso.
-•    Para editar os dados monetários de qualquer uma das categorias, terá que ser feita a autenticação através da senha cadastrada.
+    As empresas que desejam utilizar o aplicativo terão que realizar um cadastro no banco de dados do app, através de uma tela especifica para isso, para então ter acesso as funcionalidades do app. (Implementado)
 
--- Requisitos de Usuário Implementados --
-Será editado conforme a implementação
+    As empresas precisarão adicionar manualmente seus setores e os dados monetários de cada mês para exibição nos relatórios, através de uma tela especifica para isso. (Implementado)
+
+    Para editar os dados monetários de qualquer uma das categorias, terá que ser feita a autenticação através da senha cadastrada. (Não implementado, o usuário precisa estar autenticado, mas não é pedida a senha na hora da edição ou remoção de registros.)
 
 -- Estrutura de Pastas --
-"src/" Pasta que contém a maior parte dos arquivos criados por mim para desenvolver o app.
+    "src/" Pasta que contém a maior parte dos arquivos criados por mim para desenvolver o app.
 
-"src/assets/" Contém a logo do app, que é usada como ícone.
+    "src/assets/" Contém a logo do app, que é usada como ícone.
 
-"src/components/" Contém o componente de relatórios, que é o responsável pela consulta e exibição dos registros no banco de dados, de acordo com a Categoria que chamou esse componente e com os dados do usuário autenticado.
+    "src/components/" Contém o componente de relatórios, que é o responsável pela consulta e exibição dos registros no banco de dados, de acordo com a Categoria que chamou esse componente e com os dados do usuário autenticado.
 
-"src/routes/" Os componentes que definem as rotas de navegação, com os navigators e suas screens.
+    "src/routes/" Os componentes que definem as rotas de navegação, com os navigators e suas screens.
 
-"src/screens/" Os componentes que são as telas renderizadas pelo aplicativo, conforme seu chamamento nas rotas de navegação.
+    "src/screens/" Os componentes que são as telas renderizadas pelo aplicativo, conforme seu chamamento nas rotas de navegação.
 
-"src/styles/" Onde ficam os arquivos que contém as folhas de estilos criadas.
+    "src/styles/" Onde ficam os arquivos que contém as folhas de estilos criadas, contendo uma principal e outras focadas em telas específicas.
 
 -- Descrição dos arquivos --
 Pasta da Unidade Currícular:
-    "Documentação.odt:" Documentação em formato OpenOffice com imagens.
-
     "Documentação.txt" (esse arquivo): Documentação no formato txt.
 
     "requirements.txt" Arquivo que contém as bibliotecas, ferramentas e dependências utilizadas na aplicação.
@@ -98,6 +95,8 @@ Pasta do projeto:
 
     "src/routes/RotaRelatorios.js" Rota com as telas das categorias e a tela da empresa.
 
+    "src/components/Relatorios.js" Componente que faz consulta de todos os registros no banco de dados, da categoria recebida por parâmetro.
+
 Pasta src/screens/:
     "AddDados.js" Tela para criar os registros financeiros e armazena-los no banco de dados.
 
@@ -107,21 +106,20 @@ Pasta src/screens/:
 
     "Compras.js" Tela que exibe os relatórios de compras.
 
-   "EditarDados.js" Tela para atualizar o registro selecionado no relatório.
+    "EditarDados.js" Tela para atualizar o registro selecionado no relatório.
 
-   "Empresa.js" Exibe as informações da empresa cadastrada e tem botões para adicionar um registro e encerrar a sessão do usuário.
+    "Empresa.js" Exibe as informações da empresa cadastrada e tem botões para adicionar um registro e encerrar a sessão do usuário.
 
-   "Entrada os" Tela para o usuário fazer autenticação depois de já ter se cadastrado.
+    "Entrada os" Tela para o usuário fazer autenticação depois de já ter se cadastrado.
 
-   "Pagamentos.js" Tela que exibe os relatórios de pagamentos.
+    "Pagamentos.js" Tela que exibe os relatórios de pagamentos.
 
-   "Vendas.js" Tela que exibe os relatórios de vendas.
+    "Vendas.js" Tela que exibe os relatórios de vendas.
 
 -- Banco de Dados --
-O banco de dados utilizado é o Firebase Firestore, com formato não relacional.
+O banco de dados utilizado é o Firebase Firestore, com formato não relacional, o Firestore não utiliza schemas para definir como os dados são organizados.
 
 - São usadas quatro coleções:
-
     "compras" Contém os documentos com os registros financeiros da categoria Compras.
 
     "vendas" Contém os documentos com os registros financeiros da categoria Vendas.
@@ -131,27 +129,26 @@ O banco de dados utilizado é o Firebase Firestore, com formato não relacional.
     "empresas" Contém os documentos com os dados das empresas cadastradas.
 
 - Os documentos das coleções de compras, vendas e pagamentos contém os seguintes campos:
+    "setor" O nome de um setor, área ou categoria daquele registro.
 
-   "setor" O nome de um setor, área ou categoria daquele registro.
+    "mes" Não presente na coleção de pagamentos, armazena o mês que aquele registro pertence.
 
-   "mes" Não presente na coleção de pagamentos, armazena o mês que aquele registro pertence.
+    "usuario" Contém o uid do usuário autenticado que criou o registro.
 
-   "usuario" Contém o uid do usuário autenticado que criou o registro.
+    "empresa" Contém o nome da empresa cadastrada pelo usuário autenticado que criou o registro.
 
-   "empresa" Contém o nome da empresa cadastrada pelo usuário autenticado que criou o registro.
+    "numero" Número que representa uma quantidade associada a aquele registro.
 
-   "numero" Número que representa uma quantidade associada a aquele registro.
-
-   "valor" Número que representa um valor monetário associado a aquele registro.
+    "valor" Número que representa um valor monetário associado a aquele registro.
 
 - Os documentos da coleção empresa contém os seguintes campos:
-   "bairro","cep","cidade","estado","rua","numeroEst" Dados do endereço da empresa.
+    "bairro","cep","cidade","estado","rua","numeroEst" Dados do endereço da empresa.
 
-   "idUsuario" uid do usuário autenticado que cadastrou a empresa.
+    "idUsuario" uid do usuário autenticado que cadastrou a empresa.
 
-   "nomeEmpresa" Nome da empresa cadastrada.
+    "nomeEmpresa" Nome da empresa cadastrada.
 
-   "nomeUsuario" Nome cadastrado do usuário autenticado.
+    "nomeUsuario" Nome cadastrado do usuário autenticado.
 
 -- Ambiente de Desenvolvimento --
 Esse é um aplicativo Expo, que é um aplicativo React Native que usa as ferramentas do Expo.
@@ -165,6 +162,8 @@ Para criação e hospedagem das builds de desenvolvimento e produção é utiliz
 Os testes do app são feitos em um Samsung Galaxy A55 e no emulador de dispositivo do Android Studio, utilizando uma build de desenvolvimento compilada pelo EAS.
 
 Nenhum padrão arquitetural foi utilizado plenamente.
+
+Não será feita a publicação em loja de aplicativos, nem deploy dessa aplicação, ficando disponível apenas a build preview e o código de desenvolvimento.
 
 -- Ferramentas Usadas e Dependências --
 Consulte o arquivo "requirements.txt" na pasta raiz desse repositório.

@@ -1,33 +1,46 @@
-import React, { useState, useEffect } from 'react';
+/* Tela para editar os registros no banco de dados */
 
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Pressable, Alert, ScrollView } from 'react-native';
+/* Componentes e Hooks do React */
+
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
+/* Componente de selecionador e funções de navegação */
 
 import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
+/* Banco de dados configurado e funções para pegar, atualizar e excluir um documento no Firestore. */
 
 import { estiloPrincipal } from '../styles/principal';
 import { estiloForms } from '../styles/formularios';
 import { estiloRelatorios } from '../styles/relatorios';
+/* Folhas de estilo */
 
 import { valorReais } from '../numberFormat';
+/* Função para formatar números em valores monetários */
 
 export default function EditarDados() {
     const nav = useNavigation();
     const rota = useRoute();
+    /* Instânciando o uso da navegação de telas e o recebimento de parâmetros entre telas */
+
     const parametros = rota.params;
+
     const [ documento, setDocumento ] = useState(null);
     const [ iniciando, setInicializacao ] = useState(true);
+    /* Variáveis de estado para armazenar o documento selecionado e o estado de carregamento da tela */
 
     const [ valorDigitado, setValor ] = useState('');
     const [ numeroDigitado, setNumero ] = useState('');
     const [ mesSelecionado, setMes ] = useState('');
+    /* Variáveis de estado para armazenar os valores do formulário */
 
     let pickerAtivo;
     if ( parametros.categoria !== 'pagamentos' ) {
         pickerAtivo = true;
     }
+    /* Variável que é usada para condicionar a exibição do selecionador de mẽs */
 
     let titulo, textoValor, textoNumero;
 
@@ -48,6 +61,7 @@ export default function EditarDados() {
         textoValor = 'Valor pago em salários';
         textoNumero = 'Número de colaboradores';
     }
+    /* Os textos que serão exibidos na tela são definidos conforme a categoria recebida por parâmetro. */
 
     const docReferencia = doc(db, parametros.categoria, parametros.id);
 
@@ -65,10 +79,12 @@ export default function EditarDados() {
             console.error('Nenhum documento com esse id encontrado');
         }
     }
+    /* Função assíncrona para pegar o documento pelo id recebido por parâmetro, na coleção que é a categoria recebida por parâmetro, no banco de dados configurado que foi importado. */
 
     useEffect( () => {
         pegarDocumento();
     }, []);
+    /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar a função que pega o documento escolhido enquanto o app roda. */
 
     const atualizarDocumento = async (novoMes, novoValor, novoNumero) => {
         if ( !parametros.categoria || !parametros.id ) {
