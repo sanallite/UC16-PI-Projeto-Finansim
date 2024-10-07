@@ -1,3 +1,5 @@
+/* Tela de exibição dos dados da empresa */
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, Pressable, Alert, ActivityIndicator } from 'react-native';
 /* Componentes e hooks do React */

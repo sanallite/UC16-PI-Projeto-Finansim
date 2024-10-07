@@ -1,25 +1,38 @@
+/* Tela da categoria Vendas */
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, Alert } from 'react-native';
+/* Componentes e hooks do React */
+
 import { useNavigation } from '@react-navigation/native';
+/* Biblioteca de navegação entre telas */
 
 import Relatorios from '../components/Relatorios';
+/* Componente que exibe relatórios com os documentos no banco de dados */
 
 import { collection, query, where, orderBy, limit, onSnapshot, getAggregateFromServer, sum } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
+/* Funções do Firebase Firestore */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+/* Biblioteca de armazenamento assíncrono */
+
 import { estiloPrincipal } from '../styles/principal';
 import { estiloRelatorios } from '../styles/relatorios';
+/* Folhas de estilo */
 
 import { valorReais } from '../numberFormat';
+/* Função que formata números em valores monetários brasileiros. */
 
 export default function Vendas() {
     const [ usuario, setUsuario ] = useState(null);
     const [ carregando, setCarregando ] = useState(true);
     const [ maiorValor, setMaiorValor ] = useState(null);
     const [ soma, setSoma ] = useState(null);
+    /* Variáveis de estado para armazenar o usuário autenticado, estado de carregamento o resultado das consultas no banco de dados */
 
     const nav = useNavigation();
+    /* Instânciando a função de uso da navegação entre telas */
 
     const pegarUsuario = async () => {
         try {
@@ -34,6 +47,7 @@ export default function Vendas() {
             Alert.alert('Erro', 'Erro ao encontrar usuário, tente novamente', [ { text: 'Voltar', onPress: () => nav.navigate('Rota Relatórios') } ])
         }
     }
+    /* Função assíncrona para pegar os dados do usuário autenticado no armazenamento assíncrono */
 
     const pegarSoma = async () => {
         if ( usuario ) {
@@ -57,10 +71,12 @@ export default function Vendas() {
             }
         }
     }
+    /* Função assíncrona para fazer consultas no banco de dados com a soma dos valores do campo "valor" */
 
     useEffect( () => {
         pegarUsuario();
     }, [] );
+    /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar a função que pega os dados do usuário enquanto o app roda. */
 
     useEffect( () => {
         if ( usuario ) {
@@ -87,8 +103,10 @@ export default function Vendas() {
                     setMaiorValor(resultado);
 
                     pegarSoma();
+                    /* Chamando a função que faz a consulta com a soma */
 
                     setCarregando(false);
+                    /* "Desligando" o estado de carregamento. */
                 }
 
                 else {
@@ -99,6 +117,7 @@ export default function Vendas() {
             return () => unsubscribeMaiorValor(); 
         }
     }, [usuario] );
+    /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar uma função arrow que faz uma consulta no banco de dados enquanto o app roda. */
 
     if ( carregando ) {
         return (
@@ -107,6 +126,7 @@ export default function Vendas() {
             </View>
         )
     }
+    /* Se o estado de carregamento for true será renderizado esse componente */
     
     return (
         <View style={[ estiloPrincipal.fundoRelatorios, estiloPrincipal.espacamentoHorizontal ]}>
@@ -137,6 +157,7 @@ export default function Vendas() {
                 <Relatorios categoria='vendas' mes='Outubro' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
                 <Relatorios categoria='vendas' mes='Novembro' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
                 <Relatorios categoria='vendas' mes='Dezembro' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
+                {/* Chamando doze componentes de relatórios enviando por props os dados necessários para fazer a consulta no banco de dados, com um componente para cada mês do ano */}
             </ScrollView>
         </View>
     )

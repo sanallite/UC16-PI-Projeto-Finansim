@@ -1,4 +1,7 @@
+/* Rota de navegação principal, que contém a rota com as telas das categorias e as telas para adicionar e editar os documentos. */
+
 import React from 'react';
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import RotaRelatorios from './RotaRelatorios';

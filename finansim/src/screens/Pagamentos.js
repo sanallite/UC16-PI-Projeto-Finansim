@@ -1,17 +1,28 @@
+/* Tela da categoria Pagamentos */
+
 import React, { useEffect, useState } from 'react';
-import { View, Text, Alert, ScrollView } from 'react-native';
+import { View, Text, Alert } from 'react-native';
+/* Componentes e hooks do React */
+
 import { useNavigation } from '@react-navigation/native';
+/* Biblioteca de navegação entre telas */
 
 import Relatorios from '../components/Relatorios';
+/* Componente que exibe relatórios com os documentos no banco de dados */
 
 import { collection, query, where, orderBy, limit, onSnapshot, getAggregateFromServer, sum } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
+/* Funções do Firebase Firestore */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+/* Biblioteca de armazenamento assíncrono */
+
 import { estiloPrincipal } from '../styles/principal';
 import { estiloRelatorios } from '../styles/relatorios';
+/* Folhas de estilo */
 
 import { valorReais } from '../numberFormat';
+/* Função que formata números em valores monetários brasileiros. */
 
 export default function Pagamentos() {
     const [ usuario, setUsuario ] = useState(null);
@@ -19,8 +30,10 @@ export default function Pagamentos() {
     const [ maiorValor, setMaiorValor ] = useState(null);
     const [ somaValor, setSomaValor ] = useState(null);
     const [ somaNumero, setSomaNumero ] = useState(null);
+    /* Variáveis de estado para armazenar o usuário autenticado, estado de carregamento o resultado das consultas no banco de dados */
 
     const nav = useNavigation();
+    /* Instânciando a função de uso da navegação entre telas */
 
     const pegarUsuario = async () => {
         try {
@@ -35,6 +48,7 @@ export default function Pagamentos() {
             Alert.alert('Erro', 'Erro ao encontrar usuário, tente novamente', [ { text: 'Voltar', onPress: () => nav.navigate('Rota Relatórios') } ])
         }
     }
+    /* Função assíncrona para pegar os dados do usuário autenticado no armazenamento assíncrono */
 
     const pegarSoma = async () => {
         if ( usuario ) {
@@ -69,10 +83,12 @@ export default function Pagamentos() {
             }
         }
     }
+    /* Função assíncrona para fazer consultas no banco de dados com a soma dos valores dos campos "valor" e "numero" */
 
     useEffect( () => {
         pegarUsuario();
     }, [] );
+    /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar a função que pega os dados do usuário enquanto o app roda. */
 
     useEffect( () => {
         if ( usuario ) {
@@ -99,8 +115,10 @@ export default function Pagamentos() {
                     setMaiorValor(resultado);
 
                     pegarSoma();
+                    /* Chamando a função que faz as consultas com as somas */
 
                     setCarregando(false);
+                    /* "Desligando" o estado de carregamento. */
                 }
 
                 else {
@@ -111,6 +129,7 @@ export default function Pagamentos() {
             return () => unsubscribeMaiorValor(); 
         }
     }, [usuario] );
+    /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar uma função arrow que pega o documento com o maior valor do campo "valor" na coleção "pagamentos" enquanto o app roda.*/
 
     if ( carregando ) {
         return (
@@ -119,6 +138,7 @@ export default function Pagamentos() {
             </View>
         )
     }
+    /* Se o estado de carregamento for true será renderizado esse componente */
 
     return (
         <View style={[ estiloPrincipal.fundoRelatorios, estiloPrincipal.espacamentoHorizontal ]}>
@@ -142,6 +162,7 @@ export default function Pagamentos() {
 
             <View style={[ estiloPrincipal.alinhamentoLinhaCentralizada, estiloPrincipal.flexibilidade ]}>
                 <Relatorios categoria='pagamentos' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
+                {/* Chamando o componente de relatórios enviando por props os dados necessários para fazer a consulta no banco de dados */}
             </View>
         </View>
     )
