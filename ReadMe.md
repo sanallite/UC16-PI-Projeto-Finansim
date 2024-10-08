@@ -8,9 +8,7 @@ Facilitar o controle de gastos e resultados de uma empresa, que irá cadastrar s
 ![screenshot](logo.png)
 
 ## Capturas de tela:
-![screenshot](tela_boas_vindas.png)
-![screenshot](tela_empresa.png)
-![screenshot](tela.png)
+<img src="tela_boas_vindas.png" width="32%">  <img src="tela_empresa.png" width="32%">  <img src="tela_compras.png" width="32%">
 
 ## Descrição Técnica:
 
