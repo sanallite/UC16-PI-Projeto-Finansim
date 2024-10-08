@@ -4,6 +4,14 @@
 
 Facilitar o controle de gastos e resultados de uma empresa, que irá cadastrar seus setores, registrar seus números e ver relatórios sobre o estado financeiro atual da empresa, com o foco em três categorias: Vendas, Compras e Pagamentos.
 
+## Ícone:
+![screenshot](logo.png)
+
+## Capturas de tela:
+![screenshot](tela_boas_vindas.png)
+![screenshot](tela_empresa.png)
+![screenshot](tela.png)
+
 ## Descrição Técnica:
 
 Aplicativo Expo React Native para a plataforma Android que usa JavaScript como sua linguagem principal e os serviços de banco de dados e autenticação do Firebase, podendo fazer operações de criação, leitura em tempo real, edição e exclusão de documentos no Firestore e criação, entrada e saída de usuários pela autenticação.
