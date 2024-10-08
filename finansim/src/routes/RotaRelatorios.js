@@ -1,16 +1,25 @@
+/* Rota de navegação das telas de cada categoria que exibem os relatórios */
+
 import React from 'react';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+/* Função da biblioteca instalada para criar a estrutura de navegação por guias */
 
 import Empresa from '../screens/Empresa';
 import Vendas from '../screens/Vendas';
 import Compras from '../screens/Compras';
 import Pagamentos from '../screens/Pagamentos';
+/* Telas que fazem parte dessa rota */
 
 import { corFundoSecundaria, estiloPrincipal } from '../styles/principal';
+/* Importando a folha de estilos principal */
+
 import Icon from 'react-native-vector-icons/FontAwesome6';
+/* Importando um componente de ícones, usando especificamente os icones do Font Awesome  */
 
 export default function RotaRelatorios() {
     const Guia = createBottomTabNavigator();
+    /* Instânciando a função de navegação entre telas por guias */
 
     return (
         <Guia.Navigator initialRouteName='Empresa' screenOptions={{ tabBarActiveTintColor: corFundoSecundaria, tabBarStyle: { height: 66, paddingBottom: 10, paddingTop: 10 }, tabBarLabelStyle: { fontSize: 12 } }}>
