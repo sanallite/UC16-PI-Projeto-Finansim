@@ -14,7 +14,7 @@ Facilitar o controle de gastos e resultados de uma empresa, que irá cadastrar s
 
 Aplicativo Expo React Native para a plataforma Android que usa JavaScript como sua linguagem principal e os serviços de banco de dados e autenticação do Firebase, podendo fazer operações de criação, leitura em tempo real, edição e exclusão de documentos no Firestore e criação, entrada e saída de usuários pela autenticação.
 
-Feito como projeto final do meu curso técnico de Informática para Internet.
+Feito como projeto final do meu curso técnico de Informática para Internet, com partes da documentação não sendo relevantes fora desse contexto.
 
 >[!IMPORTANT]
 > Consulte o arquivo ```requirements.txt``` para saber as bibliotecas e dependencias usadas.
@@ -55,20 +55,20 @@ Corrigir os bugs
 ## Protótipo no Figma
 [Figma](https://www.figma.com/design/s2pnA0seBIVWfZWlOaJChV/App-de-Finan%C3%A7as?node-id=0-1&t=19tIYorPdagTO9BV-1)
 
-## Link de download da build Preview
-[Expo EAS](https://expo.dev/accounts/sanallite/projects/finansim/builds/52074419-4e6a-42e5-8488-3998f5ce69a3)
+<!-- ## Link de download da build Preview
+Link expirado -->
 
 ## Executando uma build de desenvolvimento
 
 1. Para clonar o repositório clique no botão ```fork``` ou ```code``` e siga as instruções na tela.
 
-2. Instale, caso já não tenha feito o [Node.js](https://nodejs.org/pt) que também inclui o npm (Node Package Manager).
+2. Instale, caso já não tenha feito o [Node.js (LTS) 20.18.0](https://nodejs.org/pt) que também inclui o npm (Node Package Manager).
 
-3. Apague o arquivo ```eas.json``` e o objeto ```"eas"``` dentro do objeto ```"extra"``` no arquivo ```app.json```. Elfazem referência ao projeto em outra conta do Expo.
+3. Apague o arquivo ```eas.json``` e o objeto ```"eas"``` dentro do objeto ```"extra"``` no arquivo ```app.json```. Eles fazem referência ao projeto em outra conta do Expo.
 
 4. Instale globalmente o [eas-cli](https://docs.expo.dev/get-started/set-up-your-environment/?platform=android&device=physical&mode=development-build) seguindo as instruções para fazer login ou criar uma conta no Expo Application Services, apenas configurando um projeto seu sem fazer uma build de Desenvolvimento ainda.
 
-5. Instale as dependencias necessárias, listadas no arquivo ```package.json``` utilizando ```npx expo install``` para garantir a compatibilidade com a versão do Expo.
+5. Na pasta do projeto, utilize o comando ```npm install``` para instalar todas as dependências do projeto, que estão listadas no arquivo ```package.json```.
 
 6. Siga as instruções da [documentação do Expo](https://docs.expo.dev/get-started/set-up-your-environment/?platform=android&device=physical&mode=development-build) para configurar um ambiente de desenvolvimento Android.
 Você pode instalar a build em um dispositivo físico ou no emulador de dispositivo do Android Studio, o Virtual Device.
@@ -77,4 +77,4 @@ Você pode instalar a build em um dispositivo físico ou no emulador de disposit
 
 >[!WARNING]
 >
-> Ainda não testei esse processo de instalação...
+> Ainda não testei o processo de criar uma build utilizando outra conta do Expo.
