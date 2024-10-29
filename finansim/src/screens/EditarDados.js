@@ -214,14 +214,14 @@ export default function EditarDados() {
                         <Text style={ estiloPrincipal.textos }>{ valorReais.format(documento.valor) }</Text>
                     </View>
 
-                    <TextInput value={ valorDigitado } onChangeText={ (novo) => setValor(novo) } placeholder='Deixe em branco para não alterar' style={ estiloForms.caixasTexto } />
+                    <TextInput value={ valorDigitado } onChangeText={ (novo) => setValor(novo) } placeholder='Deixe em branco para não alterar' keyboardType='numeric' style={ estiloForms.caixasTexto } />
                     
                     <View style={ estiloPrincipal.linhaDoisItens }>
                         <Text style={ estiloForms.rotuloCaixasTexto }>{ textoNumero }</Text>
                         <Text style={ estiloPrincipal.textos }>{ documento.numero } </Text>
                     </View>
 
-                    <TextInput value={ numeroDigitado } onChangeText={ (novo) => setNumero(novo) } placeholder='Deixe em branco para não alterar' style={ estiloForms.caixasTexto } />
+                    <TextInput value={ numeroDigitado } onChangeText={ (novo) => setNumero(novo) } placeholder='Deixe em branco para não alterar' keyboardType='numeric' style={ estiloForms.caixasTexto } />
                 </View>
             </View>
 
