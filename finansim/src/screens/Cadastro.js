@@ -69,7 +69,7 @@ export default function Cadastro() {
             const dados = await resposta.json();
 
             if ( dados.erro === "true" ) {
-                setErros('Erro ao encontrar endereço, verifique o CEP digitado e tente novamente.');
+                setErros('Endereço não encontrado, verifique o CEP digitado e tente novamente.');
             }
             /* Se a resposta tiver um atributo erro com o valor "true". será exibido um erro no formulário. caso contrário os valores referentes a aquele cep serão armazenados na variável de estado. */
 
@@ -99,11 +99,11 @@ export default function Cadastro() {
     }
     /* Função assíncrona que acessa a API Via CEP para preencher campos do formulário conforme o CEP digitado. */
 
-    const cadastro = async (nome_empresa, nome_usuario, email, senha, senha_confirmada) => {
+    const cadastro = async () => {
         if ( nome_empresa.trim() && nome_usuario.trim() ) {
-            if ( senha === senha_confirmada ) {
+            if ( senha_digitada === senha_confirmada ) {
                 try {
-                    const criarUsuario = await createUserWithEmailAndPassword(auth, email, senha);
+                    const criarUsuario = await createUserWithEmailAndPassword(auth, email_digitado, senha_confirmada);
                     const usuario = criarUsuario.user;
                     /* Criando o usuário utilizando autenticação por email e senha e armazenando todos os dados na variável "usuario". */
 
@@ -126,10 +126,10 @@ export default function Cadastro() {
                     const docRef = await addDoc( collection(db, 'empresas'), {
                         nomeEmpresa: nome_empresa,
                         nomeUsuario: nome_usuario,
-                        idUsuario: usuario.uid,
+                        usuario: usuario.uid,
                         cep: dados_api.cep,
                         rua: dados_api.rua,
-                        numeroEst: numero_estabelecimento,
+                        numeroEst: parseInt(numero_estabelecimento),
                         bairro: dados_api.bairro,
                         cidade: dados_api.cidade,
                         estado: dados_api.estado
@@ -153,7 +153,7 @@ export default function Cadastro() {
 
                 catch (erro) {
                     console.error('Erro ao criar usuário: ', erro.message);
-                    Alert.alert('Erro ao criar usuário', 'Verifique os dados e tente novamente')
+                    Alert.alert('Erro ao criar usuário', JSON.stringify(erro.message))
                 }
             }
             /* Segundo é verificado se a senha digitada coincide com a senha digitida para confirmação */
@@ -213,7 +213,7 @@ export default function Cadastro() {
             </View>
 
             <View style={[ estiloForms.viewPressionaveis ]}>
-                <Pressable onPress={ () => cadastro(nome_empresa, nome_usuario, email_digitado, senha_digitada, senha_confirmada) } style={[ estiloPrincipal.margemVertical, estiloPrincipal.pressionaveisLaranjas ]}>
+                <Pressable onPress={ cadastro } style={[ estiloPrincipal.margemVertical, estiloPrincipal.pressionaveisLaranjas ]}>
                     <Text style={ estiloPrincipal.textoPressionaveis }>Cadastrar</Text>
                 </Pressable>
                 {/* Quando o componente for pressionado será chamada a função de cadastro, enviando os dados armazenados nas variáveis de estado. */}

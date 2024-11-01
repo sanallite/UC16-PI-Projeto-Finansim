@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../initializeFirebase';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, limit, query, where } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
 /* Funções do Firebase Auth e Firestore */
 
@@ -27,49 +27,61 @@ export default function Entrada() {
     const [ senha_digitada, setSenha ] = useState('');
     /* Variáveis de estado para armazenar os valores digitados nas caixas de textos */
 
-    const entrada = async (email, senha) => {
-        if ( email.trim() && senha.trim() ) {
+    const entrada = async () => {
+        if ( email_digitado.trim() && senha_digitada.trim() ) {
             try {
-                const SignIn = await signInWithEmailAndPassword(auth, email, senha);
+                const SignIn = await signInWithEmailAndPassword(auth, email_digitado, senha_digitada);
                 const usuario = SignIn.user;
                 /* Entrada do usuário pelo Firebase Auth */
 
                 const docRef = collection(db, 'empresas');
-                const consultaUsuario = query(docRef, where('idUsuario', '==', usuario.uid));
+                const consultaUsuario = query(docRef, where('usuario', '==', usuario.uid), limit(1));
                 const querySnapshot = await getDocs(consultaUsuario);
                 /* Pegando o documento no banco de dados que contém os dados da empresa cadastrada por aquele usuário */
 
-                const resultado = [];
-                querySnapshot.forEach( (doc) => {
-                    resultado.push({ id: doc.id, ...doc.data() });
-                })
-                /* O resultado da consulta é armazenado num array, que são armazenados junto com o uid e o email do usuário no ojeto abaixo, que adicionado no armazenamewnto assíncrono. */
-        
-                const dadosUsuario = {
-                    uid: usuario.uid,
-                    email: usuario.email,
-                    nomeEmpresa: resultado[0].nomeEmpresa,
-                    nomeUsuario: resultado[0].nomeUsuario,
-                    cep: resultado[0].cep,
-                    rua: resultado[0].rua,
-                    bairro: resultado[0].bairro,
-                    cidade: resultado[0].cidade,
-                    estado: resultado[0].estado,
-                    numeroEst: resultado[0].numeroEst
+                if ( !querySnapshot.empty ) {
+                    const resultado = querySnapshot.docs[0].data();
+                    /* Pegando os dados da empresa atrelada ao usuário que está sendo autenticado. */
+
+                    const dadosUsuario = {
+                        uid: usuario.uid,
+                        email: usuario.email,
+                        nomeEmpresa: resultado.nomeEmpresa,
+                        nomeUsuario: resultado.nomeUsuario,
+                        cep: resultado.cep,
+                        rua: resultado.rua,
+                        bairro: resultado.bairro,
+                        cidade: resultado.cidade,
+                        estado: resultado.estado,
+                        numeroEst: resultado.numeroEst
+                    }
+
+                    await AsyncStorage.setItem( 'usuario', JSON.stringify(dadosUsuario) );
+
+                    console.log('Usuário entrou: '+JSON.stringify(dadosUsuario) );
+
+                    Alert.alert('Entrada', 'Entrada realizada com sucesso.', 
+                        [{ text: 'Continuar', onPress: () => nav.navigate('Rota Principal') }]
+                    );
                 }
+                /* Caso o resultado da consulta na coleção empresas não estiver vazio, os dados do usuário serão armazenados no armazenamento assíncrono */
 
-                await AsyncStorage.setItem( 'usuario', JSON.stringify(dadosUsuario) );
-
-                console.log('Usuário entrou: '+JSON.stringify(dadosUsuario) );
-
-                Alert.alert('Entrada', 'Entrada realizada com sucesso.', 
-                    [{ text: 'Continuar', onPress: () => nav.navigate('Rota Principal') }]
-                );
+                else {
+                    console.error('A consulta não obteve resultados.')
+                }
             }
     
             catch (erro) {
                 console.error('Erro na entrada: '+erro);
-                Alert.alert('Erro na entrada', 'Verifique os dados e tente novamente.')
+
+                if ( erro.code === "auth/invalid-credential" ) {
+                    Alert.alert('Erro na entrada', 'Credenciais inválidas, tente novamente.');
+                }
+                /* Exibindo uma mensagem de erro personalizada, caso o email e a senha não coincidam com os que estão salvos no banco de dados. Todos os outros erros serão exibidos pelo alerta abaixo. */
+
+                else {
+                    Alert.alert('Erro na entrada', erro.message)
+                }
             }
         }
         /* Primeiro é feita a verificação se os campos digitados estão vazios */
@@ -93,7 +105,7 @@ export default function Entrada() {
             </View>
 
             <View style={ estiloForms.viewPressionaveis }>
-                <Pressable onPress={ () => entrada(email_digitado, senha_digitada) } style={[ estiloPrincipal.pressionaveisLaranjas, estiloPrincipal.margemVertical ]}>
+                <Pressable onPress={ entrada } style={[ estiloPrincipal.pressionaveisLaranjas, estiloPrincipal.margemVertical ]}>
                     <Text style={ estiloPrincipal.textoPressionaveis }>Entrar</Text>
                 </Pressable>
                 {/* Quando for pressionado será chamada a função de entrada. */}
