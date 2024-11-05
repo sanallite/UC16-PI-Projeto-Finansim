@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 /* Biblioteca de armazenamento assíncrono */
 
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '../../initializeFirebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
@@ -107,53 +107,76 @@ export default function Cadastro() {
                     const usuario = criarUsuario.user;
                     /* Criando o usuário utilizando autenticação por email e senha e armazenando todos os dados na variável "usuario". */
 
-                    const dadosUsuario = {
-                        uid: usuario.uid,
-                        email: usuario.email,
-                        nomeEmpresa: nome_empresa,
-                        nomeUsuario: nome_usuario,
-                        cep: dados_api.cep,
-                        rua: dados_api.rua,
-                        numeroEst: numero_estabelecimento,
-                        bairro: dados_api.bairro,
-                        cidade: dados_api.cidade,
-                        estado: dados_api.estado
-                    }
-                    /* Objeto que contém os dados que serão salvos no armazenamento assíncrono na linha abaixo. */
-
-                    await AsyncStorage.setItem('usuario', JSON.stringify(dadosUsuario));
-
                     const docRef = await addDoc( collection(db, 'empresas'), {
                         nomeEmpresa: nome_empresa,
                         nomeUsuario: nome_usuario,
                         usuario: usuario.uid,
                         cep: dados_api.cep,
                         rua: dados_api.rua,
-                        numeroEst: parseInt(numero_estabelecimento),
+                        numeroEst: numero_estabelecimento,
                         bairro: dados_api.bairro,
                         cidade: dados_api.cidade,
                         estado: dados_api.estado
 
                     } );
-                    /* Adicionando um documento na coleção empresas, com os dados digitados no formulário e o uid do usuário que acabou de criado na autenticação */
+                    /* Adicionando um documento na coleção empresas, com os dados digitados no formulário e o uid do usuário que acabou de ser criado na autenticação */
 
-                    console.log( 'Usuário cadastrado no Firebase Auth: '+JSON.stringify(usuario));
+                    const dadosUsuario = {
+                        uid: usuario.uid,
+                        email: usuario.email,
+                        docEmpresa: docRef.id,
+                        nomeEmpresa: nome_empresa
+                    }
+                    /* Objeto que contém os dados que serão salvos no armazenamento assíncrono na linha abaixo. */
+
+                    await AsyncStorage.setItem('usuario', JSON.stringify(dadosUsuario));
+                    /* Adicionando o item, que tem que ser uma string, por isso é transformado em uma. */
+
+                    console.log('Usuário cadastrado no Firebase Auth: '+JSON.stringify(usuario));
                     
                     console.log('Usuário criado no armazenamento assíncrono:', JSON.stringify(dadosUsuario) );
 
-                    console.log('Empresa adicionada no banco de dados com o id:', docRef.id)
+                    console.log('Empresa adicionada no banco de dados com o id:', docRef.id);
 
-                    Alert.alert(
-                        'Cadastro',
-                        'Usuário cadastrado com sucesso!',
-                        [ {text: 'Continuar', onPress: () => nav.navigate('Rota Principal') }]
-                    )
-                    /* Se tudo ocorrer corretamente será exibido um alerta que faz a navegação para a rota principal do app. */
+                    try {
+                        await AsyncStorage.removeItem('usuario');
+                        await signOut(auth);
+                        /* Removendo os dados após o cadastro, para que o usuário não entre diretamente. */
+
+                        setCEP('');
+                        setEmail('');
+                        setNome('');
+                        setSenha('');
+                        setSenhaConf('');
+                        setEmpresa('');
+                        setNumeroEst('');
+                        setApiData({ cep: '', rua: '', bairro: '', cidade: '', estado: '' });
+                        /* Limpando as caixas de texto, exceto a do CEP por algum motivo... */
+
+                        console.log('Dados removidos', auth);
+                        /* Mostrando que não tem nenhum usuário ativo na autenticação */
+
+                        Alert.alert(
+                            'Cadastro',
+                            'Usuário cadastrado com sucesso! Entre agora para começar a usar o app.',
+                            [ {text: 'Continuar', onPress: () => nav.navigate('Entrada') }]
+                        )
+                        /* Se tudo ocorrer corretamente será exibido um alerta que faz a navegação para a tela de entrada. */
+                    }
+
+                    catch (erro) {
+                        console.error('Erro na remoção dos dados após o cadastro', erro);
+
+                        Alert.alert(
+                            'Erro',
+                            erro.message
+                        )
+                    }
                 }
 
                 catch (erro) {
                     console.error('Erro ao criar usuário: ', erro.message);
-                    Alert.alert('Erro ao criar usuário', JSON.stringify(erro.message))
+                    Alert.alert('Erro ao criar usuário', erro.message)
                 }
             }
             /* Segundo é verificado se a senha digitada coincide com a senha digitida para confirmação */

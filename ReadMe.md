@@ -41,16 +41,25 @@ Estilização total das telas
 
 Última atualização da documentação: 03/10
 
+## Versão 1.0.1 (Feita após o término do curso)
+Na tela da empresa os dados de endereço são pegos do banco de dados e não mais do armazenamento assíncrono.
+
+Após ser feito um cadastro, o usuário é levado para tela de entrada, não mais para os relatórios.
+
+Após ser feita a entrada ou a saída da sessão, a navegação é reinicializada, o que impede o usuário de voltar as telas exibidas anteriormente.
+
+Correção do bug em que os dados da empresa do usuário anterior continuavam a ser exibidos se um usuário saísse da sessão e imediatamente entrasse em outra, agora os dados atuais da empresa são pegos cada vez que o componente for renderizado.
+
 ## O que falta implementar:
 
 Corrigir os bugs
 
 >[!WARNING]
-> Dois bugs foram identicados atualmente:
+> Há dois bugs notáveis atualmente:
 >
-> As vezes na hora de criar um registro no banco ou exibir uma tela de relatórios surge um erro dizendo que strings tem que ser exibidas dentro de um componente text, mesmo não tendo uma string visivelmente solta no código.
+> As vezes na hora de criar um registro no banco ou exibir uma tela de relatórios surge um erro dizendo que strings tem que ser exibidas dentro de um componente text, mesmo não tendo uma string visivelmente solta no código, mesmo assim o registro é salvo.
 >
-> Se o usuário encerrar sua sessão e entrar com outra conta, ainda poderá ver os dados da sessão anterior nas telas dos relatórios, inclusive podendo alterá-los, com isso provavelmente sendo um problema de cache.
+> A barra de status nas builds de preview é completamente branca, o que impede a visualizações dos ícones do sistema.
 
 ## Protótipo no Figma
 [Figma](https://www.figma.com/design/s2pnA0seBIVWfZWlOaJChV/App-de-Finan%C3%A7as?node-id=0-1&t=19tIYorPdagTO9BV-1)

@@ -37,31 +37,39 @@ export default function Entrada() {
                 const docRef = collection(db, 'empresas');
                 const consultaUsuario = query(docRef, where('usuario', '==', usuario.uid), limit(1));
                 const querySnapshot = await getDocs(consultaUsuario);
-                /* Pegando o documento no banco de dados que contém os dados da empresa cadastrada por aquele usuário */
+                /* Pegando os documentos no banco de dados que contém os dados da empresa cadastrada por aquele usuário, com o limite de um usuário. */
 
                 if ( !querySnapshot.empty ) {
-                    const resultado = querySnapshot.docs[0].data();
-                    /* Pegando os dados da empresa atrelada ao usuário que está sendo autenticado. */
+                    const docEmpresa = querySnapshot.docs[0].id;
+                    /* Pegando o id do documento que contém os dados da empresa cadastrada e o salvando no armazenamento assíncrono, abaixo. */
+
+                    const dadosEmpresa = querySnapshot.docs[0].data();
+                    /* Pegando os dados do documento, para salvar o nome da empresa no armazenamento assíncrono */
 
                     const dadosUsuario = {
                         uid: usuario.uid,
                         email: usuario.email,
-                        nomeEmpresa: resultado.nomeEmpresa,
-                        nomeUsuario: resultado.nomeUsuario,
-                        cep: resultado.cep,
-                        rua: resultado.rua,
-                        bairro: resultado.bairro,
-                        cidade: resultado.cidade,
-                        estado: resultado.estado,
-                        numeroEst: resultado.numeroEst
+                        docEmpresa: docEmpresa,
+                        nomeEmpresa: dadosEmpresa.nomeEmpresa
                     }
 
                     await AsyncStorage.setItem( 'usuario', JSON.stringify(dadosUsuario) );
+                    /* Adicionando o item, que tem que ser uma string, por isso é transformado em uma. */
 
                     console.log('Usuário entrou: '+JSON.stringify(dadosUsuario) );
 
+                    setEmail('');
+                    setSenha('');
+                    /* Limpando as caixas de texto após a entrada ter êxito. */
+
                     Alert.alert('Entrada', 'Entrada realizada com sucesso.', 
-                        [{ text: 'Continuar', onPress: () => nav.navigate('Rota Principal') }]
+                        [
+                            { text: 'Continuar', 
+                                onPress: () => 
+                                    nav.reset({ index: 0, routes: [{name: 'Rota Principal'}] }) 
+                            }
+                            /* Quando o botão do alerta for pressionado será feito o reset da navegação, para que o usuário não volte para as telas da rota de entrada, com a navegação sendo feita para a rota principal. */
+                        ]
                     );
                 }
                 /* Caso o resultado da consulta na coleção empresas não estiver vazio, os dados do usuário serão armazenados no armazenamento assíncrono */
