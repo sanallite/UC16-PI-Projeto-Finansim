@@ -50,6 +50,9 @@ Após ser feita a entrada ou a saída da sessão, a navegação é reinicializad
 
 Correção do bug em que os dados da empresa do usuário anterior continuavam a ser exibidos se um usuário saísse da sessão e imediatamente entrasse em outra, agora os dados atuais da empresa são pegos cada vez que o componente for renderizado.
 
+## Versão 1.1.0 (Janeiro de 2025)
+Atualização para o SDK 52 do Expo, com o React Native 0.76.
+
 ## O que falta implementar:
 
 Corrigir os bugs
@@ -71,7 +74,7 @@ Link expirado -->
 
 1. Para clonar o repositório clique no botão ```fork``` ou ```code``` e siga as instruções na tela.
 
-2. Instale, caso já não tenha feito o [Node.js (LTS) 20.18.0](https://nodejs.org/pt) que também inclui o npm (Node Package Manager).
+2. Instale, caso já não tenha feito o [Node.js (LTS) ^20.18.0](https://nodejs.org/pt) que também inclui o npm (Node Package Manager).
 
 3. Apague o arquivo ```eas.json``` e o objeto ```"eas"``` dentro do objeto ```"extra"``` no arquivo ```app.json```. Eles fazem referência ao projeto em outra conta do Expo.
 
