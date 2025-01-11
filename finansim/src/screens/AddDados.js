@@ -1,7 +1,7 @@
 /* Tela para adicionar documentos no banco de dados */
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Pressable, Alert, ScrollView } from 'react-native';
+import { View, Text, TextInput, Pressable, Alert, ScrollView, ActivityIndicator } from 'react-native';
 /* Hooks e componentes do React */
 
 import { Picker } from '@react-native-picker/picker';
@@ -15,12 +15,14 @@ import { db } from '../../initializeFirebase';
 import { collection, addDoc } from 'firebase/firestore';
 /* Pegando o banco de dados definido na configuração do Firebase e as funções usadas para adicionar um documento no Firestore */
 
-import { estiloPrincipal } from '../styles/principal';
+import { estiloPrincipal, corDestaqueSecundaria } from '../styles/principal';
 import { estiloForms } from '../styles/formularios';
+import { estiloBoasVindas } from '../styles/boasvindas';
 /* Folhas de estilo utilizadas */
 
 export default function AddDados() {
     const [ usuario, setUsuario ] = useState(null);
+    const [ carregando, setCarregando ] = useState(true);
 
     const [ categoriaSelec, setCategoria ] = useState('');
     const [ mesSelecionado, setMes ] = useState('');
@@ -44,6 +46,8 @@ export default function AddDados() {
             const usuarioObjeto = JSON.parse(usuarioArmazenado);
 
             setUsuario(usuarioObjeto);
+
+            setCarregando(false);
         }
 
         catch ( erro ) {
@@ -68,9 +72,12 @@ export default function AddDados() {
     /* Função para limpar os dados digitados nos campos de texto e restaurar os valores dos Pickers */
 
     const adicionarDoc = async (categoria, mes, setor, valor, numero) => {
-        if ( categoria.trim() && setor.trim() && valor.trim() && numero.trim() ) {
+        if ( categoria.trim() && setor.trim() && valor.trim() && numero.trim() && !isNaN(valor) && !isNaN(numero) ) {
+        /* Verificando se os campos estão vazios e se os valores dos campos são números, utilizando uma função que verifica se um valor não é um número */
             if ( categoria !== 'pagamentos' && mes.trim() ) {
                 try {
+                    setCarregando(true);
+
                     const docRef = await addDoc( collection(db, categoria), {
                         setor: setor,
                         mes: mes,
@@ -80,21 +87,27 @@ export default function AddDados() {
                         empresa: usuario.nomeEmpresa
                     } );
 
-                    limparCampos();
-
                     Alert.alert('Registro', 'Registro adicionado com sucesso!', [{ text: 'Continuar', onPress: () => nav.goBack() }]);
                     console.log('Documento adicionado com o id:', docRef.id);
+
+                    limparCampos();
                 }
 
                 catch (erro) {
                     Alert.alert('Erro', 'Não foi possível adicionar o registro, tente novamente.');
                     console.error('Erro ao adicionar documento:', erro)
                 }
+
+                finally {
+                    setCarregando(false);
+                }
             }
-            /* Se a categoria não for "pagamentos", no caso se for "vendas" ou "compras" será feita a tentativa de adicionar o registro no Firestore, com os valores dos campos sendo pego dos parâmetros e dos dados do usuário autenticado. Se for adicionado com sucesso, será chamada a função para limpar os campos e um alerta que fará a navegação para a tela anterior. */
+            /* Se a categoria não for "pagamentos", no caso se for "vendas" ou "compras" será feita a tentativa de adicionar o registro no Firestore, com os valores dos campos sendo pego dos parâmetros e dos dados do usuário autenticado. Se for adicionado com sucesso, será chamada a função para limpar os campos e um alerta que fará a navegação para a tela anterior e por fim será desativado o estado de carregamento. */
 
             else if ( categoria === 'pagamentos' ) {
                 try {
+                    setCarregando(true);
+
                     const docRef = await addDoc( collection(db, categoria), {
                         setor: setor,
                         valor: parseFloat(valor),
@@ -112,6 +125,10 @@ export default function AddDados() {
                 catch (erro) {
                     Alert.alert('Erro', 'Não foi possível adicionar o registro, tente novamente.');
                     console.error('Erro ao adicionar documento:', erro)
+                }
+
+                finally {
+                    setCarregando(false);
                 }
             }
             /* Se a categoria for "pagamentos" será feita a mesma tentativa de adicionar o registro no Firestore, com a maior diferença sendo a ausência do campo "mes" */
@@ -124,9 +141,18 @@ export default function AddDados() {
         /* Primeiro verificando se os campos necessários não estão vazios, utilizando a função trim */
 
         else {
-            Alert.alert('Erro', 'Preencha todos os campos e tente novamente')
+            Alert.alert('Erro', 'Preencha todos os campos corretamente e tente novamente')
         }
     }
+
+    if ( carregando ) {
+        return (
+            <View style={[ estiloPrincipal.fundo, estiloBoasVindas.alinhamentoCentral ]}>
+                <ActivityIndicator size="large" color={ corDestaqueSecundaria } />
+            </View>
+        )
+    }
+    /* Caso o variável de estado sejá verdadeira será renderizado o indicador de atividade. */
 
     return (
         <ScrollView style={[ estiloPrincipal.espacamentoHorizontal, estiloPrincipal.fundo, estiloPrincipal.flexibilidade ]}>
