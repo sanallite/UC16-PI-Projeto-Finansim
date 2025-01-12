@@ -87,6 +87,8 @@ export default function EditarDados() {
     /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar a função que pega o documento escolhido enquanto o app roda. */
 
     const atualizarDocumento = async (novoMes, novoValor, novoNumero) => {
+        setInicializacao(true);
+
         if ( !parametros.categoria || !parametros.id ) {
             Alert.alert('Erro', 'Parâmetros não foram definidos');
             console.error('Invalid document reference. categoria or id is missing.');
@@ -101,58 +103,87 @@ export default function EditarDados() {
             atualizacao.mes = documento.mes;
         }
 
-        if ( novoValor.trim() ) {
-            atualizacao.valor = novoValor;
+        if ( novoValor.trim() && !isNaN(novoValor) ) {
+            atualizacao.valor = parseFloat(novoValor);
         }
         else {
             atualizacao.valor = documento.valor;
         }
 
-        if ( novoNumero.trim() ) {
-            atualizacao.numero = novoNumero;
+        if ( novoNumero.trim() && !isNaN(novoNumero) ) {
+            atualizacao.numero = parseInt(novoNumero);
         }
         else {
             atualizacao.numero = documento.numero;
         }
-        /* Pegando os valores recebidos por parâmetros e verificando se os campos estão vazios, se estiverem o valor dos atributos será o valor do documento pego, ou seja o valor no banco de dados não será alterado. */
+        /* Pegando os valores recebidos por parâmetros e verificando se os campos estão vazios, se estiverem o valor dos atributos será o valor do documento pego, ou seja o valor no banco de dados não será alterado. Também verificando se os valores dos campos são números alterando seu tipo para ter certeza que serão salvos corretamente no banco de dados. */
 
         if ( parametros.categoria === 'vendas' || parametros.categoria === 'compras' ) {
             try {
-                await updateDoc( docReferencia, {
-                    mes: atualizacao.mes,
-                    valor: atualizacao.valor,
-                    numero: atualizacao.numero
-                } )
+                if ( atualizacao.valor === documento.valor && atualizacao.numero === documento.numero && atualizacao.mes === documento.mes) {
+                    Alert.alert('Atualizar Dados', 'Nenhuma modificação foi realizada.',
+                        [ { text: 'Voltar aos relatórios', onPress: () => nav.goBack() } ]
+                    )
+                }
 
-                Alert.alert('Atualizar Dados', 'Os dados do registro foram atualizados!', [{ text: 'Continuar', onPress: () => nav.goBack() }])
+                else {
+                    await updateDoc( docReferencia, {
+                        mes: atualizacao.mes,
+                        valor: atualizacao.valor,
+                        numero: atualizacao.numero
+                    } )
+
+                    Alert.alert('Atualizar Dados', 'Os dados do registro foram atualizados!', 
+                        [{ text: 'Continuar', onPress: () => nav.goBack() }]
+                    )
+                }
             }
 
             catch (erro) {
                 Alert.alert('Erro', 'Erro ao atualizar dados, tente novamente.');
                 console.error('Erro ao atualizar dados:', erro)
+            }
+
+            finally {
+                setInicializacao(false);
             }
         }
         /* Atualizando os documentos com o campo mês */
 
         else if ( parametros.categoria === 'pagamentos' ) {
             try {
-                await updateDoc( docReferencia, {
-                    valor: atualizacao.valor,
-                    numero: atualizacao.numero
-                } )
+                if ( atualizacao.valor === documento.valor && atualizacao.numero === documento.numero ) {
+                    Alert.alert('Atualizar Dados', 'Nenhuma modificação foi realizada.',
+                        [ { text: 'Voltar aos relatórios', onPress: () => nav.goBack() } ]
+                    )
+                }
+                /* Se os valores não forem alterado não será feita a chamada para atualizar o documento. */
 
-                Alert.alert('Atualizar Dados', 'Os dados do registro foram atualizados!', [{ text: 'Voltar aos relatórios', onPress: () => nav.goBack() }])
+                else {
+                    await updateDoc( docReferencia, {
+                        valor: atualizacao.valor,
+                        numero: atualizacao.numero
+                    } )
+
+                    Alert.alert('Atualizar Dados', 'Os dados do registro foram atualizados!', [{ text: 'Voltar aos relatórios', onPress: () => nav.goBack() }])
+                }
             }
 
             catch (erro) {
                 Alert.alert('Erro', 'Erro ao atualizar dados, tente novamente.');
                 console.error('Erro ao atualizar dados:', erro)
             }
+
+            finally {
+                setInicializacao(false);
+            }
         }
         /* Atualizando os documentos em campo mês */
     }
 
     const removerDocumento = async () => {
+        setInicializacao(true);
+
         try {
             await deleteDoc(docReferencia);
 
@@ -163,6 +194,10 @@ export default function EditarDados() {
             Alert.alert('Erro', 'Erro ao remover registro, tente novamente.');
 
             console.error('Erro ao remover documento:', erro);
+        }
+
+        finally {
+            setInicializacao(false);
         }
     }
     /* Função assíncrona para remover o documento escolhido, com um alerta com confirmação */
