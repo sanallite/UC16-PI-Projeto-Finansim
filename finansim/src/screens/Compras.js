@@ -28,8 +28,8 @@ export default function Compras() {
     const [ usuario, setUsuario ] = useState(null);
     const [ carregando, setCarregando ] = useState(true);
     const [ maiorValor, setMaiorValor ] = useState(null);
-    const [ soma, setSoma ] = useState(null);
-    /* Variáveis de estado para o usuário pego do armazenamento assíncrono, estado de carregamento, e armazenar o resultado das consultas no banco de dados. */
+    const [ soma, setSoma ] = useState(0);
+    /* Variáveis de estado para armazenar o usuário autenticado, estado de carregamento o resultado das consultas no banco de dados */
 
     const nav = useNavigation();
     /* Instânciando a função de uso da navegação de telas */
@@ -47,31 +47,7 @@ export default function Compras() {
             Alert.alert('Erro', 'Erro ao encontrar usuário, tente novamente', [ { text: 'Voltar', onPress: () => nav.navigate('Rota Relatórios') } ])
         }
     }
-    /* Função assíncrona para pegar os dados do usuário do armazenamento assíncrono */
-
-    const pegarSoma = async () => {
-        if ( usuario ) {
-            const refCategoria = collection(db, 'compras');
-
-            try {
-                const consultaSomaValor = query( refCategoria,
-                    where('usuario', '==', usuario.uid),
-                    where('empresa', '==', usuario.nomeEmpresa),
-                )
-
-                const snapshot = await getAggregateFromServer( consultaSomaValor, {
-                    valorTotal: sum('valor')
-                } );
-
-                setSoma(snapshot.data().valorTotal);
-            }
-
-            catch (erro) {
-                console.error('Erro em fazer a soma:', erro);
-            }
-        }
-    }
-    /* Função assíncrona para fazer uma consulta no Firestore para fazer a soma dos valores do campo "valor" nos documentos da coleção "compras" em o usuário e a empresa sejam os mesmos que estão armazenados no aplicativo. */
+    /* Função assíncrona para pegar os dados do usuário autenticado no armazenamento assíncrono */  
 
     useEffect( () => {
         pegarUsuario();
@@ -90,6 +66,13 @@ export default function Compras() {
                 limit(1)
             );
 
+            consultaSoma = query(
+                refCategoria,
+                where('usuario', '==', usuario.uid),
+                where('empresa', '==', usuario.nomeEmpresa)
+            );
+            /* Consultas para fazer a soma dos números do campo valor e descobrir qual é o documento com o maior número no campo valor. */
+
             const unsubscribeMaiorValor = onSnapshot( consultaMaiorValor, (querySnapshot) => {
                 const resultado = [];
 
@@ -102,17 +85,32 @@ export default function Compras() {
 
                     setMaiorValor(resultado);
 
-                    pegarSoma();
-
                     setCarregando(false);
+                    /* "Desligando" o estado de carregamento. */
                 }
 
                 else {
+                    setMaiorValor(null);
+                    /* Se o resultado da consulta for vazio, a variável de estado será definida como nula. */
+                    
                     Alert.alert('Relatórios', 'Nenhum registro foi adicionado ainda, adicione um na tela da Empresa', [{ text: 'Voltar', onPress: () => nav.navigate('Empresa') }])
                 }
             });
 
-            return () => unsubscribeMaiorValor(); 
+            const unsubscribeSoma = onSnapshot(consultaSoma, (querySnapshot) => {
+                const totalSoma = querySnapshot.docs.reduce((acc, doc) => {
+                    return acc + ( doc.data().valor || 0 )
+                }, 0)
+
+                console.log('Resultados: ',totalSoma);
+                setSoma(totalSoma);
+            });
+            /* Utilizando o método reduce para fazer a soma dos valores do campo valor de todos os documentos encontrados, com o valor inicial de 0 que é armazenado em acc. O valor daquele campo ou o número zero, se não tiver nenhum valor válido, será adicionado com acc */
+
+            return () => {
+                unsubscribeMaiorValor();
+                unsubscribeSoma();
+            }
         }
     }, [usuario] );
     /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar uma função que encontra o documento com o maior número no campo "valor", caso nenhum registro seja encontrado será exibido um alerta que ao ser confirmado faz a navegação para a tela "Empresa" */
@@ -131,17 +129,17 @@ export default function Compras() {
             <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
                 <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Valor total investido:</Text>
 
-                { soma && ( <Text style={[ estiloRelatorios.textoDestaque ]}>{ valorReais.format(soma) }</Text> ) }
-                {/* Renderização condicional da soma de valores dos documentos encontrados na consulta, os formatando para serem exibidos como um valor monetário. */}
+                <Text style={ estiloRelatorios.textoDestaque }>{ valorReais.format(soma) || valorReais.format(0) }</Text>
+                {/* Utilizando o operador "ou" para definir um valor padrão a ser renderizado, caso o valor desejado não exista */}
             </View>
 
             <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
 
                 <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Setor com maior investimento:</Text>
 
-                { maiorValor && <Text style={[ estiloRelatorios.setorDestaque ]}>{ maiorValor[0].setor }</Text> }
+                <Text style={[ estiloRelatorios.setorDestaque ]}>{ maiorValor?.[0]?.setor || 'Nenhum Setor' }</Text>                 
             </View>
-
+            
             <ScrollView horizontal={ true } style={ estiloRelatorios.scrollViewRelatorios }>
                 <Relatorios categoria='compras' mes='Janeiro' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />
                 <Relatorios categoria='compras' mes='Fevereiro' uid={ usuario.uid } nomeEmpresa={ usuario.nomeEmpresa } />

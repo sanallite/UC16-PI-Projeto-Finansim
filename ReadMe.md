@@ -20,8 +20,12 @@ Feito como projeto final do meu curso técnico de Informática para Internet, co
 > Consulte o arquivo ```requirements.txt``` para saber as bibliotecas e dependencias usadas.
 >
 > Não é possível rodar o app pela web, pois ele usa funções nativas do sistema, como a persistência de dados do React Native na inicialização do autenticador do Firebase e o componente Alert do React Native.
+>
+> Esse aplicativo não funciona offline.
+>
+> Última atualização da documentação: 03/10/2024
 
-## Estado atual:
+## Versão 1.0.0 (Apresentada no curso)
 
 Resumo: App quase completamente finalizado, ainda tem alguns bugs. Do projeto falta terminar a documentação e revisar e comentar o código.
 
@@ -39,8 +43,6 @@ Conexão com a API Via CEP para complementar o cadastro
 
 Estilização total das telas
 
-Última atualização da documentação: 03/10
-
 ## Versão 1.0.1 (Feita após o término do curso)
 Na tela da empresa os dados de endereço são pegos do banco de dados e não mais do armazenamento assíncrono.
 
@@ -53,16 +55,19 @@ Correção do bug em que os dados da empresa do usuário anterior continuavam a 
 ## Versão 1.1.0 (Janeiro de 2025)
 Atualização para o SDK 52 do Expo, com o React Native 0.76.
 
+Correção dos problemas de renderização nos componentes Vendas, Compras e Pagamentos, colocando um valor padrão para ser renderizado, utilizando optional chaining e tirando o uso de renderização condicional.
+
+As consultas de soma e do documento com o maior número no campo "valor" agora são feitos em tempo real, com o onSnapshot.
+
+As somas agora são feitas pelo método reduce do JavaScript, não mais através da consulta de soma do Cloud Firestore.
 ## O que falta implementar:
 
 Corrigir os bugs
 
 >[!WARNING]
-> Há dois bugs notáveis atualmente:
+> Há un bug notável atualmente:
 >
-> As vezes na hora de criar um registro no banco ou exibir uma tela de relatórios surge um erro dizendo que strings tem que ser exibidas dentro de um componente text, mesmo não tendo uma string visivelmente solta no código, mesmo assim o registro é salvo.
->
-> A barra de status nas builds de preview é completamente branca, o que impede a visualizações dos ícones do sistema.
+> A barra de status é completamente branca, o que impede a visualizações dos ícones do sistema.
 
 ## Protótipo no Figma
 [Figma](https://www.figma.com/design/s2pnA0seBIVWfZWlOaJChV/App-de-Finan%C3%A7as?node-id=0-1&t=19tIYorPdagTO9BV-1)

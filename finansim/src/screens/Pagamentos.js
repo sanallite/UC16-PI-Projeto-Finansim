@@ -28,8 +28,8 @@ export default function Pagamentos() {
     const [ usuario, setUsuario ] = useState(null);
     const [ carregando, setCarregando ] = useState(true);
     const [ maiorValor, setMaiorValor ] = useState(null);
-    const [ somaValor, setSomaValor ] = useState(null);
-    const [ somaNumero, setSomaNumero ] = useState(null);
+    const [ somaValor, setSomaValor ] = useState(0);
+    const [ somaNumero, setSomaNumero ] = useState(0);
     /* Variáveis de estado para armazenar o usuário autenticado, estado de carregamento o resultado das consultas no banco de dados */
 
     const nav = useNavigation();
@@ -50,41 +50,6 @@ export default function Pagamentos() {
     }
     /* Função assíncrona para pegar os dados do usuário autenticado no armazenamento assíncrono */
 
-    const pegarSoma = async () => {
-        if ( usuario ) {
-            const refCategoria = collection(db, 'pagamentos');
-
-            try {
-                const consultaSomaValor = query( refCategoria,
-                    where('usuario', '==', usuario.uid),
-                    where('empresa', '==', usuario.nomeEmpresa),
-                )
-
-                const snapshot = await getAggregateFromServer( consultaSomaValor, {
-                    valorTotal: sum('valor')
-                } );
-
-                setSomaValor(snapshot.data().valorTotal);
-
-                const consultaSomaNumero = query( refCategoria,
-                    where('usuario', '==', usuario.uid),
-                    where('empresa', '==', usuario.nomeEmpresa),
-                )
-
-                const snapshotNumero = await getAggregateFromServer( consultaSomaNumero, {
-                    valorTotal: sum('numero')
-                } );
-
-                setSomaNumero(snapshotNumero.data().valorTotal);
-            }
-
-            catch (erro) {
-                console.error('Erro em fazer as somas:', erro);
-            }
-        }
-    }
-    /* Função assíncrona para fazer consultas no banco de dados com a soma dos valores dos campos "valor" e "numero" */
-
     useEffect( () => {
         pegarUsuario();
     }, [] );
@@ -102,6 +67,17 @@ export default function Pagamentos() {
                 limit(1)
             );
 
+            const consultaSomaNumero = query( refCategoria,
+                where('usuario', '==', usuario.uid),
+                where('empresa', '==', usuario.nomeEmpresa),
+            );
+
+            const consultaSomaValor = query( refCategoria,
+                where('usuario', '==', usuario.uid),
+                where('empresa', '==', usuario.nomeEmpresa),
+            );
+            /* Consultas para fazer a soma dos números dos campos valor e número e também descobrir qual é o documento com o maior número no campo valor. */
+
             const unsubscribeMaiorValor = onSnapshot( consultaMaiorValor, (querySnapshot) => {
                 const resultado = [];
 
@@ -114,22 +90,47 @@ export default function Pagamentos() {
 
                     setMaiorValor(resultado);
 
-                    pegarSoma();
-                    /* Chamando a função que faz as consultas com as somas */
-
                     setCarregando(false);
                     /* "Desligando" o estado de carregamento. */
                 }
 
                 else {
+                    setMaiorValor(null);
+                    /* Se o resultado da consulta for vazio, a variável de estado será definida como nula. */
+
                     Alert.alert('Relatórios', 'Nenhum registro foi adicionado ainda, adicione um na tela da Empresa', [{ text: 'Voltar', onPress: () => nav.navigate('Empresa') }])
                 }
             });
 
-            return () => unsubscribeMaiorValor(); 
+            const unsubscribeSomaNumero = onSnapshot( consultaSomaNumero, (querySnapshot) => {
+                const totalSomaN = querySnapshot.docs.reduce( (acc, doc) => {
+                    return acc + ( doc.data().numero || 0 )
+                }, 0);
+
+                console.log('Número de colaboradores: ', totalSomaN);
+
+                setSomaNumero(totalSomaN);
+            });
+
+            const unsubscribeSomaValor = onSnapshot( consultaSomaValor, (querySnapshot) => {
+                const totalSomaV = querySnapshot.docs.reduce( (acc, doc) => {
+                    return acc + ( doc.data().valor || 0 )
+                }, 0);
+
+                console.log('Valor pago em salários: ', totalSomaV);
+
+                setSomaValor(totalSomaV);
+            });
+            /* Utilizando o método reduce para fazer a soma dos valores do campo valor de todos os documentos encontrados, com o valor inicial de 0 que é armazenado em acc. O valor daquele campo ou o número zero, se não tiver nenhum valor válido, será adicionado com acc */
+
+            return () => {
+                unsubscribeMaiorValor();
+                unsubscribeSomaNumero();
+                unsubscribeSomaValor();
+            }
         }
     }, [usuario] );
-    /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar uma função arrow que pega o documento com o maior valor do campo "valor" na coleção "pagamentos" enquanto o app roda.*/
+    /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar uma função arrow que faz uma consulta no banco de dados enquanto o app roda. */
 
     if ( carregando ) {
         return (
@@ -145,19 +146,19 @@ export default function Pagamentos() {
             <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
                 <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Número total de colaboradores:</Text>
 
-                { somaNumero && ( <Text style={ estiloRelatorios.textoDestaque }>{ somaNumero }</Text> ) }
+                <Text style={ estiloRelatorios.textoDestaque }>{ somaNumero || 0 }</Text>
             </View>
 
             <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
                 <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Valor total pago em salários:</Text>
 
-                { somaValor && ( <Text style={[ estiloRelatorios.textoDestaque ]}>{ valorReais.format(somaValor) }</Text> ) }
+                <Text style={[ estiloRelatorios.textoDestaque ]}>{ valorReais.format(somaValor) || valorReais.format(0) }</Text>
             </View>
 
             <View style={[ estiloPrincipal.linhaDoisItens, estiloPrincipal.margemVertical ]}>
                 <Text style={[ estiloRelatorios.textoDestaque, estiloPrincipal.flexibilidade ]}>Setor com mais colaboradores:</Text>
 
-                <Text style={[ estiloRelatorios.setorDestaque ]}>{ maiorValor[0].setor }</Text>
+                <Text style={[ estiloRelatorios.setorDestaque ]}>{ maiorValor?.[0]?.setor || 'Nenhum Setor' }</Text>
             </View>
 
             <View style={[ estiloPrincipal.alinhamentoLinhaCentralizada, estiloPrincipal.flexibilidade ]}>
