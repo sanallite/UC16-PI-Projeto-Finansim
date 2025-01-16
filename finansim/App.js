@@ -69,8 +69,9 @@ function App() {
   /* Se a rotaInicial não for definida, que é seu valor inicial, será exibido um componente que indica o carregamento do conteúdo. */
 
   return (
-    <NavigationContainer>
-      <StatusBar />
+    <NavigationContainer >
+      <StatusBar barStyle={ 'light-content' } backgroundColor={ 'black' } />
+      {/* Definindo explicitamente uma cor e um estilo para a barra de status, pois os valores padrões do sistema não foram aplicados por algum motivo. */}
 
       <Pilha.Navigator initialRouteName={ rotaInicial }>
           <Pilha.Screen name='Rota Entrada' component={ RotaEntrada } options={{ headerShown: false }} />

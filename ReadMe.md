@@ -17,8 +17,6 @@ Aplicativo Expo React Native para a plataforma Android que usa JavaScript como s
 Feito como projeto final do meu curso técnico de Informática para Internet, com partes da documentação não sendo relevantes fora desse contexto.
 
 >[!IMPORTANT]
-> Consulte o arquivo ```requirements.txt``` para saber as bibliotecas e dependencias usadas.
->
 > Não é possível rodar o app pela web, pois ele usa funções nativas do sistema, como a persistência de dados do React Native na inicialização do autenticador do Firebase e o componente Alert do React Native.
 >
 > Esse aplicativo não funciona offline.
@@ -60,14 +58,16 @@ Correção dos problemas de renderização nos componentes Vendas, Compras e Pag
 As consultas de soma e do documento com o maior número no campo "valor" agora são feitos em tempo real, com o onSnapshot.
 
 As somas agora são feitas pelo método reduce do JavaScript, não mais através da consulta de soma do Cloud Firestore.
+
+Foram definidas propriedades de estilo e cor de fundo da barra de status, para corrigir o bug da barra completamente branca, mas não descobri o que causou isso.
+
 ## O que falta implementar:
 
-Corrigir os bugs
+Adicionar indicadores de carregamento nas telas de entrada e cadastro.
 
->[!WARNING]
-> Há un bug notável atualmente:
->
-> A barra de status é completamente branca, o que impede a visualizações dos ícones do sistema.
+Testar criar uma build de desenvolvimento utilizando outra conta.
+
+Atualizar a documentação conforme mudanças recentes.
 
 ## Protótipo no Figma
 [Figma](https://www.figma.com/design/s2pnA0seBIVWfZWlOaJChV/App-de-Finan%C3%A7as?node-id=0-1&t=19tIYorPdagTO9BV-1)
