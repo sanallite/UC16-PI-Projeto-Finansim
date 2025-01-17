@@ -21,7 +21,7 @@ Feito como projeto final do meu curso técnico de Informática para Internet, co
 >
 > Esse aplicativo não funciona offline.
 >
-> Última atualização da documentação: 03/10/2024
+> Última atualização da documentação: 17/01/2025
 
 ## Versão 1.0.0 (Apresentada no curso)
 
@@ -66,8 +66,6 @@ Indicadores de atividade para telas de cadastro e entrada de usuários e adiçã
 ## O que falta implementar:
 
 Testar criar uma build de desenvolvimento utilizando outra conta.
-
-Atualizar a documentação conforme mudanças recentes.
 
 ## Protótipo no Figma
 [Figma](https://www.figma.com/design/s2pnA0seBIVWfZWlOaJChV/App-de-Finan%C3%A7as?node-id=0-1&t=19tIYorPdagTO9BV-1)

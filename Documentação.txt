@@ -74,8 +74,6 @@ O aplicativo será completamente gratuito e sem anúncios no seu primeiro ano e 
 Pasta da Unidade Currícular:
     "Documentação.txt" (esse arquivo): Documentação no formato txt.
 
-    "requirements.txt" Arquivo que contém as bibliotecas, ferramentas e dependências utilizadas na aplicação.
-
     "Fluxograma de navegação.png" Fluxograma da navegação das telas.
 
     "logo.png" Logo e ícone do aplicativo.
@@ -85,6 +83,8 @@ Pasta da Unidade Currícular:
     "ReadMe.md" Arquivo leia-me, com uma explicação mais breve do aplicativo e contendo as instruções para execução do mesmo.
 
 Pasta do projeto:
+    "package.json" Arquivo que contém as bibliotecas, ferramentas e dependências utilizadas na aplicação.
+
     "initializeFirebase.js" Arquivo para inicialização de uso das bibliotecas do Firebase.
 
     "App.js" Componente principal do app, com a primeira rota de navegação e a verificação da autenticação e do armazenamento assíncrono.
@@ -163,13 +163,16 @@ Os testes do app são feitos em um Samsung Galaxy A55 e no emulador de dispositi
 
 Nenhum padrão arquitetural foi utilizado plenamente.
 
-Não será feita a publicação em loja de aplicativos, nem deploy dessa aplicação, ficando disponível apenas a build preview e o código de desenvolvimento.
+Não será feita a publicação em loja de aplicativos, nem deploy dessa aplicação, ficando disponível apenas a build preview temporariamente e o código fonte.
 
 -- Ferramentas Usadas e Dependências --
-Consulte o arquivo "requirements.txt" na pasta raiz desse repositório.
+Consulte o arquivo "package.json" na pasta raiz do projeto.
 
 -- Protótipo no Figma --
 https://www.figma.com/design/s2pnA0seBIVWfZWlOaJChV/App-de-Finan%C3%A7as?node-id=0-1&node-type=canvas&t=wjLQPeqVZ97kacyd-0
 
 Esse protótipo contém cinco telas que guiam como as telas do projeto final devem ser.
 A estrutura de algumas telas seguirá a de outras, como a de cadastro e entrada, as telas dos relatórios e as telas de adição e edição dos registros adicionados.
+
+-- Licença --
+Esse aplicativo está sob a proteção da licença GNU GPL-3, consulte o arquivo "LICENSE".
