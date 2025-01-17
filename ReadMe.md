@@ -16,6 +16,8 @@ Aplicativo Expo React Native para a plataforma Android que usa JavaScript como s
 
 Feito como projeto final do meu curso técnico de Informática para Internet, com partes da documentação não sendo relevantes fora desse contexto.
 
+Esse aplicativo está considerado completo para seu escopo atual, sem atualizações previstas após a 1.1.0, mas talvez eu retorne pra ele no futuro.
+
 >[!IMPORTANT]
 > Não é possível rodar o app pela web, pois ele usa funções nativas do sistema, como a persistência de dados do React Native na inicialização do autenticador do Firebase e o componente Alert do React Native.
 >
@@ -63,10 +65,6 @@ Foram definidas propriedades de estilo e cor de fundo da barra de status, para c
 
 Indicadores de atividade para telas de cadastro e entrada de usuários e adição e edição dos registros.
 
-## O que falta implementar:
-
-Testar criar uma build de desenvolvimento utilizando outra conta.
-
 ## Protótipo no Figma
 [Figma](https://www.figma.com/design/s2pnA0seBIVWfZWlOaJChV/App-de-Finan%C3%A7as?node-id=0-1&t=19tIYorPdagTO9BV-1)
 
@@ -89,10 +87,6 @@ Link expirado -->
 Você pode instalar a build em um dispositivo físico ou no emulador de dispositivo do Android Studio, o Virtual Device.
 
 7. Inicie um servidor de desenvolvimento para começar a rodar o projeto com ```npx expo start```
-
->[!WARNING]
->
-> Ainda não testei o processo de criar uma build utilizando outra conta do Expo.
 
 ## License
     Finansim, Expo React Native app project using Firebase tools.
