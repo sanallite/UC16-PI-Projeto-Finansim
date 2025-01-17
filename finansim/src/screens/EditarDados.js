@@ -1,7 +1,7 @@
 /* Tela para editar os registros no banco de dados */
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Pressable, Alert, ScrollView } from 'react-native';
+import { View, Text, TextInput, Pressable, Alert, ScrollView, ActivityIndicator } from 'react-native';
 /* Componentes e Hooks do React */
 
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -12,9 +12,10 @@ import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
 /* Banco de dados configurado e funções para pegar, atualizar e excluir um documento no Firestore. */
 
-import { estiloPrincipal } from '../styles/principal';
+import { estiloPrincipal, corDestaqueSecundaria } from '../styles/principal';
 import { estiloForms } from '../styles/formularios';
 import { estiloRelatorios } from '../styles/relatorios';
+import { estiloBoasVindas } from '../styles/boasvindas';
 /* Folhas de estilo */
 
 import { valorReais } from '../numberFormat';
@@ -28,7 +29,7 @@ export default function EditarDados() {
     const parametros = rota.params;
 
     const [ documento, setDocumento ] = useState(null);
-    const [ iniciando, setInicializacao ] = useState(true);
+    const [ carregando, setCarregando ] = useState(true);
     /* Variáveis de estado para armazenar o documento selecionado e o estado de carregamento da tela */
 
     const [ valorDigitado, setValor ] = useState('');
@@ -72,7 +73,7 @@ export default function EditarDados() {
             setDocumento( docSnap.data() );
             console.log('Documento encontrado:', docSnap.data());
 
-            setInicializacao(false);
+            setCarregando(false);
         }
 
         else {
@@ -87,7 +88,7 @@ export default function EditarDados() {
     /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar a função que pega o documento escolhido enquanto o app roda. */
 
     const atualizarDocumento = async (novoMes, novoValor, novoNumero) => {
-        setInicializacao(true);
+        setCarregando(true);
 
         if ( !parametros.categoria || !parametros.id ) {
             Alert.alert('Erro', 'Parâmetros não foram definidos');
@@ -145,7 +146,7 @@ export default function EditarDados() {
             }
 
             finally {
-                setInicializacao(false);
+                setCarregando(false);
             }
         }
         /* Atualizando os documentos com o campo mês */
@@ -175,14 +176,14 @@ export default function EditarDados() {
             }
 
             finally {
-                setInicializacao(false);
+                setCarregando(false);
             }
         }
         /* Atualizando os documentos em campo mês */
     }
 
     const removerDocumento = async () => {
-        setInicializacao(true);
+        setCarregando(true);
 
         try {
             await deleteDoc(docReferencia);
@@ -197,19 +198,19 @@ export default function EditarDados() {
         }
 
         finally {
-            setInicializacao(false);
+            setCarregando(false);
         }
     }
     /* Função assíncrona para remover o documento escolhido, com um alerta com confirmação */
 
-    if ( iniciando ) {
+    if ( carregando ) {
         return (
-            <View style={[ estiloPrincipal.fundo, estiloPrincipal.espacamentoHorizontal ]}>
-                <Text>Carregando...</Text>
+            <View style={[ estiloPrincipal.fundo, estiloBoasVindas.alinhamentoCentral ]}>
+                <ActivityIndicator size="large" color={ corDestaqueSecundaria } />
             </View>
         )
     }
-    /* Estado de carregamento da tela, se for "true" será renderizado esse componente. */
+    /* Caso o variável de estado sejá verdadeira será renderizado o indicador de atividade. */
 
     return (
         <ScrollView style={[ estiloPrincipal.espacamentoHorizontal, estiloPrincipal.fundo ]} contentContainerStyle={ estiloPrincipal.alinhamentoLinhaCentralizada } >

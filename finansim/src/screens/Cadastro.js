@@ -17,7 +17,7 @@ import { db } from '../../initializeFirebase';
 /* Banco de dados e autenticação configurados e funções do Firebase para criar usuários autenticados e adicionar documentos no Firestore */
 
 import { estiloForms } from '../styles/formularios';
-import { corCinzaClaro, estiloPrincipal } from '../styles/principal';
+import { corCinzaClaro, estiloPrincipal, corDestaqueSecundaria } from '../styles/principal';
 import { estiloBoasVindas } from '../styles/boasvindas';
 import { corFundoTercearia } from '../styles/principal';
 /* Folhas de estilo */
@@ -38,7 +38,8 @@ export default function Cadastro() {
 
     const [ carregando, setCarregando ] = useState(false);
     const [ erros, setErros ] = useState(null);
-    /* Variáveis de estado para definir se a tela estará em estado de carregamento e armazenar uma mensagem de erro que é exibida no formulário */
+    const [ procurandoCEP, setProcura ] = useState(false);
+    /* Variáveis de estado para definir se a tela estará em estado de carregamento, procurando o CEP na API e armazenar uma mensagem de erro que é exibida no formulário */
 
     useEffect( () => {
         const delayDebounceFn = setTimeout( () => {
@@ -60,7 +61,7 @@ export default function Cadastro() {
     /* Usando o hook useEffect, que permite que componente seja sincronizado com um sistema externo para chamar a função arrow que tem uma espera de tempo conforme o usuário digitar no campo "cep", somente se o total de números for 8 será chamada a função que pega os dados daquele cep por uma API externa, se for mais um erro será exibido no formulário e se for menos nenhum erro será exibido. Se o usuário digitar antes da contagem acabar a contagem será reiniciada pelo clearTimeout */
 
     const pegarCEP = async () => {
-        setCarregando(true);
+        setProcura(true);
         setErros(null);
 
         try {
@@ -93,7 +94,7 @@ export default function Cadastro() {
         }
 
         finally {
-            setCarregando(false);
+            setProcura(false);
         }
         /* Se não tiver nenhum erro em pegar os dados, o estado de carregamento será alterado novamente para falso. */
     }
@@ -103,6 +104,8 @@ export default function Cadastro() {
         if ( nome_empresa.trim() && nome_usuario.trim() ) {
             if ( senha_digitada === senha_confirmada ) {
                 try {
+                    setCarregando(true);
+
                     const criarUsuario = await createUserWithEmailAndPassword(auth, email_digitado, senha_confirmada);
                     const usuario = criarUsuario.user;
                     /* Criando o usuário utilizando autenticação por email e senha e armazenando todos os dados na variável "usuario". */
@@ -178,6 +181,10 @@ export default function Cadastro() {
                     console.error('Erro ao criar usuário: ', erro.message);
                     Alert.alert('Erro ao criar usuário', erro.message)
                 }
+
+                finally {
+                    setCarregando(false);
+                }
             }
             /* Segundo é verificado se a senha digitada coincide com a senha digitida para confirmação */
 
@@ -192,6 +199,15 @@ export default function Cadastro() {
         }
     }
     /* Função assíncrona para adicionar o usuário na autenticação e a empresa no banco de dados */
+
+    if ( carregando ) {
+        return (
+            <View style={[ estiloPrincipal.fundo, estiloBoasVindas.alinhamentoCentral ]}>
+                <ActivityIndicator size="large" color={ corDestaqueSecundaria } />
+            </View>
+        )
+    }
+    /* Caso o variável de estado sejá verdadeira será renderizado o indicador de atividade, usado enquanto a função assíncrona de cadastro é executada. */
 
     return (
         <ScrollView style={ estiloPrincipal.fundo } contentContainerStyle={[ estiloBoasVindas.alinhamentoCentral ]}>
@@ -208,7 +224,7 @@ export default function Cadastro() {
 
                 <TextInput placeholder='CEP' keyboardType='numeric' onChangeText={ (novo_valor) => setCEP(novo_valor) } style={[ estiloForms.caixasTexto ]} />
 
-                { carregando && <ActivityIndicator color= { corFundoTercearia } /> }
+                { procurandoCEP && <ActivityIndicator color= { corFundoTercearia } /> }
                 { erros && <Text style={{ color: corCinzaClaro }}>{erros}</Text> }
                 {/* Renderização condicional do indicador de atividade e das mensagens de erro. */}
 

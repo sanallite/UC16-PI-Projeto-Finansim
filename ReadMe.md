@@ -61,9 +61,9 @@ As somas agora são feitas pelo método reduce do JavaScript, não mais através
 
 Foram definidas propriedades de estilo e cor de fundo da barra de status, para corrigir o bug da barra completamente branca, mas não descobri o que causou isso.
 
-## O que falta implementar:
+Indicadores de atividade para telas de cadastro e entrada de usuários e adição e edição dos registros.
 
-Adicionar indicadores de carregamento nas telas de entrada e cadastro.
+## O que falta implementar:
 
 Testar criar uma build de desenvolvimento utilizando outra conta.
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, TextInput, Alert, ScrollView } from 'react-native';
+import { View, Text, Pressable, TextInput, Alert, ScrollView, ActivityIndicator } from 'react-native';
 /* Componentes e hooks do React */
 
 import { useNavigation } from '@react-navigation/native';
@@ -14,7 +14,7 @@ import { collection, getDocs, limit, query, where } from 'firebase/firestore';
 import { db } from '../../initializeFirebase';
 /* Funções do Firebase Auth e Firestore */
 
-import { estiloPrincipal } from '../styles/principal';
+import { estiloPrincipal,corDestaqueSecundaria } from '../styles/principal';
 import { estiloBoasVindas } from '../styles/boasvindas';
 import { estiloForms } from '../styles/formularios';
 /* Folhas de estilo */
@@ -27,8 +27,12 @@ export default function Entrada() {
     const [ senha_digitada, setSenha ] = useState('');
     /* Variáveis de estado para armazenar os valores digitados nas caixas de textos */
 
+    const [ carregando, setCarregando ] = useState(false);
+
     const entrada = async () => {
         if ( email_digitado.trim() && senha_digitada.trim() ) {
+            setCarregando(true);
+
             try {
                 const SignIn = await signInWithEmailAndPassword(auth, email_digitado, senha_digitada);
                 const usuario = SignIn.user;
@@ -91,6 +95,10 @@ export default function Entrada() {
                     Alert.alert('Erro na entrada', erro.message)
                 }
             }
+
+            finally {
+                setCarregando(false);
+            }
         }
         /* Primeiro é feita a verificação se os campos digitados estão vazios */
 
@@ -99,6 +107,15 @@ export default function Entrada() {
         }        
     }
     /* Função assíncrona que faz a autenticação do usuário e adiciona os dados do usuário no armazenamento assíncrono */
+
+    if ( carregando ) {
+            return (
+                <View style={[ estiloPrincipal.fundo, estiloBoasVindas.alinhamentoCentral ]}>
+                    <ActivityIndicator size="large" color={ corDestaqueSecundaria } />
+                </View>
+            )
+        }
+        /* Caso o variável de estado sejá verdadeira será renderizado o indicador de atividade, usado enquanto a função assíncrona de entrada é executada. */
 
     return (
         <ScrollView style={ estiloPrincipal.fundo } contentContainerStyle={[ estiloBoasVindas.alinhamentoCentral ]}>
