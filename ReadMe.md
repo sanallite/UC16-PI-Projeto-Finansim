@@ -68,9 +68,9 @@ Indicadores de atividade para telas de cadastro e entrada de usuários e adiçã
 ## Protótipo no Figma
 [Figma](https://www.figma.com/design/s2pnA0seBIVWfZWlOaJChV/App-de-Finan%C3%A7as?node-id=0-1&t=19tIYorPdagTO9BV-1)
 
-## Link de download da build Preview
-[Expo Build](https://expo.dev/accounts/sanallite/projects/finansim/builds/fb2d3ecb-7dd9-47f7-90f1-26bcfecdb2c8)
-Disponível até 31 de janeiro de 2025.
+<!-- ## Link de Download da Versão Preview
+Expirado
+-->
 
 ## Executando uma build de desenvolvimento
 
