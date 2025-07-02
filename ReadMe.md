@@ -14,7 +14,7 @@ Facilitar o controle de gastos e resultados de uma empresa, que irá cadastrar s
 
 Aplicativo Expo React Native para a plataforma Android que usa JavaScript como sua linguagem principal e os serviços de banco de dados e autenticação do Firebase, podendo fazer operações de criação, leitura em tempo real, edição e exclusão de documentos no Firestore e criação, entrada e saída de usuários pela autenticação.
 
-Feito como projeto final do meu curso técnico de Informática para Internet, com partes da documentação não sendo relevantes fora desse contexto.
+Feito como projeto final do meu curso técnico de Informática para Internet no Senac em 2024, com partes da documentação não sendo relevantes fora desse contexto.
 
 Esse aplicativo está considerado completo para seu escopo atual, sem atualizações previstas após a 1.1.0, mas talvez eu retorne pra ele no futuro.
 
