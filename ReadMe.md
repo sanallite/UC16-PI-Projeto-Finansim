@@ -23,6 +23,8 @@ Esse aplicativo está considerado completo para seu escopo atual, sem atualizaç
 >
 > Esse aplicativo não funciona offline.
 >
+> As dependências podem estar desatulizadas ou inseguras.
+>
 > Última atualização da documentação: 17/01/2025
 
 ## Versão 1.0.0 (Apresentada no curso)
